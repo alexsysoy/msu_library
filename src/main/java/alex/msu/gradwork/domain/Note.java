@@ -1,0 +1,49 @@
+package alex.msu.gradwork.domain;
+
+import lombok.Data;
+
+import javax.persistence.*;
+
+@Data
+@Entity
+public class Note {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    private Long number;
+    private Long numberOfSheets;
+    private String text;
+
+    @ManyToOne
+    private Register register;
+
+    public Note() {
+
+    }
+
+    public Note(Long number, Long numberOfSheets, String text) {
+        this.number = number;
+        this.numberOfSheets = numberOfSheets;
+        this.text = text;
+    }
+
+    public Note(Long number, Long numberOfSheets, String text, Register register) {
+        this.number = number;
+        this.numberOfSheets = numberOfSheets;
+        this.text = text;
+        this.register = register;
+    }
+
+    //    private String startDate;
+//    private String endDate;
+//    private String mark;
+//    private String description;
+//    @Lob
+//    private Byte[] image;
+
+
+
+
+}
