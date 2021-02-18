@@ -8,7 +8,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 @Data
-@EqualsAndHashCode(exclude = {"records"})
+@EqualsAndHashCode(exclude = {"notes"})
 @Entity
 public class Register {
 
