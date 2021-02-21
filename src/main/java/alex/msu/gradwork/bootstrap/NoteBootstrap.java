@@ -86,7 +86,6 @@ public class NoteBootstrap implements ApplicationListener<ContextRefreshedEvent>
         superRegister.addNote(noteFirst);
         superRegister.addNote(noteSecond);
 
-
         registers.add(superRegister);
 
 

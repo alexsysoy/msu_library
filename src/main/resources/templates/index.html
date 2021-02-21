@@ -1,25 +1,33 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="UTF-8">
-    <title>NoteHome</title>
+    <meta charset="UTF-8"/>
+    <title>Записи</title>
 
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
-          integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh"
-          crossorigin="anonymous"
-          th:href="@{/webjars/bootstrap/4.4.1/css/bootstrap.min.css}">
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
+          integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous"
+          th:href="@{/webjars/bootstrap/3.3.7-1/css/bootstrap.min.css}">
 
+    <script src="/webjars/jquery/1.11.1/jquery.min.js"></script>
 
+    <!-- Latest compiled and minified JavaScript -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"
+            integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
+            crossorigin="anonymous" th:src="@{/webjars/bootstrap/3.3.7-1/js/bootstrap.min.js}"></script>
 </head>
 <body>
+<!--/*@thymesVar id="notes" type="java.util.List"*/-->
+<!--/*@thymesVar id="note" type="alex.msu.gradwork.domain.Note"*/-->
 <div class="container-fluid" style="margin-top: 20px">
     <div class="row">
-        <div class="col-lg-6 offset-md-3">
-            <div class="card text-white bg-primary">
-                <div class="card-header">
-                    <h1 class=alex.springframework.domain.Recipe"card-title">Записи</h1>
+        <div class="col-md-6 col-md-offset-3">
+            <div class="panel panel-primary">
+
+                <div class="panel-heading">
+                    <h1 class="panel-title">My Recipes!</h1>
                 </div>
-                <div class="card-body">
+                <div class="panel-body">
                     <div class="table-responsive" th:if="${not #lists.isEmpty(notes)}">
                         <table class="table table-hover ">
                             <thead class="thead-inverse">
@@ -31,15 +39,15 @@
                             </thead>
                             <tr th:remove="all">
                                 <td th:text="${note.number}">1...</td>
-                                <td th:text="${note.numgerOfSheets}">Первая запись</td>
+                                <td th:text="${note.getNumberOfSheets()}">Первая запись</td>
                                 <td th:text="${note.text}">Текст 1...</td>
-                                <td><a th:href="#">View</a></td>
+                                <td><a href="#">View</a></td>
                             </tr>
                             <tr th:remove="all">
                                 <td th:text="${note.number}">2...</td>
-                                <td th:text="${note.numgerOfSheets}">Вторая запись</td>
+                                <td th:text="${note.getNumberOfSheets()}">Вторая запись</td>
                                 <td th:text="${note.text}">Текст 2...</td>
-                                <td><a th:href="#">View</a></td>
+                                <td><a href="#">View</a></td>
                             </tr>
                             <tr th:each="note : ${notes}">
                                 <td th:text="${note.getNumber()}">Номер...</td>
@@ -54,15 +62,6 @@
     </div>
 </div>
 
-<!--<script src="/webjars/jquery/3.4.1/jquery.min.js"></script>-->
-
-<!--<script src="/webjars/popper.js/2.0.2/umd/popper.min.js"></script>-->
-
-<!--<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"-->
-<!--        integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"-->
-<!--        crossorigin="anonymous"-->
-<!--        th:href="@{/webjars/bootstrap/4.4.1/css/bootstrap.min.css}">-->
-<!--</script>-->
-
 </body>
 </html>
+
