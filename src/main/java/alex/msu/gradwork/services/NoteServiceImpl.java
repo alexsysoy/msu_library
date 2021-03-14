@@ -20,7 +20,7 @@ public class NoteServiceImpl implements NoteService{
 
     @Override
     public Set<Note> getNotes() {
-        log.debug("I'm in the Service");
+        log.debug("I'm in the Service debug");
         System.out.println("I'm in the Service");
 
         Set<Note> notes = new HashSet<>();

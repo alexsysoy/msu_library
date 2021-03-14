@@ -32,7 +32,7 @@ public class NoteBootstrap implements ApplicationListener<ContextRefreshedEvent>
     @Override
     public void onApplicationEvent(ContextRefreshedEvent contextRefreshedEvent) {
         log.debug("Loaded Bootstrap Data!");
-        System.out.println("Loaded Bootstrap Data!");
+        //System.out.println("Loaded Bootstrap Data!");
         registerRepository.saveAll(getRegister());
     }
 
@@ -41,15 +41,15 @@ public class NoteBootstrap implements ApplicationListener<ContextRefreshedEvent>
         List<Register> registers = new ArrayList<>(2);
 
         //get actors
-        Optional<Actor> vasyaActorOptional = actorRepository.findByName("Vasya");
+        Optional<Actor> ostromyslenskiyActorOptional = actorRepository.findByName("ostromyslenskiy");
 
-        if(vasyaActorOptional.isEmpty()){
+        if(ostromyslenskiyActorOptional.isEmpty()){
             throw new RuntimeException("Expected Actor Not Found");
         }
 
-        Optional<Actor> petyaActorOptional = actorRepository.findByName("Petya");
+        Optional<Actor> taickovActorOptional = actorRepository.findByName("taickov");
 
-        if(petyaActorOptional.isEmpty()){
+        if(taickovActorOptional.isEmpty()){
             throw new RuntimeException("Expected Actor Not Found");
         }
 
@@ -59,26 +59,25 @@ public class NoteBootstrap implements ApplicationListener<ContextRefreshedEvent>
             throw new RuntimeException("Expected Actor Not Found");
         }
 
-        Actor vasyaActor = vasyaActorOptional.get();
-        Actor petyaActor = petyaActorOptional.get();
+        Actor ostromyslenskiy = ostromyslenskiyActorOptional.get();
+        Actor taickov = taickovActorOptional.get();
         Actor mcsActor = mcsActorOptional.get();
 
 
 
         //get notes
         Note noteFirst = new Note();
-        noteFirst.setNumber(1L);
-        noteFirst.setNumberOfSheets(123L);
-        noteFirst.setText("Первая запись");
-        noteFirst.getActors().add(vasyaActor);
-        noteFirst.getActors().add(petyaActor);
+        noteFirst.setNumber(19L);
+        noteFirst.setNumberOfSheets(4L);
+        noteFirst.setText("О высылке штаб-лекарю Остромысленскому свидетельство на звание акушера");
+        noteFirst.getActors().add(ostromyslenskiy);
 
         Note noteSecond = new Note();
-        noteSecond.setNumber(5L);
-        noteSecond.setNumberOfSheets(3L);
-        noteSecond.setText("Вторая запись");
-        noteSecond.getActors().add(mcsActor);
-        noteSecond.getActors().add(vasyaActor);
+        noteSecond.setNumber(20L);
+        noteSecond.setNumberOfSheets(2L);
+        noteSecond.setText("Письмо Тайдакова с приложением краткой летописи: о покорении Сибири и одной старинной медной монеты");
+        noteSecond.getActors().add(taickov);
+
 
         //get registers
         Register superRegister = new Register();
