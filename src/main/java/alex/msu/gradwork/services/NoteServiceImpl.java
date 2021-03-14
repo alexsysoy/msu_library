@@ -6,6 +6,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.util.HashSet;
+import java.util.Optional;
 import java.util.Set;
 
 @Slf4j
@@ -26,5 +27,16 @@ public class NoteServiceImpl implements NoteService{
         Set<Note> notes = new HashSet<>();
         noteRepository.findAll().iterator().forEachRemaining(notes::add);
         return notes;
+    }
+
+    @Override
+    public Note findById(Long l) {
+
+        Optional<Note> noteOptional = noteRepository.findById(l);
+
+        if (noteOptional.isEmpty()){
+            throw new RuntimeException("Note not found!");
+        }
+        return noteOptional.get();
     }
 }

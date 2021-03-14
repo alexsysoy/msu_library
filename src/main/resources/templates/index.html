@@ -41,18 +41,19 @@
                                 <td th:text="${note.number}">1...</td>
                                 <td th:text="${note.getNumberOfSheets()}">Первая запись</td>
                                 <td th:text="${note.text}">Текст 1...</td>
-                                <td><a href="#">View</a></td>
+                                <td><a href="#">Просмотр</a></td>
                             </tr>
                             <tr th:remove="all">
                                 <td th:text="${note.number}">2...</td>
                                 <td th:text="${note.getNumberOfSheets()}">Вторая запись</td>
                                 <td th:text="${note.text}">Текст 2...</td>
-                                <td><a href="#">View</a></td>
+                                <td><a href="#">Просмотр</a></td>
                             </tr>
                             <tr th:each="note : ${notes}">
                                 <td th:text="${note.getNumber()}">Номер...</td>
                                 <td th:text="${note.getNumberOfSheets()}">Количество страниц...</td>
                                 <td th:text="${note.getText()}">Текст...</td>
+                                <td><a href="#" th:href="@{'/note/' + ${note.getId()} + '/show'}">Просмотр</a></td>
                             </tr>
                         </table>
                     </div>
