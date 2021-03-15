@@ -32,7 +32,6 @@ public class NoteBootstrap implements ApplicationListener<ContextRefreshedEvent>
     @Override
     public void onApplicationEvent(ContextRefreshedEvent contextRefreshedEvent) {
         log.debug("Loaded Bootstrap Data!");
-        //System.out.println("Loaded Bootstrap Data!");
         registerRepository.saveAll(getRegister());
     }
 
@@ -53,15 +52,15 @@ public class NoteBootstrap implements ApplicationListener<ContextRefreshedEvent>
             throw new RuntimeException("Expected Actor Not Found");
         }
 
-        Optional<Actor> mcsActorOptional = actorRepository.findByName("MCS");
+        Optional<Actor> yurevActorOptional = actorRepository.findByName("MCS");
 
-        if(mcsActorOptional.isEmpty()){
+        if(yurevActorOptional.isEmpty()){
             throw new RuntimeException("Expected Actor Not Found");
         }
 
         Actor ostromyslenskiy = ostromyslenskiyActorOptional.get();
         Actor taickov = taickovActorOptional.get();
-        Actor mcsActor = mcsActorOptional.get();
+        Actor Yurev = yurevActorOptional.get();
 
 
 
@@ -78,14 +77,30 @@ public class NoteBootstrap implements ApplicationListener<ContextRefreshedEvent>
         noteSecond.setText("Письмо Тайдакова с приложением краткой летописи: о покорении Сибири и одной старинной медной монеты");
         noteSecond.getActors().add(taickov);
 
+        Note noteThird = new Note();
+        noteThird.setNumber(22L);
+        noteThird.setNumberOfSheets(5L);
+        noteThird.setText("О дозволении Юрьеву с будущего академического года слушать лекции в университете");
+        noteThird.getActors().add(Yurev);
+
 
         //get registers
-        Register superRegister = new Register();
-        superRegister.setName("Super");
-        superRegister.addNote(noteFirst);
-        superRegister.addNote(noteSecond);
+        Register firstRegister = new Register();
+        firstRegister.setName("Первый регистр");
+        firstRegister.addNote(noteFirst);
+        firstRegister.addNote(noteSecond);
+        firstRegister.addNote(noteThird);
 
-        registers.add(superRegister);
+        Register secondRegister = new Register();
+        secondRegister.setName("Второй регистр");
+        secondRegister.addNote(noteFirst);
+
+        registers.add(firstRegister);
+        registers.add(secondRegister);
+
+        System.out.println(registers.size());
+        System.out.println(firstRegister.getNotes().size());
+        System.out.println(secondRegister.getNotes().size());
 
 
         return registers;

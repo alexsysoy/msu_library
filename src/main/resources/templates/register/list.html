@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <title>List Ingredients</title>
+
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
+          integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous"
+          th:href="@{/webjars/bootstrap/3.3.7-1/css/bootstrap.min.css}">
+
+    <script src="/webjars/jquery/1.11.1/jquery.min.js"></script>
+
+    <!-- Latest compiled and minified JavaScript -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"
+            integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
+            crossorigin="anonymous" th:src="@{/webjars/bootstrap/3.3.7-1/js/bootstrap.min.js}"></script>
+</head>
+<body>
+<!--/*@thymesVar id="register" type="alex.msu.gradwork.domain.Register"*/-->
+<div class="container-fluid" style="margin-top: 20px">
+    <div class="row">
+        <div class="col-md-6 col-md-offset-3">
+            <div class="panel panel-primary">
+
+                <div class="panel-heading">
+                    <h1 class="panel-title">Записи</h1>
+                    <div class="row">
+                        <div class="col-md-11 ">
+                            <h1 class="panel-title">Записи</h1>
+                        </div>
+                    </div>
+                </div>
+                <div class="panel-body">
+                    <div class="table-responsive" th:if="${not #lists.isEmpty(register.notes)}">
+                        <table class="table table-hover ">
+                            <thead class="thead-inverse">
+                            <tr>
+                                <th>Номер</th>
+                                <th>Описание</th>
+                                <th>Просмотр</th>
+                                <th>Редактирование</th>
+                                <th>Удаление</th>
+                            </tr>
+                            </thead>
+                            <tr th:remove="all">
+                                <td>1</td>
+                                <td>Описание 1</td>
+                                <td><a href="#">View</a></td>
+                                <td><a href="#">Update</a></td>
+                                <td><a href="#">Delete</a></td>
+                            </tr>
+                            <tr th:remove="all">
+                                <td>21323</td>
+                                <td>Описание 2</td>
+                                <td><a href="#">View</a></td>
+                                <td><a href="#">Update</a></td>
+                                <td><a href="#">Delete</a></td>
+                            <tr th:each="note : ${register.notes}">
+                                <td th:text="${note.id}">334</td>
+                                <td th:text="${note.text}">3</td>
+                                <td><a href="#" th:href="@{'/register/' + ${register.id} + '/note/' + ${note.id} + '/show'}">Просмотр</a></td>
+                                <td><a href="#" th:href="@{'/register/' + ${register.id} + '/note/' + ${note.id} + '/update'}">Редактирование</a></td>
+                                <td><a href="#" th:href="@{'/register/' + ${register.id} + '/note/' + ${note.id} + '/delete'}">Удаление</a></td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>

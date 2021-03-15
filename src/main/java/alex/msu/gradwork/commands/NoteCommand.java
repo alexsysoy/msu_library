@@ -18,6 +18,7 @@ public class NoteCommand {
     private Long number;
     private Long numberOfSheets;
     private String text;
+    private Long registerId;
     private Register register;
     private Set<Actor> actors = new HashSet<>();
 
