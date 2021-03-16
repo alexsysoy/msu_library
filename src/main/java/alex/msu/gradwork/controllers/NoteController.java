@@ -21,7 +21,7 @@ public class NoteController {
     }
 
     @GetMapping
-    @RequestMapping("/register/{registerId}/list")
+    @RequestMapping("/register/{registerId}/notes")
     public String listNotes(@PathVariable String registerId, Model model){
         log.debug("Getting Note list for Register id: " + registerId + " number of notes: " + registerService.findById(Long.valueOf(registerId)).getNotes().size());
 
@@ -55,10 +55,21 @@ public class NoteController {
 
     @GetMapping
     @RequestMapping("register/{registerId}/note/{noteId}/update")
-    public String updateRecipeIngredient(@PathVariable String registerId,
+    public String updateRecipeNote(@PathVariable String registerId,
                                          @PathVariable String noteId, Model model){
         model.addAttribute("note", noteService.findByRegisterIdAndNoteId(Long.valueOf(registerId), Long.valueOf(noteId)));
         return "register/note/noteform";
+    }
+
+    @GetMapping
+    @RequestMapping("register/{registerId}/note/{id}/delete")
+    public String deleteNote(@PathVariable String registerId,
+                                   @PathVariable String id){
+
+        log.debug("deleting note id:" + id);
+        noteService.DeleteById(Long.valueOf(registerId),Long.valueOf(id));
+
+        return "redirect:/register/" + registerId + "/notes";
     }
 
 

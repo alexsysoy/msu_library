@@ -122,9 +122,34 @@ public class NoteServiceImpl implements NoteService{
 
             //to do check for fail
             return noteToNoteCommand.convert(savedNoteOptional.get());
+        }
     }
 
+    @Override
+    public void DeleteById(Long registerId, Long idToDelete){
+        log.debug("Deleting note: " + registerId + ":" + idToDelete);
 
+        Optional<Register> registerOptional = registerRepository.findById(registerId);
 
+        if(registerOptional.isPresent()){
+            Register register = registerOptional.get();
+            log.debug("found register");
+
+            Optional<Note> noteOptional = register
+                    .getNotes()
+                    .stream()
+                    .filter(note -> note.getId().equals(idToDelete))
+                    .findFirst();
+
+            if(noteOptional.isPresent()){
+                log.debug("found note");
+                Note noteToDelete = noteOptional.get();
+                noteToDelete.setRegister(null);
+                register.getNotes().remove(noteOptional.get());
+                registerRepository.save(register);
+            }
+        } else {
+            log.debug("Register Id Not found. Id:" + registerId);
+        }
     }
 }

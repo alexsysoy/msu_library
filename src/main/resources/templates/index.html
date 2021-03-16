@@ -49,7 +49,7 @@
                             <tr th:each="register : ${registers}">
                                 <td th:text="${register.getId()}">3...</td>
                                 <td th:text="${register.getName()}">название</td>
-                                <td><a href="#" th:href="@{'register/' + ${register.getId()} + '/list'}">Просмотр</a></td>
+                                <td><a href="#" th:href="@{'register/' + ${register.getId()} + '/notes'}">Просмотр</a></td>
                             </tr>
                         </table>
                     </div>

@@ -15,4 +15,6 @@ public interface NoteService {
 
     NoteCommand saveNoteCommand(NoteCommand command);
 
+    void DeleteById(Long registerId, Long idToDelete);
+
 }
