@@ -31,6 +31,19 @@ public class NoteController {
         return "register/list";
     }
 
+
+
+    @GetMapping
+    @RequestMapping("/register/{registerId}/note/{noteId}/show")
+    public String showNote(@PathVariable String registerId,
+                           @PathVariable String noteId, Model model){
+        log.debug("Getting Note id: " + noteId + " from Register id: " + registerId);
+        model.addAttribute("note", noteService.findByRegisterIdAndNoteId(Long.valueOf(registerId), Long.valueOf(noteId)));
+
+        return "register/note/show";
+    }
+
+
 //    @GetMapping("register/{RegisterId}/show")
 //    public String showById(@PathVariable String id, Model model){
 //
