@@ -1,13 +1,12 @@
 package alex.msu.gradwork.controllers;
 
+import alex.msu.gradwork.commands.NoteCommand;
 import alex.msu.gradwork.services.NoteService;
 import alex.msu.gradwork.services.RegisterService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 @Slf4j
 @Controller
@@ -43,29 +42,24 @@ public class NoteController {
         return "register/note/show";
     }
 
+    @PostMapping("register/{registerId}/note")
+    public String saveOrUpdate(@ModelAttribute NoteCommand command){
 
-//    @GetMapping("register/{RegisterId}/show")
-//    public String showById(@PathVariable String id, Model model){
-//
-//        model.addAttribute("note", noteService.findById(Long.valueOf(id)));
-//        System.out.println("NoteController show");
-//        return "register/note/show";
-//
-//    }
+        NoteCommand savedCommand = noteService.saveNoteCommand(command);
 
-//    @GetMapping("register/{RegisterId}/show")
-//    public String showById(@PathVariable String id, Model model){
-//
-//        model.addAttribute("note", noteService.findById(Long.valueOf(id)));
-//        System.out.println("NoteController show");
-//        return "register/note/show";
-//    }
+        log.debug("saved register id:" + savedCommand.getRegisterId());
+        log.debug("saved note id:" + savedCommand.getId());
 
-//    @GetMapping("register/note/list")
-//    public String showCRUD(Model model) {
-//
-//        return "showCRUD";
-//    }
+        return "redirect:/register/" + savedCommand.getRegisterId() + "/note/" + savedCommand.getId() + "/show";
+    }
+
+    @GetMapping
+    @RequestMapping("register/{registerId}/note/{noteId}/update")
+    public String updateRecipeIngredient(@PathVariable String registerId,
+                                         @PathVariable String noteId, Model model){
+        model.addAttribute("note", noteService.findByRegisterIdAndNoteId(Long.valueOf(registerId), Long.valueOf(noteId)));
+        return "register/note/noteform";
+    }
 
 
 }

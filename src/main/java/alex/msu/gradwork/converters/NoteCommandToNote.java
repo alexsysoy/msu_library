@@ -11,34 +11,31 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class NoteCommandToNote implements Converter<NoteCommand, Note> {
+
+    @Nullable
     @Override
-    public Note convert(NoteCommand noteCommand) {
-        return null;
+    public Note convert(NoteCommand source){
+        if (source == null) {
+            return null;
+        }
+
+        final Note note = new Note();
+        note.setId(source.getId());
+        note.setNumber(source.getNumber());
+        note.setText(source.getText());
+        note.setNumberOfSheets(source.getNumberOfSheets());
+
+        if (source.getRegisterId() != null) {
+            Register register = new Register();
+            register.setId(source.getRegisterId());
+            note.setRegister(register);
+            register.addNote(note);
+        }
+
+        note.setText(source.getText());
+        note.setNumber(source.getNumber());
+        return note;
+
     }
-//
-//    @Nullable
-//    @Override
-//    public Note convert(NoteCommand source){
-//        if (source == null) {
-//            return null;
-//        }
-//
-//        final Note note = new Note();
-//        note.setId(source.getId());
-//        note.setNumber(source.getNumber());
-//        note.setText(source.getText());
-//        note.setNumberOfSheets(source.getNumberOfSheets());
-//
-//        if (source.getRegisterId() != null) {
-//            Register register = new Register();
-//            register.setId(source.getRegisterId());
-//            note.setRegister(register);
-//        }
-//
-//        note.setRegister(source.getRegister());
-//        note.setActors(source.getActors());
-//        return note;
-//
-//    }
 
 }

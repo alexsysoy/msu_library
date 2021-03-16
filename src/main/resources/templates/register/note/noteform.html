@@ -20,40 +20,31 @@
 <div class="container-fluid" style="margin-top: 20px">
     <div class="row">
         <div class="col-md-6 col-md-offset-3">
-            <form  th:object="${}" th:action="@{'/recipe/' + ${ingredient.getRecipeId()} + '/ingredient'} " method="post">
+            <!--/*@thymesVar id="note" type="alex.msu.gradwork.commands.NoteCommand"*/-->
+            <form  th:object="${note}" th:action="@{'/register/' + ${note.getRegisterId()} + '/note'} " method="post">
                 <input type="hidden" th:field="*{id}"/>
                 <div class="pannel-group">
                     <div class="panel panel-primary">
                         <div class="panel-heading">
-                            <h1 class="panel-title">Edit Ingredient Information</h1>
+                            <h1 class="panel-title">Редактирование записи</h1>
                         </div>
                         <div class="panel-body">
 
 
                             <div class="row">
-                                <div class="col-md-3 form-group">
-                                    <label>Description:</label>
-                                    <input type="text" class="form-control" th:field="*{description}"/>
+                                <div class="col-md-8 form-group">
+                                    <label>Описание:</label>
+                                    <input type="text" class="form-control" th:field="*{text}"/>
                                 </div>
 
                                 <div class="col-md-3 form-group">
-                                    <label>Amount:</label>
-                                    <input type="number" class="form-control" th:field="*{amount}"/>
-                                </div>
-
-                                <div class="col-md-3 form-group">
-                                    <label>UOM:</label>
-                                    <select class="form-control" name="uom.id">
-                                        <option th:each="uomEach : ${uomList}"
-                                                th:value="${uomEach.id}"
-                                                th:selected="${uomEach.id.equals(ingredient.uom.id)}"
-                                                th:text="${uomEach.description}">Each</option>
-                                    </select>
+                                    <label>Номер:</label>
+                                    <input type="number" class="form-control" th:field="*{number}"/>
                                 </div>
                             </div>
                         </div>
                     </div>
-                    <button type="submit" class="btn btn-primary">Submit</button>
+                    <button type="submit" class="btn btn-primary">Изменить</button>
                 </div>
             </form>
         </div>

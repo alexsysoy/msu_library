@@ -13,4 +13,6 @@ public interface NoteService {
 
     NoteCommand findByRegisterIdAndNoteId(Long registerId, Long noteId);
 
+    NoteCommand saveNoteCommand(NoteCommand command);
+
 }

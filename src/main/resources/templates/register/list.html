@@ -57,7 +57,7 @@
                                 <td><a href="#">Update</a></td>
                                 <td><a href="#">Delete</a></td>
                             <tr th:each="note : ${register.notes}">
-                                <td th:text="${note.id}">334</td>
+                                <td th:text="${note.number}">334</td>
                                 <td th:text="${note.text}">3</td>
                                 <td><a href="#" th:href="@{'/register/' + ${register.id} + '/note/' + ${note.id} + '/show'}">Просмотр</a></td>
                                 <td><a href="#" th:href="@{'/register/' + ${register.id} + '/note/' + ${note.id} + '/update'}">Редактирование</a></td>

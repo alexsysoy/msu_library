@@ -52,15 +52,22 @@ public class NoteBootstrap implements ApplicationListener<ContextRefreshedEvent>
             throw new RuntimeException("Expected Actor Not Found");
         }
 
-        Optional<Actor> yurevActorOptional = actorRepository.findByName("MCS");
+        Optional<Actor> yurevActorOptional = actorRepository.findByName("Yurev");
 
         if(yurevActorOptional.isEmpty()){
+            throw new RuntimeException("Expected Actor Not Found");
+        }
+
+        Optional<Actor> basovActorOptional = actorRepository.findByName("Basov");
+
+        if(basovActorOptional.isEmpty()){
             throw new RuntimeException("Expected Actor Not Found");
         }
 
         Actor ostromyslenskiy = ostromyslenskiyActorOptional.get();
         Actor taickov = taickovActorOptional.get();
         Actor Yurev = yurevActorOptional.get();
+        Actor basov = basovActorOptional.get();
 
 
 
@@ -83,24 +90,26 @@ public class NoteBootstrap implements ApplicationListener<ContextRefreshedEvent>
         noteThird.setText("О дозволении Юрьеву с будущего академического года слушать лекции в университете");
         noteThird.getActors().add(Yurev);
 
+        Note noteFourth = new Note();
+        noteFourth.setNumber(19L);
+        noteFourth.setNumberOfSheets(45L);
+        noteFourth.setText("О покупке у прозектора Басова препоратов");
+        noteFourth.getActors().add(basov);
+
 
         //get registers
         Register firstRegister = new Register();
         firstRegister.setName("Первый регистр");
-        firstRegister.addNote(noteFirst);
         firstRegister.addNote(noteSecond);
         firstRegister.addNote(noteThird);
 
         Register secondRegister = new Register();
         secondRegister.setName("Второй регистр");
         secondRegister.addNote(noteFirst);
+        secondRegister.addNote(noteFourth);
 
         registers.add(firstRegister);
         registers.add(secondRegister);
-
-        System.out.println(registers.size());
-        System.out.println(firstRegister.getNotes().size());
-        System.out.println(secondRegister.getNotes().size());
 
 
         return registers;
