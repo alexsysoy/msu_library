@@ -16,5 +16,6 @@ public class RegisterCommand {
     private Long id;
     private Long number;
     private String name;
-    private Set<Note> notes = new HashSet<>();
+
+    private Set<NoteCommand> notes = new HashSet<>();
 }

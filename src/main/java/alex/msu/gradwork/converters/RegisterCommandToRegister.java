@@ -10,37 +10,34 @@ import org.springframework.core.convert.converter.Converter;
 
 @Component
 public class RegisterCommandToRegister implements Converter<RegisterCommand, Register> {
-    @Override
-    public Register convert(RegisterCommand registerCommand) {
-        return null;
+
+
+    private final NoteCommandToNote noteConverter;
+
+    public RegisterCommandToRegister(NoteCommandToNote noteConverter) {
+        this.noteConverter = noteConverter;
     }
 
-//    private final NoteCommandToNote noteConverter;
-//
-//    public RegisterCommandToRegister(NoteCommandToNote noteConverter) {
-//        this.noteConverter = noteConverter;
-//    }
-//
-//
-//    @Synchronized
-//    @Nullable
-//    @Override
-//    public Register convert(RegisterCommand source) {
-//
-//        if (source == null) {
-//            return null;
-//        }
-//
-//        final Register register = new Register();
-//        register.setId(source.getId());
-//        register.setName(source.getName());
-//        register.setNumber(source.getNumber());
-//
-//        if (source.getNotes() != null && source.getNotes().size() > 0){
-//            source.getNotes()
-//                    .forEach(note -> register.getNotes().add(noteConverter.convert(note)));
-//        }
-//
-//        return register;
-//    }
+
+    @Override
+    @Synchronized
+    @Nullable
+    public Register convert(RegisterCommand command) {
+
+        if (command == null){
+            return null;
+        }
+
+        final Register register = new Register();
+        register.setId(command.getId());
+        register.setNumber(command.getNumber());
+        register.setName(command.getName());
+
+        if (command.getNotes() != null && command.getNotes().size()>0){
+            command.getNotes()
+                    .forEach(note -> register.getNotes().add(noteConverter.convert(note)));
+        }
+
+        return register;
+    }
 }

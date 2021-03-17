@@ -1,6 +1,7 @@
 package alex.msu.gradwork.controllers;
 
 import alex.msu.gradwork.commands.NoteCommand;
+import alex.msu.gradwork.commands.RegisterCommand;
 import alex.msu.gradwork.services.NoteService;
 import alex.msu.gradwork.services.RegisterService;
 import lombok.extern.slf4j.Slf4j;
@@ -72,5 +73,24 @@ public class NoteController {
         return "redirect:/register/" + registerId + "/notes";
     }
 
+    @GetMapping
+    @RequestMapping("register/{registerId}/note/new")
+    public String newNote(@PathVariable String registerId, Model model){
+
+        //make sure we have a good id value
+        RegisterCommand registerCommand = registerService.findCommandById(Long.valueOf(registerId));
+
+
+        //PROBLEM IN REGISTERS CONVERTERS
+        //log.debug("RegisterCommand Id: " + registerCommand.getNumber());
+        //todo raise exception if null
+
+        //need to return back parent id for hidden form property
+        NoteCommand noteCommand = new NoteCommand();
+        noteCommand.setRegisterId(Long.valueOf(registerId));
+        model.addAttribute("note", noteCommand);
+
+        return "register/note/noteform";
+    }
 
 }

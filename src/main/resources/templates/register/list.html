@@ -2,7 +2,7 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8"/>
-    <title>List Ingredients</title>
+    <title>Записи</title>
 
     <!-- Latest compiled and minified CSS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
@@ -24,10 +24,13 @@
             <div class="panel panel-primary">
 
                 <div class="panel-heading">
-                    <h1 class="panel-title">Записи</h1>
+<!--                    <h1 class="panel-title">Notes</h1>-->
                     <div class="row">
-                        <div class="col-md-11 ">
+                        <div class="col-md-10 ">
                             <h1 class="panel-title">Записи</h1>
+                        </div>
+                        <div class="col-md-1">
+                            <a class="btn btn-default" href="#" th:href="@{'/register/' + ${register.id} + '/note/new'}" role="button">Создать</a>
                         </div>
                     </div>
                 </div>

@@ -1,12 +1,18 @@
 package alex.msu.gradwork.domain;
 
+import alex.msu.gradwork.commands.NoteCommand;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.Setter;
 
 import javax.persistence.*;
 import java.util.HashSet;
 import java.util.Set;
 
-@Data
+@Getter
+@Setter
+@EqualsAndHashCode(exclude = {"register"})
 @Entity
 public class Note {
 
@@ -28,22 +34,21 @@ public class Note {
     private Set<Actor> actors = new HashSet<>();
 
 
-//    public Note() {
-//
-//    }
-//
-//    public Note(Long number, Long numberOfSheets, String text) {
-//        this.number = number;
-//        this.numberOfSheets = numberOfSheets;
-//        this.text = text;
-//    }
-//
-//    public Note(Long number, Long numberOfSheets, String text, Register register) {
-//        this.number = number;
-//        this.numberOfSheets = numberOfSheets;
-//        this.text = text;
-//        this.register = register;
-//    }
+    public Note() {
+    }
+
+    public Note(Long number, Long numberOfSheets, String text) {
+        this.number = number;
+        this.numberOfSheets = numberOfSheets;
+        this.text = text;
+    }
+
+    public Note(Long number, Long numberOfSheets, String text, Register register) {
+        this.number = number;
+        this.numberOfSheets = numberOfSheets;
+        this.text = text;
+        this.register = register;
+    }
 
     //private String startDate;
 //    private String endDate;

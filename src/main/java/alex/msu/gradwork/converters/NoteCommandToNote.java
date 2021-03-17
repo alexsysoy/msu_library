@@ -14,28 +14,25 @@ public class NoteCommandToNote implements Converter<NoteCommand, Note> {
 
     @Nullable
     @Override
-    public Note convert(NoteCommand source){
-        if (source == null) {
+    public Note convert(NoteCommand command){
+        if (command == null) {
             return null;
         }
 
         final Note note = new Note();
-        note.setId(source.getId());
-        note.setNumber(source.getNumber());
-        note.setText(source.getText());
-        note.setNumberOfSheets(source.getNumberOfSheets());
+        note.setId(command.getId());
+        note.setNumber(command.getNumber());
+        note.setText(command.getText());
+        note.setNumberOfSheets(command.getNumberOfSheets());
 
-        if (source.getRegisterId() != null) {
+        if (command.getRegisterId() != null) {
             Register register = new Register();
-            register.setId(source.getRegisterId());
+            register.setId(command.getRegisterId());
             note.setRegister(register);
             register.addNote(note);
         }
 
-        note.setText(source.getText());
-        note.setNumber(source.getNumber());
         return note;
-
     }
 
 }

@@ -32,7 +32,7 @@
 
 <!--                            <div class="col-md-1">-->
 <!--                                <a class="btn btn-default" href="#"-->
-<!--                                   th:href="@{'/recipe/' + ${note.getId()} + '/image'}" role="button">Изменить фото</a>-->
+<!--                                   th:href="@{'/register/' + ${note.getId()} + '/image'}" role="button">Изменить фото</a>-->
 <!--                            </div>-->
                         </div>
                     </div>
@@ -46,14 +46,14 @@
                                     <li th:remove="all">Первое ключевое слово</li>
                                     <li th:remove="all">Второе ключевое слово</li>
 <!--                                    <li th:each="category : ${recipe.categories}"-->
-<!--                                        th:text="${category.getDescription()}">Третье ключевое слово-->
+<!--                                        th:text="${register.getDescription()}">Третье ключевое слово-->
 <!--                                    </li>-->
                                 </ul>
                             </div>
 <!--Изображение-->
 <!--                            <div class="col-md-6">-->
 <!--                                <img src="../../static/images/guacamole400x400WithX.jpg"-->
-<!--                                     th:src="@{'/recipe/' + ${recipe.id} + '/recipeimage'}"-->
+<!--                                     th:src="@{'/register/' + ${register.id} + '/registerimage'}"-->
 <!--                                     width="200" height="200">-->
 <!--                            </div>-->
                         </div>
@@ -78,7 +78,7 @@
                     <div class="panel-body">
                         <div class="row">
                             <div class="col-md-12">
-<!--                                <p th:text="${recipe.notes.recipeNotes}">Тут могло бы быть Ваше примечание о данной заметке</p>-->
+<!--                                <p th:text="${register.notes.registerNotes}">Тут могло бы быть Ваше примечание о данной заметке</p>-->
                             </div>
                         </div>
                     </div>

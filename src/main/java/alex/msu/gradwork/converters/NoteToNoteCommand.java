@@ -20,13 +20,15 @@ public class NoteToNoteCommand implements Converter<Note, NoteCommand> {
 
         final NoteCommand noteCommand = new NoteCommand();
         noteCommand.setId(note.getId());
-        noteCommand.setActors(note.getActors());
+        //noteCommand.setActors(source.getActors());
         noteCommand.setNumber(note.getNumber());
+        noteCommand.setNumberOfSheets(note.getNumberOfSheets());
+        noteCommand.setText(note.getText());
+
         if (note.getRegister() != null) {
             noteCommand.setRegisterId(note.getRegister().getId());
         }
-        noteCommand.setText(note.getText());
-        noteCommand.setNumberOfSheets(note.getNumberOfSheets());
+
         return noteCommand;
     }
 }

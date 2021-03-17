@@ -2,35 +2,37 @@ package alex.msu.gradwork.converters;
 
 import alex.msu.gradwork.commands.RegisterCommand;
 import alex.msu.gradwork.domain.Register;
-import lombok.Synchronized;
 import org.springframework.core.convert.converter.Converter;
-import org.springframework.lang.Nullable;
 import org.springframework.stereotype.Component;
 
 @Component
 public class RegisterToRegisterCommand implements Converter<Register, RegisterCommand> {
-    @Override
-    public RegisterCommand convert(Register register) {
-        return null;
+
+    private final NoteToNoteCommand noteConverter;
+
+    public RegisterToRegisterCommand(NoteToNoteCommand noteConverter) {
+        this.noteConverter = noteConverter;
     }
 
-//    @Synchronized
-//    @Nullable
-//    @Override
-//    public RegisterCommand convert(Register source) {
-//        if (source == null) {
-//            return null;
-//        }
-//
-//        final RegisterCommand registerCommand = new RegisterCommand();
-//        registerCommand.setId(source.getId());
-//        registerCommand.setName(source.getName());
-//        registerCommand.setNumber(source.getNumber());
-//        registerCommand.setNotes(source.getNotes());
-//        return registerCommand;
-//    }
+
+    @Override
+    public RegisterCommand convert(Register source) {
+
+        if (source == null){
+            return null;
+        }
+
+        RegisterCommand command = new RegisterCommand();
+        command.setName(source.getName());
+        command.setId(source.getId());
+        command.setNumber(source.getNumber());
 
 
+        if (source.getNotes() != null && source.getNotes().size()>0){
+            source.getNotes()
+                    .forEach(note -> command.getNotes().add(noteConverter.convert(note)));
+        }
 
-
+        return null;
+    }
 }
