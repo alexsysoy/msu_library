@@ -30,7 +30,7 @@ public class RegisterServiceImpl implements RegisterService {
 
     @Override
     public Set<Register> getRegisters() {
-        log.debug("I'm in the RegisterServiceImp");
+        log.debug("RegisterServiceImp in work");
 
         Set<Register> registerSet = new HashSet<>();
         registerRepository.findAll().iterator().forEachRemaining(registerSet::add);
@@ -52,6 +52,11 @@ public class RegisterServiceImpl implements RegisterService {
     @Override
     @Transactional
     public RegisterCommand findCommandById(Long l) {
+
+        RegisterCommand registerCommand = registerToRegisterCommand.convert(findById(l));
+        registerCommand.getId();
+
+
         return registerToRegisterCommand.convert(findById(l));
     }
 

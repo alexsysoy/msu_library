@@ -22,10 +22,11 @@ public class RegisterToRegisterCommand implements Converter<Register, RegisterCo
             return null;
         }
 
-        RegisterCommand command = new RegisterCommand();
+        final RegisterCommand command = new RegisterCommand();
         command.setName(source.getName());
         command.setId(source.getId());
         command.setNumber(source.getNumber());
+
 
 
         if (source.getNotes() != null && source.getNotes().size()>0){
@@ -33,6 +34,6 @@ public class RegisterToRegisterCommand implements Converter<Register, RegisterCo
                     .forEach(note -> command.getNotes().add(noteConverter.convert(note)));
         }
 
-        return null;
+        return command;
     }
 }

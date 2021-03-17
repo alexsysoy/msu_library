@@ -82,6 +82,9 @@ public class NoteController {
 
 
         //PROBLEM IN REGISTERS CONVERTERS
+        System.out.println("!!!!!!!!" + registerService.findById(Long.valueOf(registerId)).getId());
+        //System.out.println("!!!!!!!!" + registerService.findCommandById(Long.valueOf(registerId)).getId());
+        //System.out.println("РЕГИСТ:" + registerCommand.getId());
         //log.debug("RegisterCommand Id: " + registerCommand.getNumber());
         //todo raise exception if null
 
