@@ -10,7 +10,7 @@
     </parent>
     <groupId>alex.msu</groupId>
     <artifactId>gradwork</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
+    <version>0.2.0-SNAPSHOT</version>
     <name>gradwork</name>
     <description>program for the list of documents of the msu</description>
     <properties>

@@ -79,13 +79,6 @@ public class NoteController {
 
         //make sure we have a good id value
         RegisterCommand registerCommand = registerService.findCommandById(Long.valueOf(registerId));
-
-
-        //PROBLEM IN REGISTERS CONVERTERS
-        System.out.println("!!!!!!!!" + registerService.findById(Long.valueOf(registerId)).getId());
-        //System.out.println("!!!!!!!!" + registerService.findCommandById(Long.valueOf(registerId)).getId());
-        //System.out.println("РЕГИСТ:" + registerCommand.getId());
-        //log.debug("RegisterCommand Id: " + registerCommand.getNumber());
         //todo raise exception if null
 
         //need to return back parent id for hidden form property

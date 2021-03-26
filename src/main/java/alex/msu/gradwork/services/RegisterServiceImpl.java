@@ -52,11 +52,6 @@ public class RegisterServiceImpl implements RegisterService {
     @Override
     @Transactional
     public RegisterCommand findCommandById(Long l) {
-
-        RegisterCommand registerCommand = registerToRegisterCommand.convert(findById(l));
-        registerCommand.getId();
-
-
         return registerToRegisterCommand.convert(findById(l));
     }
 
