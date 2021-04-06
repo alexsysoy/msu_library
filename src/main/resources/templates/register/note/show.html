@@ -45,9 +45,9 @@
                                 <ul>
                                     <li th:remove="all">Первое ключевое слово</li>
                                     <li th:remove="all">Второе ключевое слово</li>
-<!--                                    <li th:each="category : ${recipe.categories}"-->
-<!--                                        th:text="${register.getDescription()}">Третье ключевое слово-->
-<!--                                    </li>-->
+                                    <li th:each="subject : ${note.getSubjects()}"
+                                        th:text="${subject.getName()}">Третье ключевое слово
+                                    </li>
                                 </ul>
                             </div>
 <!--Изображение-->

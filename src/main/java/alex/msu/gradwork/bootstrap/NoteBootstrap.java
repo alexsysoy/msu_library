@@ -3,9 +3,11 @@ package alex.msu.gradwork.bootstrap;
 import alex.msu.gradwork.domain.Actor;
 import alex.msu.gradwork.domain.Note;
 import alex.msu.gradwork.domain.Register;
+import alex.msu.gradwork.domain.Subject;
 import alex.msu.gradwork.repositories.ActorRepository;
 import alex.msu.gradwork.repositories.NoteRepository;
 import alex.msu.gradwork.repositories.RegisterRepository;
+import alex.msu.gradwork.repositories.SubjectRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.ApplicationListener;
 import org.springframework.context.event.ContextRefreshedEvent;
@@ -22,11 +24,13 @@ public class NoteBootstrap implements ApplicationListener<ContextRefreshedEvent>
     private final NoteRepository noteRepository;
     private final RegisterRepository registerRepository;
     private final ActorRepository actorRepository;
+    private final SubjectRepository subjectRepository;
 
-    public NoteBootstrap(NoteRepository noteRepository, RegisterRepository registerRepository, ActorRepository actorRepository) {
+    public NoteBootstrap(NoteRepository noteRepository, RegisterRepository registerRepository, ActorRepository actorRepository, SubjectRepository subjectRepository) {
         this.noteRepository = noteRepository;
         this.registerRepository = registerRepository;
         this.actorRepository = actorRepository;
+        this.subjectRepository = subjectRepository;
     }
 
     @Override
@@ -38,6 +42,15 @@ public class NoteBootstrap implements ApplicationListener<ContextRefreshedEvent>
     private List<Register> getRegister() {
 
         List<Register> registers = new ArrayList<>(2);
+
+        //get subjects
+        Optional<Subject> superSubjectOptional = subjectRepository.findByName("Super");
+
+        if(superSubjectOptional.isEmpty()){
+            throw new RuntimeException("Expected Subject Not Found");
+        }
+
+        Subject superSub = superSubjectOptional.get();
 
         //get actors
         Optional<Actor> ostromyslenskiyActorOptional = actorRepository.findByName("ostromyslenskiy");
@@ -77,6 +90,7 @@ public class NoteBootstrap implements ApplicationListener<ContextRefreshedEvent>
         noteFirst.setNumberOfSheets(4L);
         noteFirst.setText("О высылке штаб-лекарю Остромысленскому свидетельство на звание акушера");
         noteFirst.getActors().add(ostromyslenskiy);
+        noteFirst.getSubjects().add(superSub);
 
         Note noteSecond = new Note();
         noteSecond.setNumber(20L);

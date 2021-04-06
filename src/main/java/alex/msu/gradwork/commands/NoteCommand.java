@@ -9,6 +9,7 @@ import lombok.Setter;
 import java.util.HashSet;
 import java.util.Set;
 
+
 @Getter
 @Setter
 @NoArgsConstructor
@@ -19,6 +20,8 @@ public class NoteCommand {
     private Long numberOfSheets;
     private String text;
     private Long registerId;
+
+    private Set<SubjectCommand> subjects = new HashSet<>();
 //    private Register register;
 //    private Set<Actor> actors = new HashSet<>();
 

@@ -33,6 +33,12 @@ public class Note {
             inverseJoinColumns = @JoinColumn(name = "actor_id"))
     private Set<Actor> actors = new HashSet<>();
 
+    @ManyToMany
+    @JoinTable(name = "note_subject",
+            joinColumns = @JoinColumn(name = "note_id"),
+            inverseJoinColumns = @JoinColumn(name = "subject_id"))
+    private Set<Subject> subjects = new HashSet<>();
+
 
     public Note() {
     }

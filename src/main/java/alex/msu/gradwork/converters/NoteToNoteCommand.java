@@ -2,6 +2,7 @@ package alex.msu.gradwork.converters;
 
 import alex.msu.gradwork.commands.NoteCommand;
 import alex.msu.gradwork.domain.Note;
+import alex.msu.gradwork.domain.Subject;
 import lombok.Synchronized;
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.lang.Nullable;
@@ -9,6 +10,12 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class NoteToNoteCommand implements Converter<Note, NoteCommand> {
+
+    private final SubjectToSubjectCommand subjectToSubjectCommand;
+
+    public NoteToNoteCommand(SubjectToSubjectCommand subjectToSubjectCommand) {
+        this.subjectToSubjectCommand = subjectToSubjectCommand;
+    }
 
     @Synchronized
     @Nullable
@@ -24,6 +31,11 @@ public class NoteToNoteCommand implements Converter<Note, NoteCommand> {
         noteCommand.setNumber(note.getNumber());
         noteCommand.setNumberOfSheets(note.getNumberOfSheets());
         noteCommand.setText(note.getText());
+
+        if (note.getSubjects() != null && note.getSubjects().size()>0){
+            note.getSubjects()
+                    .forEach((Subject subject) -> noteCommand.getSubjects().add(subjectToSubjectCommand.convert(subject)));
+        }
 
         if (note.getRegister() != null) {
             noteCommand.setRegisterId(note.getRegister().getId());

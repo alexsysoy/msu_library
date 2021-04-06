@@ -33,6 +33,16 @@ public class NoteController {
 
 
 
+//    @GetMapping
+//    @RequestMapping("/register/{registerId}/note/{noteId}/show")
+//    public String showNote(@PathVariable String registerId,
+//                           @PathVariable String noteId, Model model){
+//        log.debug("Getting Note id: " + noteId + " from Register id: " + registerId);
+//        model.addAttribute("note", noteService.findByRegisterIdAndNoteId(Long.valueOf(registerId), Long.valueOf(noteId)));
+//
+//        return "register/note/show";
+//    }
+
     @GetMapping
     @RequestMapping("/register/{registerId}/note/{noteId}/show")
     public String showNote(@PathVariable String registerId,

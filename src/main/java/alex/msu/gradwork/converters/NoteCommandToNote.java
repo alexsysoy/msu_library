@@ -12,6 +12,12 @@ import org.springframework.stereotype.Component;
 @Component
 public class NoteCommandToNote implements Converter<NoteCommand, Note> {
 
+    private final SubjectCommandToSubject subjectCommandToSubject;
+
+    public NoteCommandToNote(SubjectCommandToSubject subjectCommandToSubject) {
+        this.subjectCommandToSubject = subjectCommandToSubject;
+    }
+
     @Nullable
     @Override
     public Note convert(NoteCommand command){
@@ -31,6 +37,11 @@ public class NoteCommandToNote implements Converter<NoteCommand, Note> {
             note.setRegister(register);
             register.addNote(note);
         }
+
+        if (command.getSubjects() != null && command.getSubjects().size() > 0) {
+            command.getSubjects().forEach(subject -> note.getSubjects().add(subjectCommandToSubject.convert(subject)));
+        }
+
 
         return note;
     }

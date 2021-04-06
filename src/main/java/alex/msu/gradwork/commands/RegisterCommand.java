@@ -18,4 +18,5 @@ public class RegisterCommand {
     private String name;
 
     private Set<NoteCommand> notes = new HashSet<>();
+
 }
