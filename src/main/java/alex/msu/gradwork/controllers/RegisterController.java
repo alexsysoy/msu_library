@@ -13,7 +13,7 @@ public class RegisterController {
 
     private final RegisterService registerService;
 
-    public RegisterController(RegisterService registerService, NoteService noteService) {
+    public RegisterController(RegisterService registerService) {
         this.registerService = registerService;
     }
 

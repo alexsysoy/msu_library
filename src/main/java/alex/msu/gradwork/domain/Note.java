@@ -1,7 +1,5 @@
 package alex.msu.gradwork.domain;
 
-import alex.msu.gradwork.commands.NoteCommand;
-import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
