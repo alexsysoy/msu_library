@@ -2,7 +2,7 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8"/>
-    <title>Редактирование записи</title>
+    <title>Edit Ingredient</title>
     <!-- Latest compiled and minified CSS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
           integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous"
@@ -20,42 +20,43 @@
 <div class="container-fluid" style="margin-top: 20px">
     <div class="row">
         <div class="col-md-6 col-md-offset-3">
-            <!--/*@thymesVar id="note" type="alex.msu.gradwork.commands.NoteCommand"*/-->
-            <form  th:object="${note}" th:action="@{'/register/' + ${note.getRegisterId()} + '/note'} " method="post">
+            <!--/*@thymesVar id="ingredient" type="guru.springframework.commands.IngredientCommand"*/-->
+            <form  th:object="${ingredient}" th:action="@{'/recipe/' + ${ingredient.getRecipeId()} + '/ingredient'} " method="post">
                 <input type="hidden" th:field="*{id}"/>
                 <div class="pannel-group">
                     <div class="panel panel-primary">
                         <div class="panel-heading">
-                            <h1 class="panel-title">Редактирование записи</h1>
+                            <h1 class="panel-title">Edit Ingredient Information</h1>
                         </div>
                         <div class="panel-body">
+
+
                             <div class="row">
-                                <div class="col-md-8 form-group">
-                                    <label>Описание:</label>
-                                    <input type="text" class="form-control" th:field="*{text}"/>
-                                </div>
                                 <div class="col-md-3 form-group">
-                                    <label>Номер:</label>
-                                    <input type="number" class="form-control" th:field="*{number}"/>
+                                    <label>Description:</label>
+                                    <input type="text" class="form-control" th:field="*{description}"/>
                                 </div>
-                                <div class="col-md-11 form-group">
-                                    <label>Ключевое слово:</label>
-                                        <ul>
-                                            <li th:remove="all">Первое ключевое слово</li>
-                                            <li th:remove="all">Второе ключевое слово</li>
-                                            <li th:each="subject : ${note.getSubjects()}"
-                                                th:text="${subject.getName()}">Третье ключевое слово
-                                            </li>
-                                        </ul>
-                                    <input type="text" class="form-control" th:field="*{findSubject}"/>
+
+                                <div class="col-md-3 form-group">
+                                    <label>Amount:</label>
+                                    <input type="number" class="form-control" th:field="*{amount}"/>
+                                </div>
+
+                                <div class="col-md-3 form-group">
+                                    <label>UOM:</label>
+                                    <select class="form-control" name="uom.id">
+                                        <option th:each="uomEach : ${uomList}"
+                                                th:value="${uomEach.id}"
+                                                th:selected="${uomEach.id.equals(ingredient.uom.id)}"
+                                                th:text="${uomEach.description}">Each</option>
+                                    </select>
                                 </div>
                             </div>
                         </div>
                     </div>
-                    <button type="submit" class="btn btn-primary">Изменить</button>
+                    <button type="submit" class="btn btn-primary">Submit</button>
                 </div>
             </form>
-
         </div>
     </div>
 </div>

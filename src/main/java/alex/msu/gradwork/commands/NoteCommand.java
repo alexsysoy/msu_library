@@ -1,7 +1,5 @@
 package alex.msu.gradwork.commands;
 
-import alex.msu.gradwork.domain.Actor;
-import alex.msu.gradwork.domain.Register;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -21,8 +19,10 @@ public class NoteCommand {
     private String text;
     private Long registerId;
 
+    private String findSubject;
+    private String findActor;
+
     private Set<SubjectCommand> subjects = new HashSet<>();
-//    private Register register;
-//    private Set<Actor> actors = new HashSet<>();
+    private Set<ActorCommand> actors = new HashSet<>();
 
 }

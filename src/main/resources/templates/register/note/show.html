@@ -27,7 +27,7 @@
                         <div class="row">
                             <div class="col-md-3">
                                 <th>Номер записи</th>
-                                <h1 class="panel-title" th:text="${note.getNumber()}">Номер записи</h1>
+                                <h1 class="panel-title" th:text="${note.getNumber()}">55</h1>
                             </div>
 
 <!--                            <div class="col-md-1">-->
@@ -41,15 +41,14 @@
                             <div class="col-md-3">
                                 <h5>Ключевые слова:</h5>
                             </div>
-                            <div class="col-md-3">
-                                <ul>
-                                    <li th:remove="all">Первое ключевое слово</li>
-                                    <li th:remove="all">Второе ключевое слово</li>
-                                    <li th:each="subject : ${note.getSubjects()}"
-                                        th:text="${subject.getName()}">Третье ключевое слово
-                                    </li>
-                                </ul>
+                            <div class="col-md-9">
+                                <div th:each="subject : ${note.getSubjects()}">
+                                    <a th:text="${subject.getName()}" th:href="@{'/index'}">Ссылка</a>
+                                </div>
                             </div>
+<!--                            <div class="col-md-3">-->
+<!--                                <a th:text="${subject.getName()}" th:each="subject : ${note.getSubjects()}" th:href="@{'/index/'}">Ссылка</a>-->
+<!--                            </div>-->
 <!--Изображение-->
 <!--                            <div class="col-md-6">-->
 <!--                                <img src="../../static/images/guacamole400x400WithX.jpg"-->
@@ -86,6 +85,24 @@
             </div>
         </div>
     </div>
+<!--            Навигация-->
+            <div class="panel panel-primary">
+                <div class="panel-heading">
+                    <div class="row">
+                        <div class="col-md-9">
+                            <h1 class="panel-title">Навигация</h1>
+                        </div>
+                        <div class="col-md-1">
+                            <a class="btn btn-default" href="#"
+                               th:href="@{'/register/' + ${note.getRegisterId()} + '/notes'}" role="button">Записи</a>
+                        </div>
+                        <div class="col-md-1">
+                            <a class="btn btn-default" href="#"
+                               th:href="@{'/index'}" role="button">Описи</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
 </div>
 </body>
 </html>

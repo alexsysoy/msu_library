@@ -12,6 +12,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.ApplicationListener;
 import org.springframework.context.event.ContextRefreshedEvent;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -19,6 +20,7 @@ import java.util.Optional;
 
 @Slf4j
 @Component
+
 public class NoteBootstrap implements ApplicationListener<ContextRefreshedEvent> {
 
     private final NoteRepository noteRepository;
@@ -34,9 +36,12 @@ public class NoteBootstrap implements ApplicationListener<ContextRefreshedEvent>
     }
 
     @Override
+    @Transactional
     public void onApplicationEvent(ContextRefreshedEvent contextRefreshedEvent) {
         log.debug("Loaded Bootstrap Data!");
+        BootstrapRegister bootstrapRegister = new BootstrapRegister(noteRepository, registerRepository, actorRepository, subjectRepository);
         registerRepository.saveAll(getRegister());
+        registerRepository.saveAll(bootstrapRegister.getRegister());
     }
 
     private List<Register> getRegister() {
@@ -44,13 +49,29 @@ public class NoteBootstrap implements ApplicationListener<ContextRefreshedEvent>
         List<Register> registers = new ArrayList<>(2);
 
         //get subjects
-        Optional<Subject> superSubjectOptional = subjectRepository.findByName("Super");
+        Optional<Subject> superSubjectOptional = subjectRepository.findByName("Keyone");
 
         if(superSubjectOptional.isEmpty()){
             throw new RuntimeException("Expected Subject Not Found");
         }
 
         Subject superSub = superSubjectOptional.get();
+
+        Optional<Subject> giperSubjectOptional = subjectRepository.findByName("Keytwo");
+
+        if(giperSubjectOptional.isEmpty()){
+            throw new RuntimeException("Expected Subject Not Found");
+        }
+
+        Subject giperSub = giperSubjectOptional.get();
+
+        Optional<Subject> keythreeSubjectOptional = subjectRepository.findByName("Keythree");
+
+        if(keythreeSubjectOptional.isEmpty()){
+            throw new RuntimeException("Expected Subject Not Found");
+        }
+
+        Subject threSub = keythreeSubjectOptional.get();
 
         //get actors
         Optional<Actor> ostromyslenskiyActorOptional = actorRepository.findByName("ostromyslenskiy");
@@ -86,17 +107,20 @@ public class NoteBootstrap implements ApplicationListener<ContextRefreshedEvent>
 
         //get notes
         Note noteFirst = new Note();
-        noteFirst.setNumber(19L);
+        noteFirst.setNumber(119L);
         noteFirst.setNumberOfSheets(4L);
         noteFirst.setText("О высылке штаб-лекарю Остромысленскому свидетельство на звание акушера");
         noteFirst.getActors().add(ostromyslenskiy);
         noteFirst.getSubjects().add(superSub);
+        noteFirst.getSubjects().add(giperSub);
+        noteFirst.getSubjects().add(threSub);
 
         Note noteSecond = new Note();
         noteSecond.setNumber(20L);
         noteSecond.setNumberOfSheets(2L);
         noteSecond.setText("Письмо Тайдакова с приложением краткой летописи: о покорении Сибири и одной старинной медной монеты");
         noteSecond.getActors().add(taickov);
+        noteSecond.getSubjects().add(superSub);
 
         Note noteThird = new Note();
         noteThird.setNumber(22L);
@@ -109,6 +133,8 @@ public class NoteBootstrap implements ApplicationListener<ContextRefreshedEvent>
         noteFourth.setNumberOfSheets(45L);
         noteFourth.setText("О покупке у прозектора Басова препоратов");
         noteFourth.getActors().add(basov);
+        noteFourth.getSubjects().add(superSub);
+
 
 
         //get registers

@@ -56,6 +56,16 @@ public class Note {
         this.register = register;
     }
 
+    public Note(Long id, Long number, Long numberOfSheets, String text, Register register, Set<Actor> actors, Set<Subject> subjects) {
+        this.id = id;
+        this.number = number;
+        this.numberOfSheets = numberOfSheets;
+        this.text = text;
+        this.register = register;
+        this.actors = actors;
+        this.subjects = subjects;
+    }
+
     //private String startDate;
 //    private String endDate;
 //    private String mark;

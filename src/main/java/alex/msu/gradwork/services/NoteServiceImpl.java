@@ -3,10 +3,14 @@ package alex.msu.gradwork.services;
 import alex.msu.gradwork.commands.NoteCommand;
 import alex.msu.gradwork.converters.NoteCommandToNote;
 import alex.msu.gradwork.converters.NoteToNoteCommand;
+import alex.msu.gradwork.converters.SubjectCommandToSubject;
+import alex.msu.gradwork.converters.SubjectToSubjectCommand;
 import alex.msu.gradwork.domain.Note;
 import alex.msu.gradwork.domain.Register;
+import alex.msu.gradwork.domain.Subject;
 import alex.msu.gradwork.repositories.NoteRepository;
 import alex.msu.gradwork.repositories.RegisterRepository;
+import alex.msu.gradwork.repositories.SubjectRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -21,14 +25,20 @@ public class NoteServiceImpl implements NoteService{
 
     private final NoteRepository noteRepository;
     private final RegisterRepository registerRepository;
+    private final SubjectRepository subjectRepository;
     private final NoteToNoteCommand noteToNoteCommand;
     private final NoteCommandToNote noteCommandToNote;
+    private final SubjectCommandToSubject subjectCommandToSubject;
+    private final SubjectToSubjectCommand subjectToSubjectCommand;
 
-    public NoteServiceImpl(NoteRepository noteRepository, RegisterRepository registerRepository, NoteToNoteCommand noteToNoteCommand, NoteCommandToNote noteCommandToNote) {
+    public NoteServiceImpl(NoteRepository noteRepository, RegisterRepository registerRepository, SubjectRepository subjectRepository, NoteToNoteCommand noteToNoteCommand, NoteCommandToNote noteCommandToNote, SubjectCommandToSubject subjectCommandToSubject, SubjectToSubjectCommand subjectToSubjectCommand) {
         this.noteRepository = noteRepository;
         this.registerRepository = registerRepository;
+        this.subjectRepository = subjectRepository;
         this.noteToNoteCommand = noteToNoteCommand;
         this.noteCommandToNote = noteCommandToNote;
+        this.subjectCommandToSubject = subjectCommandToSubject;
+        this.subjectToSubjectCommand = subjectToSubjectCommand;
     }
 
     @Override
@@ -76,53 +86,146 @@ public class NoteServiceImpl implements NoteService{
         return noteCommandOptional.get();
     }
 
+    //todo return with Command
+    @Override
+    public Set<Note> findNoteCommand(NoteCommand command) {
+
+        Optional<Register> registerOptional = registerRepository.findById(command.getRegisterId());
+
+        if (registerOptional.isEmpty()) {
+            //todo error if not found
+            log.error("Register not found for id: " + command.getRegisterId());
+            return new HashSet<Note>();
+        } else {
+            Register register = registerOptional.get();
+            Set<Note> notes = new HashSet<>();
+            for (Note note : register.getNotes()){
+                if (note.getSubjects().stream().anyMatch(subject -> subject.getName().equals(command.getFindSubject()))){
+                    notes.add(note);
+                }
+            }
+
+            System.out.println(notes.size());
+            return notes;
+        }
+    }
+
+
+
     @Override
     @Transactional
     public NoteCommand saveNoteCommand(NoteCommand command) {
 
+        //todo error if not found
         Optional<Register> registerOptional = registerRepository.findById(command.getRegisterId());
+        Register registerFound = registerOptional.get();
+        Optional<Note> noteOptional = noteRepository.findById(command.getId());
+        Note noteFound = noteOptional.get();
 
-        if (registerOptional.isEmpty()){
-            //todo error if not found
-            log.error("Register not found for id: " + command.getRegisterId());
-            return new NoteCommand();
+        Subject subjectFound = new Subject();
+
+        noteFound.setText(command.getText());
+        noteFound.setNumber(command.getNumber());
+
+        Optional<Subject> subjectOptional = noteFound
+                .getSubjects()
+                .stream()
+                .filter(subject -> subject.getName().equals(command.getFindSubject()))
+                .findFirst();
+
+        if (subjectOptional.isPresent()){
+            //useless
+            subjectFound = subjectOptional.get();
+            noteFound.getSubjects().add(subjectFound);
         } else {
-            Register register = registerOptional.get();
-
-            Optional<Note> noteOptional = register
-                    .getNotes()
-                    .stream()
-                    .filter(note -> note.getId().equals(command.getId()))
-                    .findFirst();
-            if (noteOptional.isPresent()){
-                Note noteFound = noteOptional.get();
-                noteFound.setText(command.getText());
-                noteFound.setNumber(command.getNumber());
-            } else {
-                //add new Note
-                Note note = noteCommandToNote.convert(command);
-                note.setRegister(register);
-                register.addNote(note);
+            //todo not good algorithm
+            Optional<Subject> subjectRegisterOptional = Optional.of(new Subject());
+            for (Note note : registerFound.getNotes()){
+                log.debug("register id: " + registerFound.getId());
+                log.debug("note id: " + note.getId());
+                //System.out.println("FIND: " + note.getId());
+                subjectRegisterOptional = note.getSubjects().stream().filter(x -> x.getName().equals(command.getFindSubject())).findFirst();
             }
 
-            Register saveRegister = registerRepository.save(register);
+            if (subjectRegisterOptional.isPresent()){
+                System.out.println("TRUE");
+                subjectFound = subjectRegisterOptional.get();
+                noteFound.getSubjects().add(subjectFound);
+                log.debug("Added old keyword: " + subjectFound.getName());
+            }
 
-            Optional<Note> savedNoteOptional = saveRegister.getNotes().stream()
-                    .filter(registerNotes -> registerNotes.getId().equals(command.getId()))
-                    .findFirst();
+        }
+
+//        Ingredient ingredient = ingredientCommandToIngredient.convert(command);
+//        ingredient.setRecipe(recipe);
+//        recipe.addIngredient(ingredient);
+
+
+        Note savedNote = noteRepository.save(noteFound);
+
+
+
+
+
+
+//        Optional<Register> registerOptional = registerRepository.findById(command.getRegisterId());
+//
+//        if (registerOptional.isEmpty()){
+//
+//            log.error("Register not found for id: " + command.getRegisterId());
+//            return new NoteCommand();
+//        } else {
+//            Register register = registerOptional.get();
+//
+//            Optional<Note> noteOptional = register
+//                    .getNotes()
+//                    .stream()
+//                    .filter(note -> note.getId().equals(command.getId()))
+//                    .findFirst();
+//            if (noteOptional.isPresent()){
+//                Note noteFound = noteOptional.get();
+//                noteFound.setText(command.getText());
+//                noteFound.setNumber(command.getNumber());
+//
+//                Optional<Subject> subjectOptional = noteFound
+//                        .getSubjects()
+//                        .stream()
+//                        .filter((subject -> subject.getName().equals(command.getFindSubject())))
+//                        .findFirst();
+//                if (subjectOptional.isPresent()){
+//                    Subject subjectFound = subjectOptional.get();
+//                    noteFound.getSubjects().add(subjectRepository.findById(subjectFound.getId()).get());
+//                    System.out.println("WARNING!: " + noteFound.getSubjects().size());
+//                    Note savedNote = noteRepository.save(noteFound);
+//                }
+//
+//
+//            } else {
+//                //add new Note
+//                Note note = noteCommandToNote.convert(command);
+//                note.setRegister(register);
+//                register.addNote(note);
+//            }
+//
+//
+//
+//            Register saveRegister = registerRepository.save(register);
+
+//            Optional<Note> savedNoteOptional = saveRegister.getNotes().stream()
+//                    .filter(registerNotes -> registerNotes.getId().equals(command.getId()))
+//                    .findFirst();
 
             //check by text
-
-            if(savedNoteOptional.isEmpty()){
-                savedNoteOptional = saveRegister.getNotes().stream()
-                        .filter(registerNotes -> registerNotes.getText().equals(command.getText()))
-                        .filter(registerNotes -> registerNotes.getNumber().equals(command.getNumber()))
-                        .findFirst();
-            }
+//
+//            if(savedNoteOptional.isEmpty()){
+//                savedNoteOptional = saveRegister.getNotes().stream()
+//                        .filter(registerNotes -> registerNotes.getText().equals(command.getText()))
+//                        .filter(registerNotes -> registerNotes.getNumber().equals(command.getNumber()))
+//                        .findFirst();
+//            }
 
             //to do check for fail
-            return noteToNoteCommand.convert(savedNoteOptional.get());
-        }
+            return noteToNoteCommand.convert(noteFound);
     }
 
     @Override

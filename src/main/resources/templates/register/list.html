@@ -21,19 +21,26 @@
 <div class="container-fluid" style="margin-top: 20px">
     <div class="row">
         <div class="col-md-6 col-md-offset-3">
+            <!--            Навигация-->
             <div class="panel panel-primary">
-
                 <div class="panel-heading">
-<!--                    <h1 class="panel-title">Notes</h1>-->
                     <div class="row">
-                        <div class="col-md-10 ">
+                        <div class="col-md-7">
                             <h1 class="panel-title">Записи</h1>
+                        </div>
+                        <div class="col-md-1">
+                            <a class="btn btn-default" href="#"
+                               th:href="@{'/index'}" role="button">Описи</a>
                         </div>
                         <div class="col-md-1">
                             <a class="btn btn-default" href="#" th:href="@{'/register/' + ${register.id} + '/note/new'}" role="button">Создать</a>
                         </div>
+                        <div class="col-md-1">
+                            <a class="btn btn-default" href="#" th:href="@{'/register/' + ${register.id} + '/note/find'}" role="button">Найти</a>
+                        </div>
                     </div>
                 </div>
+            </div>
                 <div class="panel-body">
                     <div class="table-responsive" th:if="${not #lists.isEmpty(register.notes)}">
                         <table class="table table-hover ">
@@ -68,11 +75,21 @@
                             </tr>
                         </table>
                     </div>
+
+
+
+
                 </div>
+
+
+
+
             </div>
         </div>
+
     </div>
 </div>
+
 
 </body>
 </html>

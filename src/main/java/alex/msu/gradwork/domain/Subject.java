@@ -2,6 +2,8 @@ package alex.msu.gradwork.domain;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.Setter;
 
 import javax.persistence.*;
 import java.util.Set;
@@ -20,4 +22,12 @@ public class Subject {
 
     @ManyToMany(mappedBy = "subjects")
     private Set<Note> notes;
+
+    public Subject() {
+    }
+
+    public Subject(String name) {
+        this.name = name;
+    }
+
 }

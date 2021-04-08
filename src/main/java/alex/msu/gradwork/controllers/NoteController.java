@@ -2,12 +2,15 @@ package alex.msu.gradwork.controllers;
 
 import alex.msu.gradwork.commands.NoteCommand;
 import alex.msu.gradwork.commands.RegisterCommand;
+import alex.msu.gradwork.domain.Note;
 import alex.msu.gradwork.services.NoteService;
 import alex.msu.gradwork.services.RegisterService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.Set;
 
 @Slf4j
 @Controller
@@ -31,18 +34,6 @@ public class NoteController {
         return "register/list";
     }
 
-
-
-//    @GetMapping
-//    @RequestMapping("/register/{registerId}/note/{noteId}/show")
-//    public String showNote(@PathVariable String registerId,
-//                           @PathVariable String noteId, Model model){
-//        log.debug("Getting Note id: " + noteId + " from Register id: " + registerId);
-//        model.addAttribute("note", noteService.findByRegisterIdAndNoteId(Long.valueOf(registerId), Long.valueOf(noteId)));
-//
-//        return "register/note/show";
-//    }
-
     @GetMapping
     @RequestMapping("/register/{registerId}/note/{noteId}/show")
     public String showNote(@PathVariable String registerId,
@@ -58,16 +49,14 @@ public class NoteController {
 
         NoteCommand savedCommand = noteService.saveNoteCommand(command);
 
-        log.debug("saved register id:" + savedCommand.getRegisterId());
-        log.debug("saved note id:" + savedCommand.getId());
-
+        //return "index";
         return "redirect:/register/" + savedCommand.getRegisterId() + "/note/" + savedCommand.getId() + "/show";
     }
 
     @GetMapping
     @RequestMapping("register/{registerId}/note/{noteId}/update")
     public String updateRecipeNote(@PathVariable String registerId,
-                                         @PathVariable String noteId, Model model){
+                                   @PathVariable String noteId, Model model){
         model.addAttribute("note", noteService.findByRegisterIdAndNoteId(Long.valueOf(registerId), Long.valueOf(noteId)));
         return "register/note/noteform";
     }
@@ -97,6 +86,34 @@ public class NoteController {
         model.addAttribute("note", noteCommand);
 
         return "register/note/noteform";
+    }
+
+    @GetMapping
+    @RequestMapping("register/{registerId}/note/find")
+    public String findNote(@PathVariable String registerId, Model model){
+
+        //make sure we have a good id value
+        RegisterCommand registerCommand = registerService.findCommandById(Long.valueOf(registerId));
+        //todo raise exception if null
+
+        //need to return back parent id for hidden form property
+        NoteCommand noteCommand = new NoteCommand();
+        noteCommand.setRegisterId(Long.valueOf(registerId));
+        model.addAttribute("note", noteCommand);
+
+        return "register/note/notefind";
+    }
+
+    @PostMapping("register/{registerId}/findnote")
+    public String find(@ModelAttribute NoteCommand command,
+                       Model model){
+
+
+        Set<Note> notes = noteService.findNoteCommand(command);
+        model.addAttribute("notes", notes);
+
+        log.debug("Set findnotes size: " + notes.size());
+        return "register/find";
     }
 
 }
