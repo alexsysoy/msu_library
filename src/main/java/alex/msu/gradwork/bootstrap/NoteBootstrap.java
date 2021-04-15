@@ -39,119 +39,166 @@ public class NoteBootstrap implements ApplicationListener<ContextRefreshedEvent>
     @Transactional
     public void onApplicationEvent(ContextRefreshedEvent contextRefreshedEvent) {
         log.debug("Loaded Bootstrap Data!");
-        BootstrapRegister bootstrapRegister = new BootstrapRegister(noteRepository, registerRepository, actorRepository, subjectRepository);
-        registerRepository.saveAll(getRegister());
-        registerRepository.saveAll(bootstrapRegister.getRegister());
+        //registerRepository.saveAll(getRegister());
+
     }
 
-    private List<Register> getRegister() {
 
-        List<Register> registers = new ArrayList<>(2);
+
+
+    private List<Register> getRegister(){
+
+        List<Register> registers = new ArrayList<>(4);
 
         //get subjects
-        Optional<Subject> superSubjectOptional = subjectRepository.findByName("Keyone");
+        Subject subject1 = new Subject();
+        subject1.setName("Народное просвещение");
+        subjectRepository.save(subject1);
 
-        if(superSubjectOptional.isEmpty()){
-            throw new RuntimeException("Expected Subject Not Found");
-        }
+        Subject subject2 = new Subject();
+        subject2.setName("Испытания");
+        subjectRepository.save(subject2);
 
-        Subject superSub = superSubjectOptional.get();
+        Subject subject3 = new Subject();
+        subject3.setName("Клименко");
+        subjectRepository.save(subject3);
 
-        Optional<Subject> giperSubjectOptional = subjectRepository.findByName("Keytwo");
+        Subject subject4 = new Subject();
+        subject4.setName("Зачисление");
+        subjectRepository.save(subject4);
 
-        if(giperSubjectOptional.isEmpty()){
-            throw new RuntimeException("Expected Subject Not Found");
-        }
+        Subject subject5 = new Subject();
+        subject5.setName("Страхов");
+        subjectRepository.save(subject5);
 
-        Subject giperSub = giperSubjectOptional.get();
+        //get note
+        Note note1 = new Note();
+        note1.setText("Высочайшие приказы по Министерству Народного просвещения.");
+        note1.setNumber(1L);
 
-        Optional<Subject> keythreeSubjectOptional = subjectRepository.findByName("Keythree");
+        Note note2 = new Note();
+        note2.setText("О принятии в число студентов Станислава Страхова");
+        note2.setNumber(2L);
 
-        if(keythreeSubjectOptional.isEmpty()){
-            throw new RuntimeException("Expected Subject Not Found");
-        }
+        Note note3 = new Note();
+        note3.setText("О допущении разных лиц к испытанию на степень ДОКТОРА МЕДИЦИНЫ");
+        note3.setNumber(3L);
 
-        Subject threSub = keythreeSubjectOptional.get();
+        Note note4 = new Note();
+        note4.setText("О допущении разных лиц к испытанию на степень ЛЕКАРЯ.");
+        note4.setNumber(4L);
 
-        //get actors
-        Optional<Actor> ostromyslenskiyActorOptional = actorRepository.findByName("ostromyslenskiy");
+        Note note5 = new Note();
+        note5.setText("О допущении разных лиц к испытанию на степень УЕЗДНОГО ВРАЧА ");
+        note5.setNumber(5L);
 
-        if(ostromyslenskiyActorOptional.isEmpty()){
-            throw new RuntimeException("Expected Actor Not Found");
-        }
+        Note note6 = new Note();
+        note6.setText("О допущении разных лиц к испытанию на степень МАГИСТРА");
+        note6.setNumber(6L);
 
-        Optional<Actor> taickovActorOptional = actorRepository.findByName("taickov");
+        Note note7 = new Note();
+        note7.setText("О допущении разных лиц к испытанию на степень КАНДИДАТА");
+        note7.setNumber(7L);
 
-        if(taickovActorOptional.isEmpty()){
-            throw new RuntimeException("Expected Actor Not Found");
-        }
+        Note note8 = new Note();
+        note8.setText("О допущении разных лиц к испытанию на степень ДАНТИСТА");
+        note8.setNumber(8L);
 
-        Optional<Actor> yurevActorOptional = actorRepository.findByName("Yurev");
+        Note note9 = new Note();
+        note9.setText("О допущении к испытанию на степень провизора Ивана СИТНИКОВА и об утверждении его в этой степени");
+        note9.setNumber(9L);
 
-        if(yurevActorOptional.isEmpty()){
-            throw new RuntimeException("Expected Actor Not Found");
-        }
+        Note note10 = new Note();
+        note10.setText("О принятии в число студентов Митрофана КЛИМЕНКО");
+        note10.setNumber(10L);
 
-        Optional<Actor> basovActorOptional = actorRepository.findByName("Basov");
+        Note note11 = new Note();
+        note11.setText("О доставлении ведомости в Департамент Народного просвещения о выбывших студентах");
+        note11.setNumber(11L);
 
-        if(basovActorOptional.isEmpty()){
-            throw new RuntimeException("Expected Actor Not Found");
-        }
+        Note note12 = new Note();
+        note12.setText("О доставлении г.  попечителю Московского учебного округа списка профессоров и преподавателей сего университета не присутствовавших на лекциях .");
+        note12.setNumber(12L);
 
-        Actor ostromyslenskiy = ostromyslenskiyActorOptional.get();
-        Actor taickov = taickovActorOptional.get();
-        Actor Yurev = yurevActorOptional.get();
-        Actor basov = basovActorOptional.get();
+        Note note13 = new Note();
+        note13.setText("Речь и отчет произнесенные в Торжественном собрании Московского универитета 12- го Января 1862 года.");
+        note13.setNumber(13L);
+
+        Note note14 = new Note();
+        note14.setText("О назначении ординарному профессору Страхову 357 руб.  40 коп.  сер.   за труды его за исправление должности во время заграничной командировки ординарного профессора БРАШМАНА");
+        note14.setNumber(14L);
+
+
+        //Народное просвещение
+        note1.getSubjects().add(subject1);
+        note11.getSubjects().add(subject1);
+        note13.getSubjects().add(subject1);
+
+        //Испытания
+        note3.getSubjects().add(subject2);
+        note4.getSubjects().add(subject2);
+        note5.getSubjects().add(subject2);
+        note6.getSubjects().add(subject2);
+        note7.getSubjects().add(subject2);
+        note8.getSubjects().add(subject2);
+
+        //Клименко
+        note10.getSubjects().add(subject3);
+
+
+        //Зачисление
+        note2.getSubjects().add(subject4);
+        note10.getSubjects().add(subject4);
+
+        //Страхов
+        note2.getSubjects().add(subject5);
+        note14.getSubjects().add(subject5);
 
 
 
-        //get notes
-        Note noteFirst = new Note();
-        noteFirst.setNumber(119L);
-        noteFirst.setNumberOfSheets(4L);
-        noteFirst.setText("О высылке штаб-лекарю Остромысленскому свидетельство на звание акушера");
-        noteFirst.getActors().add(ostromyslenskiy);
-        noteFirst.getSubjects().add(superSub);
-        noteFirst.getSubjects().add(giperSub);
-        noteFirst.getSubjects().add(threSub);
 
-        Note noteSecond = new Note();
-        noteSecond.setNumber(20L);
-        noteSecond.setNumberOfSheets(2L);
-        noteSecond.setText("Письмо Тайдакова с приложением краткой летописи: о покорении Сибири и одной старинной медной монеты");
-        noteSecond.getActors().add(taickov);
-        noteSecond.getSubjects().add(superSub);
 
-        Note noteThird = new Note();
-        noteThird.setNumber(22L);
-        noteThird.setNumberOfSheets(5L);
-        noteThird.setText("О дозволении Юрьеву с будущего академического года слушать лекции в университете");
-        noteThird.getActors().add(Yurev);
 
-        Note noteFourth = new Note();
-        noteFourth.setNumber(19L);
-        noteFourth.setNumberOfSheets(45L);
-        noteFourth.setText("О покупке у прозектора Басова препоратов");
-        noteFourth.getActors().add(basov);
-        noteFourth.getSubjects().add(superSub);
+
+
 
 
 
         //get registers
-        Register firstRegister = new Register();
-        firstRegister.setName("Первый регистр");
-        firstRegister.addNote(noteSecond);
-        firstRegister.addNote(noteThird);
+        Register register1 = new Register();
+        register1.setName("Опись номер 701");
+        register1.addNote(note1);
+        register1.addNote(note2);
+        register1.addNote(note3);
+        register1.addNote(note4);
+        register1.addNote(note5);
+        register1.addNote(note6);
+        register1.addNote(note7);
+        register1.addNote(note8);
+        register1.addNote(note9);
+        register1.addNote(note10);
+        register1.addNote(note11);
+        register1.addNote(note12);
+        register1.addNote(note13);
+        register1.addNote(note14);
 
-        Register secondRegister = new Register();
-        secondRegister.setName("Второй регистр");
-        secondRegister.addNote(noteFirst);
-        secondRegister.addNote(noteFourth);
+        Register register2 = new Register();
+        register2.setName("Опись номер 702");
+        Register register3 = new Register();
+        register3.setName("Опись номер 703");
+        Register register4 = new Register();
+        register4.setName("Опись номер 704");
 
-        registers.add(firstRegister);
-        registers.add(secondRegister);
+        registers.add(register1);
+        registers.add(register2);
+        registers.add(register3);
+        registers.add(register4);
 
 
         return registers;
+
+
+
     }
+
 }
