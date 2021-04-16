@@ -18,20 +18,21 @@ public class Subject {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
+    //Название ключевого слова
     private String name;
+
+    //Примечание
     private String memo;
 
+    //Все Дела данного предметного указателя
     @ManyToMany(mappedBy = "subjects")
     private Set<Note> notes;
 
+    //Опись, которой принадлежит данный предметный указатель
     @ManyToOne
     private Register register;
 
     public Subject() {
-    }
-
-    public Subject(String name) {
-        this.name = name;
     }
 
 }

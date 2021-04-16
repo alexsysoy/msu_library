@@ -10,7 +10,7 @@ import java.util.Set;
 
 @Getter
 @Setter
-@EqualsAndHashCode(exclude = {"register"})
+@EqualsAndHashCode(exclude = {"register", "image"})
 @Entity
 @Table(name = "note")
 public class Note {
@@ -19,19 +19,31 @@ public class Note {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
+    //Номер Дела
     private Long number;
-    private Long numberOfSheets;
-    private String text;
 
+    //Аннотация
+    private String annotation;
+
+    //Примечание
+    private String memo;
+
+    //Опись, в которой находится дело
     @ManyToOne
     private Register register;
 
+    //Изображение
+    @ManyToOne
+    private Image image;
+
+    //Именной указатель
     @ManyToMany
     @JoinTable(name = "note_actor",
             joinColumns = @JoinColumn(name = "note_id"),
             inverseJoinColumns = @JoinColumn(name = "actor_id"))
     private Set<Actor> actors = new HashSet<>();
 
+    //Предметный указатель
     @ManyToMany
     @JoinTable(name = "note_subject",
             joinColumns = @JoinColumn(name = "note_id"),
@@ -41,38 +53,5 @@ public class Note {
 
     public Note() {
     }
-
-    public Note(Long number, Long numberOfSheets, String text) {
-        this.number = number;
-        this.numberOfSheets = numberOfSheets;
-        this.text = text;
-    }
-
-    public Note(Long number, Long numberOfSheets, String text, Register register) {
-        this.number = number;
-        this.numberOfSheets = numberOfSheets;
-        this.text = text;
-        this.register = register;
-    }
-
-    public Note(Long id, Long number, Long numberOfSheets, String text, Register register, Set<Actor> actors, Set<Subject> subjects) {
-        this.id = id;
-        this.number = number;
-        this.numberOfSheets = numberOfSheets;
-        this.text = text;
-        this.register = register;
-        this.actors = actors;
-        this.subjects = subjects;
-    }
-
-    //private String startDate;
-//    private String endDate;
-//    private String mark;
-//    private String description;
-//    @Lob
-//    private Byte[] image;
-
-
-
 
 }

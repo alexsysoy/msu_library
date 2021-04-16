@@ -27,7 +27,7 @@ public class NoteController {
     @GetMapping
     @RequestMapping("/register/{registerId}/notes")
     public String listNotes(@PathVariable String registerId, Model model){
-        log.debug("Getting Note list for Register id: " + registerId + " number of notes: " + registerService.findById(Long.valueOf(registerId)).getNotes().size());
+        log.debug("Номер описи: " + registerId + " количество дел: " + registerService.findById(Long.valueOf(registerId)).getNotes().size());
 
         model.addAttribute("register", registerService.findById(Long.valueOf(registerId)));
 

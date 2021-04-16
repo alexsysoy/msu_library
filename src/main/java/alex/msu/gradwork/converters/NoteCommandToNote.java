@@ -28,8 +28,9 @@ public class NoteCommandToNote implements Converter<NoteCommand, Note> {
         final Note note = new Note();
         note.setId(command.getId());
         note.setNumber(command.getNumber());
-        note.setText(command.getText());
-        note.setNumberOfSheets(command.getNumberOfSheets());
+        note.setAnnotation(command.getAnnotation());
+        note.setMemo(command.getMemo());
+
 
         if (command.getRegisterId() != null) {
             Register register = new Register();

@@ -124,12 +124,12 @@ public class NoteServiceImpl implements NoteService{
         Optional<Note> noteOptional = noteRepository.findById(command.getId());
         Note noteFound = noteOptional.get();
 
-        //Ключевое слово передано в getFindSubject находится текст
+        //Ключевое слово передано, в getFindSubject находится текст
         log.debug("Ключевое слово: " + command.getFindSubject());
 
         Subject subjectFound;
 
-        noteFound.setText(command.getText());
+        noteFound.setAnnotation(command.getAnnotation());
         noteFound.setNumber(command.getNumber());
 
         //Ищем в текущем Деле

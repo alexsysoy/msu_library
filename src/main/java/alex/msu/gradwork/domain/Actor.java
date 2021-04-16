@@ -7,7 +7,7 @@ import javax.persistence.*;
 import java.util.Set;
 
 @Data
-@EqualsAndHashCode(exclude = {"notes"})
+@EqualsAndHashCode(exclude = {"notes","register"})
 @Entity
 @Table(name = "actor")
 public class Actor {
@@ -16,10 +16,26 @@ public class Actor {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    private String type;
+    //Имя
     private String name;
-    private String title;
 
+    //Отчество
+    private String patronymic;
+
+    //Фамилия
+    private String surname;
+
+    //Примечание
+    private String memo;
+
+    //Все Дела данного именного указателя
     @ManyToMany(mappedBy = "actors")
     private Set<Note> notes;
+
+    //Опись, которой принадлежит данный предметный указатель
+    @ManyToOne
+    private Register register;
+
+    public Actor() {
+    }
 }

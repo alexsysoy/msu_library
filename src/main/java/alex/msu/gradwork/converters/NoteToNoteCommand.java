@@ -29,8 +29,8 @@ public class NoteToNoteCommand implements Converter<Note, NoteCommand> {
         noteCommand.setId(note.getId());
         //noteCommand.setActors(source.getActors());
         noteCommand.setNumber(note.getNumber());
-        noteCommand.setNumberOfSheets(note.getNumberOfSheets());
-        noteCommand.setText(note.getText());
+        noteCommand.setMemo(note.getMemo());
+        noteCommand.setAnnotation(note.getAnnotation());
 
         if (note.getSubjects() != null && note.getSubjects().size()>0){
             note.getSubjects()

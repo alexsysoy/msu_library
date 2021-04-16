@@ -17,15 +17,28 @@ public class Register {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    private Long number;
+    //Название Описи
     private String name;
 
+    //Аннотация
+    private String annotation;
+
+    //Примечание
+    private String memo;
+
+    //Предметный указатель Описи
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "register")
     private Set<Subject> subjects = new HashSet<>();
 
+    //Именной указатель данной описи
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "register")
+    private Set<Actor> actors = new HashSet<>();
+
+    //Дела данной Описи
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "register")
     private Set<Note> notes = new HashSet<>();
 
+    //Конструкторы для удобного добавления Дела, Предметного указателя
     public Register addNote(Note note){
         note.setRegister(this);
         this.notes.add(note);
@@ -35,6 +48,12 @@ public class Register {
     public Register addSubject(Subject subject){
         subject.setRegister(this);
         this.subjects.add(subject);
+        return this;
+    }
+
+    public Register addActor(Actor actor){
+        actor.setRegister(this);
+        this.actors.add(actor);
         return this;
     }
 

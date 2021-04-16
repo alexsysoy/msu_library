@@ -46,7 +46,7 @@ public class NoteBootstrap implements ApplicationListener<ContextRefreshedEvent>
     @Transactional
     public void onApplicationEvent(ContextRefreshedEvent contextRefreshedEvent) {
         log.debug("Loaded Bootstrap Data!");
-        //registerRepository.saveAll(getRegister());
+        registerRepository.saveAll(getRegister());
 
     }
 
@@ -87,59 +87,59 @@ public class NoteBootstrap implements ApplicationListener<ContextRefreshedEvent>
 
         //get note
         Note note1 = new Note();
-        note1.setText("Высочайшие приказы по Министерству Народного просвещения.");
+        note1.setAnnotation("Высочайшие приказы по Министерству Народного просвещения.");
         note1.setNumber(1L);
 
         Note note2 = new Note();
-        note2.setText("О принятии в число студентов Станислава Страхова");
+        note2.setAnnotation("О принятии в число студентов Станислава Страхова");
         note2.setNumber(2L);
 
         Note note3 = new Note();
-        note3.setText("О допущении разных лиц к испытанию на степень ДОКТОРА МЕДИЦИНЫ");
+        note3.setAnnotation("О допущении разных лиц к испытанию на степень ДОКТОРА МЕДИЦИНЫ");
         note3.setNumber(3L);
 
         Note note4 = new Note();
-        note4.setText("О допущении разных лиц к испытанию на степень ЛЕКАРЯ.");
+        note4.setAnnotation("О допущении разных лиц к испытанию на степень ЛЕКАРЯ.");
         note4.setNumber(4L);
 
         Note note5 = new Note();
-        note5.setText("О допущении разных лиц к испытанию на степень УЕЗДНОГО ВРАЧА ");
+        note5.setAnnotation("О допущении разных лиц к испытанию на степень УЕЗДНОГО ВРАЧА ");
         note5.setNumber(5L);
 
         Note note6 = new Note();
-        note6.setText("О допущении разных лиц к испытанию на степень МАГИСТРА");
+        note6.setAnnotation("О допущении разных лиц к испытанию на степень МАГИСТРА");
         note6.setNumber(6L);
 
         Note note7 = new Note();
-        note7.setText("О допущении разных лиц к испытанию на степень КАНДИДАТА");
+        note7.setAnnotation("О допущении разных лиц к испытанию на степень КАНДИДАТА");
         note7.setNumber(7L);
 
         Note note8 = new Note();
-        note8.setText("О допущении разных лиц к испытанию на степень ДАНТИСТА");
+        note8.setAnnotation("О допущении разных лиц к испытанию на степень ДАНТИСТА");
         note8.setNumber(8L);
 
         Note note9 = new Note();
-        note9.setText("О допущении к испытанию на степень провизора Ивана СИТНИКОВА и об утверждении его в этой степени");
+        note9.setAnnotation("О допущении к испытанию на степень провизора Ивана СИТНИКОВА и об утверждении его в этой степени");
         note9.setNumber(9L);
 
         Note note10 = new Note();
-        note10.setText("О принятии в число студентов Митрофана КЛИМЕНКО");
+        note10.setAnnotation("О принятии в число студентов Митрофана КЛИМЕНКО");
         note10.setNumber(10L);
 
         Note note11 = new Note();
-        note11.setText("О доставлении ведомости в Департамент Народного просвещения о выбывших студентах");
+        note11.setAnnotation("О доставлении ведомости в Департамент Народного просвещения о выбывших студентах");
         note11.setNumber(11L);
 
         Note note12 = new Note();
-        note12.setText("О доставлении г.  попечителю Московского учебного округа списка профессоров и преподавателей сего университета не присутствовавших на лекциях .");
+        note12.setAnnotation("О доставлении г.  попечителю Московского учебного округа списка профессоров и преподавателей сего университета не присутствовавших на лекциях .");
         note12.setNumber(12L);
 
         Note note13 = new Note();
-        note13.setText("Речь и отчет произнесенные в Торжественном собрании Московского универитета 12- го Января 1862 года.");
+        note13.setAnnotation("Речь и отчет произнесенные в Торжественном собрании Московского универитета 12- го Января 1862 года.");
         note13.setNumber(13L);
 
         Note note14 = new Note();
-        note14.setText("О назначении ординарному профессору Страхову 357 руб.  40 коп.  сер.   за труды его за исправление должности во время заграничной командировки ординарного профессора БРАШМАНА");
+        note14.setAnnotation("О назначении ординарному профессору Страхову 357 руб.  40 коп.  сер.   за труды его за исправление должности во время заграничной командировки ординарного профессора БРАШМАНА");
         note14.setNumber(14L);
 
 
@@ -199,8 +199,6 @@ public class NoteBootstrap implements ApplicationListener<ContextRefreshedEvent>
 
 
         return registers;
-
-
 
     }
 

@@ -27,7 +27,6 @@ public class RegisterToRegisterCommand implements Converter<Register, RegisterCo
         final RegisterCommand command = new RegisterCommand();
         command.setName(source.getName());
         command.setId(source.getId());
-        command.setNumber(source.getNumber());
 
 
 

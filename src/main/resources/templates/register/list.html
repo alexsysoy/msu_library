@@ -55,8 +55,8 @@
                             </tr>
                             </thead>
                             <tr th:each="note : ${register.notes}">
-                                <td th:text="${note.number}">334</td>
-                                <td th:text="${note.text}">3</td>
+                            <td th:text="${note.number}">334</td>
+                                <td th:text="${note.annotation}">3</td>
                                 <td><a href="#" th:href="@{'/register/' + ${register.id} + '/note/' + ${note.id} + '/show'}">Просмотр</a></td>
                                 <td><a href="#" th:href="@{'/register/' + ${register.id} + '/note/' + ${note.id} + '/update'}">Редактирование</a></td>
                                 <td><a href="#" th:href="@{'/register/' + ${register.id} + '/note/' + ${note.id} + '/delete'}">Удаление</a></td>
@@ -76,14 +76,12 @@
                             </thead>
                             <tr th:each="subject : ${register.subjects}">
                                 <td th:text="${subject.id}">334</td>
-                                <td th:text="${subject.name}">3</td>
+                                <td th:text="${subject.getName()}">3</td>
 <!--                                <td><a href="#" th:href="@{'/register/' + ${register.id} + '/note/' + ${note.id} + '/show'}">Просмотр</a></td>-->
 <!--                                <td><a href="#" th:href="@{'/register/' + ${register.id} + '/note/' + ${note.id} + '/update'}">Редактирование</a></td>-->
 <!--                                <td><a href="#" th:href="@{'/register/' + ${register.id} + '/note/' + ${note.id} + '/delete'}">Удаление</a></td>-->
                             </tr>
                         </table>
-
-
                     </div>
                 </div>
             </div>

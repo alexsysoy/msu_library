@@ -32,7 +32,6 @@ public class RegisterCommandToRegister implements Converter<RegisterCommand, Reg
 
         final Register register = new Register();
         register.setId(command.getId());
-        register.setNumber(command.getNumber());
         register.setName(command.getName());
 
         if (command.getNotes() != null && command.getNotes().size()>0){
