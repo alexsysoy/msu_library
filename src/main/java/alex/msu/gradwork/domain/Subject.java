@@ -23,6 +23,9 @@ public class Subject {
     @ManyToMany(mappedBy = "subjects")
     private Set<Note> notes;
 
+    @ManyToOne
+    private Register register;
+
     public Subject() {
     }
 

@@ -12,4 +12,5 @@ public class SubjectCommand {
     private Long id;
     private String name;
     private String memo;
+
 }

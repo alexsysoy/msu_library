@@ -8,7 +8,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 @Data
-@EqualsAndHashCode(exclude = {"notes"})
+@EqualsAndHashCode(exclude = {"notes","subjects"})
 @Entity
 public class Register {
 
@@ -20,11 +20,20 @@ public class Register {
     private String name;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "register")
+    private Set<Subject> subjects = new HashSet<>();
+
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "register")
     private Set<Note> notes = new HashSet<>();
 
     public Register addNote(Note note){
         note.setRegister(this);
         this.notes.add(note);
+        return this;
+    }
+
+    public Register addSubject(Subject subject){
+        subject.setRegister(this);
+        this.subjects.add(subject);
         return this;
     }
 

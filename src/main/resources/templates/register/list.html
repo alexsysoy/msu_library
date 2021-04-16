@@ -2,7 +2,7 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8"/>
-    <title>Записи</title>
+    <title>Список дел</title>
 
     <!-- Latest compiled and minified CSS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
@@ -26,7 +26,8 @@
                 <div class="panel-heading">
                     <div class="row">
                         <div class="col-md-7">
-                            <h1 class="panel-title">Записи</h1>
+                            <h1 class="panel-title">Список дел</h1>
+                            <h1 class="panel-title" th:text="${register.name}">Описи</h1>
                         </div>
                         <div class="col-md-1">
                             <a class="btn btn-default" href="#"
@@ -53,19 +54,6 @@
                                 <th>Удаление</th>
                             </tr>
                             </thead>
-                            <tr th:remove="all">
-                                <td>1</td>
-                                <td>Описание 1</td>
-                                <td><a href="#">View</a></td>
-                                <td><a href="#">Update</a></td>
-                                <td><a href="#">Delete</a></td>
-                            </tr>
-                            <tr th:remove="all">
-                                <td>21323</td>
-                                <td>Описание 2</td>
-                                <td><a href="#">View</a></td>
-                                <td><a href="#">Update</a></td>
-                                <td><a href="#">Delete</a></td>
                             <tr th:each="note : ${register.notes}">
                                 <td th:text="${note.number}">334</td>
                                 <td th:text="${note.text}">3</td>
@@ -75,15 +63,7 @@
                             </tr>
                         </table>
                     </div>
-
-
-
-
                 </div>
-
-
-
-
             </div>
         </div>
 

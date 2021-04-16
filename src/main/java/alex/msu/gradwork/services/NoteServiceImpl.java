@@ -122,6 +122,9 @@ public class NoteServiceImpl implements NoteService{
         Optional<Note> noteOptional = noteRepository.findById(command.getId());
         Note noteFound = noteOptional.get();
 
+        //Ключевое слово передано
+        System.out.println(command.getFindSubject());
+
         Subject subjectFound = new Subject();
 
         noteFound.setText(command.getText());
@@ -137,6 +140,7 @@ public class NoteServiceImpl implements NoteService{
             //useless
             subjectFound = subjectOptional.get();
             noteFound.getSubjects().add(subjectFound);
+            System.out.println("тут есть данное ключевое слово! пропускаем");
         } else {
             //todo not good algorithm
             Optional<Subject> subjectRegisterOptional = Optional.of(new Subject());

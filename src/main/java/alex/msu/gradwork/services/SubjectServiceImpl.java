@@ -4,12 +4,9 @@ import alex.msu.gradwork.commands.SubjectCommand;
 import alex.msu.gradwork.converters.SubjectCommandToSubject;
 import alex.msu.gradwork.converters.SubjectToSubjectCommand;
 import alex.msu.gradwork.domain.Note;
-import alex.msu.gradwork.domain.Register;
-import alex.msu.gradwork.domain.Subject;
 import alex.msu.gradwork.repositories.NoteRepository;
 import alex.msu.gradwork.repositories.RegisterRepository;
 import lombok.extern.slf4j.Slf4j;
-import org.aspectj.weaver.ast.Not;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;

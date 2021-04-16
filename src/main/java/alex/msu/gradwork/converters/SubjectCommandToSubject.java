@@ -10,7 +10,7 @@ import org.springframework.stereotype.Component;
 
 
 @Component
-public class SubjectCommandToSubject implements Converter<SubjectCommand,Subject> {
+public class SubjectCommandToSubject implements Converter<SubjectCommand, Subject> {
 
     @Synchronized
     @Nullable

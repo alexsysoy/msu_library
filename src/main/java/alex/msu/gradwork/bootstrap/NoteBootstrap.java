@@ -1,6 +1,5 @@
 package alex.msu.gradwork.bootstrap;
 
-import alex.msu.gradwork.domain.Actor;
 import alex.msu.gradwork.domain.Note;
 import alex.msu.gradwork.domain.Register;
 import alex.msu.gradwork.domain.Subject;
@@ -16,7 +15,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 @Slf4j
 @Component
@@ -39,7 +37,7 @@ public class NoteBootstrap implements ApplicationListener<ContextRefreshedEvent>
     @Transactional
     public void onApplicationEvent(ContextRefreshedEvent contextRefreshedEvent) {
         log.debug("Loaded Bootstrap Data!");
-        //registerRepository.saveAll(getRegister());
+        registerRepository.saveAll(getRegister());
 
     }
 
@@ -49,26 +47,33 @@ public class NoteBootstrap implements ApplicationListener<ContextRefreshedEvent>
     private List<Register> getRegister(){
 
         List<Register> registers = new ArrayList<>(4);
+        //get registers
+        Register register1 = new Register();
 
         //get subjects
         Subject subject1 = new Subject();
         subject1.setName("Народное просвещение");
+        register1.addSubject(subject1);
         subjectRepository.save(subject1);
 
         Subject subject2 = new Subject();
         subject2.setName("Испытания");
+        register1.addSubject(subject2);
         subjectRepository.save(subject2);
 
         Subject subject3 = new Subject();
         subject3.setName("Клименко");
+        register1.addSubject(subject3);
         subjectRepository.save(subject3);
 
         Subject subject4 = new Subject();
         subject4.setName("Зачисление");
+        register1.addSubject(subject4);
         subjectRepository.save(subject4);
 
         Subject subject5 = new Subject();
         subject5.setName("Страхов");
+        register1.addSubject(subject5);
         subjectRepository.save(subject5);
 
         //get note
@@ -155,17 +160,6 @@ public class NoteBootstrap implements ApplicationListener<ContextRefreshedEvent>
         note14.getSubjects().add(subject5);
 
 
-
-
-
-
-
-
-
-
-
-        //get registers
-        Register register1 = new Register();
         register1.setName("Опись номер 701");
         register1.addNote(note1);
         register1.addNote(note2);
