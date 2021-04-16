@@ -9,9 +9,11 @@ import org.springframework.stereotype.Component;
 public class RegisterToRegisterCommand implements Converter<Register, RegisterCommand> {
 
     private final NoteToNoteCommand noteConverter;
+    private final SubjectToSubjectCommand subjectConverter;
 
-    public RegisterToRegisterCommand(NoteToNoteCommand noteConverter) {
+    public RegisterToRegisterCommand(NoteToNoteCommand noteConverter, SubjectToSubjectCommand subjectConverter) {
         this.noteConverter = noteConverter;
+        this.subjectConverter = subjectConverter;
     }
 
 
@@ -32,6 +34,11 @@ public class RegisterToRegisterCommand implements Converter<Register, RegisterCo
         if (source.getNotes() != null && source.getNotes().size()>0){
             source.getNotes()
                     .forEach(note -> command.getNotes().add(noteConverter.convert(note)));
+        }
+
+        if (source.getSubjects() != null && source.getSubjects().size()>0){
+            source.getSubjects()
+                    .forEach(subject -> command.getSubjects().add(subjectConverter.convert(subject)));
         }
 
         return command;

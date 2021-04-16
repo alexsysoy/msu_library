@@ -13,9 +13,11 @@ public class RegisterCommandToRegister implements Converter<RegisterCommand, Reg
 
 
     private final NoteCommandToNote noteConverter;
+    private final SubjectCommandToSubject subjectConverter;
 
-    public RegisterCommandToRegister(NoteCommandToNote noteConverter) {
+    public RegisterCommandToRegister(NoteCommandToNote noteConverter, SubjectCommandToSubject subjectConverter) {
         this.noteConverter = noteConverter;
+        this.subjectConverter = subjectConverter;
     }
 
 
@@ -37,6 +39,13 @@ public class RegisterCommandToRegister implements Converter<RegisterCommand, Reg
             command.getNotes()
                     .forEach(note -> register.getNotes().add(noteConverter.convert(note)));
         }
+
+        if (command.getSubjects() != null && command.getSubjects().size()>0){
+            command.getSubjects()
+                    .forEach(subjectCommand -> register.getSubjects().add(subjectConverter.convert(subjectCommand)));
+        }
+
+
 
         return register;
     }

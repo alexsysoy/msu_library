@@ -1,5 +1,9 @@
 package alex.msu.gradwork.bootstrap;
 
+import alex.msu.gradwork.commands.RegisterCommand;
+import alex.msu.gradwork.commands.SubjectCommand;
+import alex.msu.gradwork.converters.RegisterCommandToRegister;
+import alex.msu.gradwork.converters.RegisterToRegisterCommand;
 import alex.msu.gradwork.domain.Note;
 import alex.msu.gradwork.domain.Register;
 import alex.msu.gradwork.domain.Subject;
@@ -26,18 +30,23 @@ public class NoteBootstrap implements ApplicationListener<ContextRefreshedEvent>
     private final ActorRepository actorRepository;
     private final SubjectRepository subjectRepository;
 
-    public NoteBootstrap(NoteRepository noteRepository, RegisterRepository registerRepository, ActorRepository actorRepository, SubjectRepository subjectRepository) {
+    private final RegisterCommandToRegister registerCommandToRegister;
+    private final RegisterToRegisterCommand registerToRegisterCommand;
+
+    public NoteBootstrap(NoteRepository noteRepository, RegisterRepository registerRepository, ActorRepository actorRepository, SubjectRepository subjectRepository, RegisterCommandToRegister registerCommandToRegister, RegisterToRegisterCommand registerToRegisterCommand) {
         this.noteRepository = noteRepository;
         this.registerRepository = registerRepository;
         this.actorRepository = actorRepository;
         this.subjectRepository = subjectRepository;
+        this.registerCommandToRegister = registerCommandToRegister;
+        this.registerToRegisterCommand = registerToRegisterCommand;
     }
 
     @Override
     @Transactional
     public void onApplicationEvent(ContextRefreshedEvent contextRefreshedEvent) {
         log.debug("Loaded Bootstrap Data!");
-        registerRepository.saveAll(getRegister());
+        //registerRepository.saveAll(getRegister());
 
     }
 

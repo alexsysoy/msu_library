@@ -19,4 +19,6 @@ public class RegisterCommand {
 
     private Set<NoteCommand> notes = new HashSet<>();
 
+    private Set<SubjectCommand> subjects = new HashSet<>();
+
 }

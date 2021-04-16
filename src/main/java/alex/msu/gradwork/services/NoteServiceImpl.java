@@ -11,6 +11,7 @@ import alex.msu.gradwork.domain.Subject;
 import alex.msu.gradwork.repositories.NoteRepository;
 import alex.msu.gradwork.repositories.RegisterRepository;
 import alex.msu.gradwork.repositories.SubjectRepository;
+import lombok.Synchronized;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -114,6 +115,7 @@ public class NoteServiceImpl implements NoteService{
 
     @Override
     @Transactional
+    @Synchronized
     public NoteCommand saveNoteCommand(NoteCommand command) {
 
         //todo error if not found
@@ -122,114 +124,63 @@ public class NoteServiceImpl implements NoteService{
         Optional<Note> noteOptional = noteRepository.findById(command.getId());
         Note noteFound = noteOptional.get();
 
-        //Ключевое слово передано
-        System.out.println(command.getFindSubject());
+        //Ключевое слово передано в getFindSubject находится текст
+        log.debug("Ключевое слово: " + command.getFindSubject());
 
-        Subject subjectFound = new Subject();
+        Subject subjectFound;
 
         noteFound.setText(command.getText());
         noteFound.setNumber(command.getNumber());
 
+        //Ищем в текущем Деле
         Optional<Subject> subjectOptional = noteFound
                 .getSubjects()
                 .stream()
                 .filter(subject -> subject.getName().equals(command.getFindSubject()))
                 .findFirst();
 
-        if (subjectOptional.isPresent()){
-            //useless
+        if (subjectOptional.isPresent()) {
+            //Проверка: есть ли ключевое слово в данном Деле
             subjectFound = subjectOptional.get();
-            noteFound.getSubjects().add(subjectFound);
-            System.out.println("тут есть данное ключевое слово! пропускаем");
+            log.debug("Ключевое слово не меняем. В деле есть данное ключевое слово! номер id: " + subjectFound.getId());
+            //noteFound.getSubjects().add(subjectFound);
         } else {
-            //todo not good algorithm
-            Optional<Subject> subjectRegisterOptional = Optional.of(new Subject());
-            for (Note note : registerFound.getNotes()){
-                log.debug("register id: " + registerFound.getId());
-                log.debug("note id: " + note.getId());
-                //System.out.println("FIND: " + note.getId());
-                subjectRegisterOptional = note.getSubjects().stream().filter(x -> x.getName().equals(command.getFindSubject())).findFirst();
-            }
-
-            if (subjectRegisterOptional.isPresent()){
-                System.out.println("TRUE");
-                subjectFound = subjectRegisterOptional.get();
+            //Ищем в текущей Описи
+            Optional<Subject> subjectRegister = registerFound
+                    .getSubjects()
+                    .stream()
+                    .filter((subject -> subject.getName().equals(command.getFindSubject())))
+                    .findFirst();
+            if (subjectRegister.isPresent()){
+                //Нашли ключевое слово в описи
+                //Добавляем ключевое слово к Делу
+                subjectFound = subjectRegister.get();
+                log.debug("в описи есть данное ключевое слово! номер id: " + subjectFound.getId());
+                //Добавляем к предметному списку текущего Дела
                 noteFound.getSubjects().add(subjectFound);
-                log.debug("Added old keyword: " + subjectFound.getName());
-            }
+                //Добавляем к предметному списку ключевого слова Описи ссылку на данное дело
+                //Делает hibernate
+            } else {
+                log.debug("в описи нет ключевого слова!");
 
+                //В деле и в описи нет данного ключевого слова
+                //Создаем новое ключевое слово
+                subjectFound = new Subject();
+                subjectFound.setName(command.getFindSubject());
+                subjectRepository.save(subjectFound);
+
+                //Сохраняем ключевое слово в предметном указателе Описи
+                registerFound.addSubject(subjectFound);
+                registerRepository.save(registerFound);
+                //Сохраняем ключевое слово в предметном указателе Дела
+                noteFound.getSubjects().add(subjectFound);
+                log.debug("в описи нет ключевого слова! Создали новое номер id: " + subjectFound.getId());
+
+            }
         }
 
-//        Ingredient ingredient = ingredientCommandToIngredient.convert(command);
-//        ingredient.setRecipe(recipe);
-//        recipe.addIngredient(ingredient);
-
-
         Note savedNote = noteRepository.save(noteFound);
-
-
-
-
-
-
-//        Optional<Register> registerOptional = registerRepository.findById(command.getRegisterId());
-//
-//        if (registerOptional.isEmpty()){
-//
-//            log.error("Register not found for id: " + command.getRegisterId());
-//            return new NoteCommand();
-//        } else {
-//            Register register = registerOptional.get();
-//
-//            Optional<Note> noteOptional = register
-//                    .getNotes()
-//                    .stream()
-//                    .filter(note -> note.getId().equals(command.getId()))
-//                    .findFirst();
-//            if (noteOptional.isPresent()){
-//                Note noteFound = noteOptional.get();
-//                noteFound.setText(command.getText());
-//                noteFound.setNumber(command.getNumber());
-//
-//                Optional<Subject> subjectOptional = noteFound
-//                        .getSubjects()
-//                        .stream()
-//                        .filter((subject -> subject.getName().equals(command.getFindSubject())))
-//                        .findFirst();
-//                if (subjectOptional.isPresent()){
-//                    Subject subjectFound = subjectOptional.get();
-//                    noteFound.getSubjects().add(subjectRepository.findById(subjectFound.getId()).get());
-//                    System.out.println("WARNING!: " + noteFound.getSubjects().size());
-//                    Note savedNote = noteRepository.save(noteFound);
-//                }
-//
-//
-//            } else {
-//                //add new Note
-//                Note note = noteCommandToNote.convert(command);
-//                note.setRegister(register);
-//                register.addNote(note);
-//            }
-//
-//
-//
-//            Register saveRegister = registerRepository.save(register);
-
-//            Optional<Note> savedNoteOptional = saveRegister.getNotes().stream()
-//                    .filter(registerNotes -> registerNotes.getId().equals(command.getId()))
-//                    .findFirst();
-
-            //check by text
-//
-//            if(savedNoteOptional.isEmpty()){
-//                savedNoteOptional = saveRegister.getNotes().stream()
-//                        .filter(registerNotes -> registerNotes.getText().equals(command.getText()))
-//                        .filter(registerNotes -> registerNotes.getNumber().equals(command.getNumber()))
-//                        .findFirst();
-//            }
-
-            //to do check for fail
-            return noteToNoteCommand.convert(noteFound);
+        return noteToNoteCommand.convert(noteFound);
     }
 
     @Override
