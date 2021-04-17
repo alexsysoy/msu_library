@@ -11,7 +11,7 @@ import java.util.Set;
 @Entity
 @Data
 @EqualsAndHashCode(exclude = {"notes","register"})
-@Table(name = "subject")
+@Table(name = "subjects")
 public class Subject {
 
     @Id

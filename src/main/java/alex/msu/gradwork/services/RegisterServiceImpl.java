@@ -6,10 +6,15 @@ import alex.msu.gradwork.converters.RegisterToRegisterCommand;
 import alex.msu.gradwork.domain.Register;
 import alex.msu.gradwork.repositories.RegisterRepository;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.HashSet;
+import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
@@ -27,6 +32,28 @@ public class RegisterServiceImpl implements RegisterService {
         this.registerToRegisterCommand = registerToRegisterCommand;
     }
 
+
+//    @Override
+//    public Page<Register> listAll() {
+//        Pageable pageable = PageRequest.of(0,2);
+//        return registerRepository.findAll(pageable);
+//
+//    }
+
+    @Override
+    public Long getTotalRegisters() {
+        log.info("Finding the total count of registers from the dB.");
+        return registerRepository.count();
+    }
+
+    @Override
+    public Page<Register> findPaginated(int pageNumber, int pageSize, String sortField, String sortDirection) {
+        log.info("Fetching the paginated registers from the dB.");
+        final Sort sort = sortDirection.equalsIgnoreCase(Sort.Direction.ASC.name()) ?
+                Sort.by(sortField).ascending() : Sort.by(sortField).descending();
+        final Pageable pageable = PageRequest.of(pageNumber - 1, pageSize, sort);
+        return registerRepository.findAll(pageable);
+    }
 
     @Override
     public Set<Register> getRegisters() {

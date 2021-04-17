@@ -24,6 +24,15 @@ public class NoteController {
         this.registerService = registerService;
     }
 
+
+
+
+
+
+
+
+
+
     @GetMapping
     @RequestMapping("/register/{registerId}/notes")
     public String listNotes(@PathVariable String registerId, Model model){

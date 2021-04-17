@@ -11,7 +11,7 @@ import java.util.Set;
 @Data
 @EqualsAndHashCode(exclude = {"notes"})
 @Entity
-@Table(name = "image")
+@Table(name = "imagees")
 public class Image {
 
     @Id
