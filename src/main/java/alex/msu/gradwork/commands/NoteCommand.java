@@ -15,7 +15,6 @@ import java.util.Set;
 public class NoteCommand {
 
     private Long id;
-
     private Long number;
     private String annotation;
     private String memo;

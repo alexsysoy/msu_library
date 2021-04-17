@@ -14,10 +14,12 @@ public class RegisterCommandToRegister implements Converter<RegisterCommand, Reg
 
     private final NoteCommandToNote noteConverter;
     private final SubjectCommandToSubject subjectConverter;
+    private final ActorCommandToActor actorCommandToActor;
 
-    public RegisterCommandToRegister(NoteCommandToNote noteConverter, SubjectCommandToSubject subjectConverter) {
+    public RegisterCommandToRegister(NoteCommandToNote noteConverter, SubjectCommandToSubject subjectConverter, ActorCommandToActor actorCommandToActor) {
         this.noteConverter = noteConverter;
         this.subjectConverter = subjectConverter;
+        this.actorCommandToActor = actorCommandToActor;
     }
 
 
@@ -31,8 +33,11 @@ public class RegisterCommandToRegister implements Converter<RegisterCommand, Reg
         }
 
         final Register register = new Register();
+
         register.setId(command.getId());
         register.setName(command.getName());
+        register.setAnnotation(command.getAnnotation());
+        register.setMemo(command.getMemo());
 
         if (command.getNotes() != null && command.getNotes().size()>0){
             command.getNotes()
@@ -42,6 +47,11 @@ public class RegisterCommandToRegister implements Converter<RegisterCommand, Reg
         if (command.getSubjects() != null && command.getSubjects().size()>0){
             command.getSubjects()
                     .forEach(subjectCommand -> register.getSubjects().add(subjectConverter.convert(subjectCommand)));
+        }
+
+        if (command.getActors() != null && command.getActors().size() > 0){
+            command.getActors()
+                    .forEach(actorCommand->register.getActors().add(actorCommandToActor.convert(actorCommand)));
         }
 
 

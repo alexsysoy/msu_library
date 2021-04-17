@@ -26,4 +26,11 @@ public class Image {
     //Дела, связанные с данным изображением
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "image")
     private Set<Note> notes = new HashSet<>();
+
+    //Конструкторы для удобного добавления Дела, Предметного указателя
+    public Image addNote(Note note){
+        note.setImage(this);
+        this.notes.add(note);
+        return this;
+    }
 }

@@ -9,27 +9,26 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class ActorToActorCommand implements Converter<Actor, ActorCommand> {
+
+
+    @Synchronized
+    @Nullable
     @Override
-    public ActorCommand convert(Actor actor) {
-        return null;
+    public ActorCommand convert(Actor source) {
+
+        if (source == null) {
+            return null;
+        }
+
+        final ActorCommand actorCommand = new ActorCommand();
+
+        actorCommand.setId(source.getId());
+        actorCommand.setName(source.getName());
+        actorCommand.setPatronymic(source.getPatronymic());
+        actorCommand.setSurname(source.getSurname());
+        actorCommand.setMemo(source.getMemo());
+
+        return actorCommand;
     }
-//
-//    @Synchronized
-//    @Nullable
-//    @Override
-//    public ActorCommand convert(Actor source) {
-//
-//        if (source == null){
-//            return null;
-//        }
-//
-//        final ActorCommand actorCommand = new ActorCommand();
-//        actorCommand.setId(source.getId());
-//        actorCommand.setName(source.getName());
-//        actorCommand.setTitle(source.getTitle());
-//        actorCommand.setType(source.getType());
-//        actorCommand.setNotes(source.getNotes());
-//        return actorCommand;
-//
-//    }
+
 }
