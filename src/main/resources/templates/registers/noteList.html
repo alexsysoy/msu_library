@@ -2,32 +2,33 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Main</title>
+    <title>Notes</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css">
     <link rel="stylesheet" type="text/css" th:href="@{/css/style.css}"/>
 </head>
 <body>
 <div class="container">
-    <h3 class="text-info text-center mt-20">Список описей</h3>
-    <!--    registers table-->
+    <!--    note table-->
     <table class="table table-striped mt-20 text-center" id="employeesTable">
+        <caption>Список Дел</caption>
         <thead>
         <tr>
-            <!-- sorting control via register id -->
+            <!-- sorting control via note id -->
             <th>
-                <a th:href="@{'/page/' + ${currentPage} + '?sort-field=id&sort-dir=' + ${reverseSortDir}}">Номер</a>
+                <a th:href="@{'/registers/' + ${register.getId()} + '/noteList/page/' + ${currentPage} + '?sort-field=number&sort-dir=' + ${reverseSortDir}}">Номер</a>
             </th>
-            <!-- sorting control via register name -->
+            <!-- sorting control via note name -->
             <th>
-                <a th:href="@{'/page/' + ${currentPage} + '?sort-field=name&sort-dir=' + ${reverseSortDir}}">Название</a>
+                <a th:href="@{'/registers/' + ${register.getId()} + '/noteList/page/' + ${currentPage} + '?sort-field=annotation&sort-dir=' + ${reverseSortDir}}">Аннотация</a>
             </th>
         </tr>
         </thead>
+
         <tbody>
-        <tr th:each="register : ${registerList}">
-            <td th:text="${register.getId()}">Номер</td>
-            <td th:text="${register.getName()}">Название</td>
-            <td><a href="#" th:href="@{'register/' + ${register.getId()} + '/notes'}">Просмотр</a></td>
+        <tr th:each="note : ${noteList}">
+            <td th:text="${note.getNumber()}">Номер</td>
+            <td th:text="${note.getAnnotation()}">Аннотация</td>
+<!--            <td><a href="#" th:href="@{'register/' + ${register.getId()} + '/notes'}">Просмотр</a></td>-->
         </tr>
         </tbody>
     </table>
@@ -35,24 +36,24 @@
     <div th:if="${totalPages > 1}">
         <div class="row col-sm-10">
             <div class="col-sm-2">
-                Всего описей:        <strong>[[${totalItems}]]</strong>
+                Всего Дел:        <strong>[[${totalItems}]]</strong>
             </div>
             <div class="col-sm-2">
 					<span th:each="i: ${#numbers.sequence(1, totalPages)}">
-						<a th:href="@{'/page/' + ${i} + '?sort-field=' + ${sortField} + '&sort-dir=' + ${sortDir}}"
+						<a th:href="@{'/registers/' + ${register.getId()} + '/noteList/page/' + ${i} + '?sort-field=' + ${sortField} + '&sort-dir=' + ${sortDir}}"
                            th:if="${currentPage != i}">[[${i}]]</a>
 						<span th:unless="${currentPage != i}">[[${i}]]</span>
 					</span>
             </div>
             <div class="col-sm-2">
-                <a th:href="@{'/page/' + ${currentPage + 1} + '?sort-field=' + ${sortField} + '&sort-dir=' + ${sortDir}}"
+                <a th:href="@{'/registers/' + ${register.getId()} + '/noteList/page/' + ${currentPage + 1} + '?sort-field=' + ${sortField} + '&sort-dir=' + ${sortDir}}"
                    th:if="${currentPage < totalPages}">
                     Следующая
                 </a>
                 <span th:unless="${currentPage < totalPages}">Следующая</span>
             </div>
             <div class="col-sm-2">
-                <a th:href="@{'/page/' + ${totalPages} + '?sort-field=' + ${sortField} + '&sort-dir=' + ${sortDir}}"
+                <a th:href="@{'/registers/' + ${register.getId()} + '/noteList/page/' + ${totalPages} + '?sort-field=' + ${sortField} + '&sort-dir=' + ${sortDir}}"
                    th:if="${currentPage < totalPages}">
                     Последняя
                 </a>

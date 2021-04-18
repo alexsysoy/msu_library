@@ -13,6 +13,10 @@ import alex.msu.gradwork.repositories.RegisterRepository;
 import alex.msu.gradwork.repositories.SubjectRepository;
 import lombok.Synchronized;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -42,10 +46,23 @@ public class NoteServiceImpl implements NoteService{
         this.subjectToSubjectCommand = subjectToSubjectCommand;
     }
 
+    //Возвращает общее количество записей
+    @Override
+    public Long getTotalNotes(){
+        return noteRepository.count();
+    }
+
+    //Возращает постранично отсортированный список Дел
+    @Override
+    public Page<Note> findPaginated(int pageNumber, int pageSize, String sortField, String sortDirection) {
+        final Sort sort = sortDirection.equalsIgnoreCase(Sort.Direction.ASC.name()) ?
+                Sort.by(sortField).ascending() : Sort.by(sortField).descending();
+        final Pageable pageable = PageRequest.of(pageNumber - 1, pageSize, sort);
+        return noteRepository.findAll(pageable);
+    }
+
     @Override
     public Set<Note> getNotes() {
-        log.debug("I'm in the Service debug");
-        System.out.println("I'm in the Service");
 
         Set<Note> notes = new HashSet<>();
         noteRepository.findAll().iterator().forEachRemaining(notes::add);

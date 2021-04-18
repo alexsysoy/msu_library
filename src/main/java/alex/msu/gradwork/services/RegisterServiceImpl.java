@@ -33,22 +33,15 @@ public class RegisterServiceImpl implements RegisterService {
     }
 
 
-//    @Override
-//    public Page<Register> listAll() {
-//        Pageable pageable = PageRequest.of(0,2);
-//        return registerRepository.findAll(pageable);
-//
-//    }
-
+    //Вовращает общее количство описей
     @Override
     public Long getTotalRegisters() {
-        log.info("Finding the total count of registers from the dB.");
         return registerRepository.count();
     }
 
+    //Возращает постранично отсортированный список Описей
     @Override
     public Page<Register> findPaginated(int pageNumber, int pageSize, String sortField, String sortDirection) {
-        log.info("Fetching the paginated registers from the dB.");
         final Sort sort = sortDirection.equalsIgnoreCase(Sort.Direction.ASC.name()) ?
                 Sort.by(sortField).ascending() : Sort.by(sortField).descending();
         final Pageable pageable = PageRequest.of(pageNumber - 1, pageSize, sort);

@@ -2,10 +2,15 @@ package alex.msu.gradwork.services;
 
 import alex.msu.gradwork.commands.NoteCommand;
 import alex.msu.gradwork.domain.Note;
+import org.springframework.data.domain.Page;
 
 import java.util.Set;
 
 public interface NoteService {
+
+    Long getTotalNotes();
+
+    Page<Note> findPaginated(int pageNumber, int pageSize, String sortField, String sortDirection);
 
     Set<Note> getNotes();
 
