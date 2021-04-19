@@ -48,12 +48,12 @@
         <tr>
             <td>
                 <div th:each="subject : ${note.getSubjects()}">
-                    <p><a th:text="${subject.getName()}" th:href="@{'/page/registers/' + ${register.getId()} + '/notes'}"></a></p>
+                    <p><a th:text="${subject.getName()}" th:href="@{'/subjects/' + ${subject.getId()} + '/subjectList'}"></a></p>
                 </div>
             </td>
             <td>
                 <div th:each="actor : ${note.getActors()}">
-                    <p><a th:text="${actor.getName()} + ' ' + ${actor.getPatronymic()} + ' ' + ${actor.getSurname()}" th:href="@{'/page/registers/' + ${register.getId()} + '/notes'}"></a></p>
+                    <p><a th:text="${actor.getName()} + ' ' + ${actor.getPatronymic()} + ' ' + ${actor.getSurname()}" th:href="@{'/actors/' + ${actor.getId()} + '/actorList'}"></a></p>
                 </div>
             </td>
         </tr>

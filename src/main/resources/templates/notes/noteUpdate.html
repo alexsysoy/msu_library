@@ -10,6 +10,7 @@
 <div class="container">
 <form  th:object="${note}" th:action="@{'/register/' + ${note.getRegisterId()} + '/note'} " method="post">
     <input type="hidden" th:field="*{id}"/>
+    <div class="container">
     <table class="table table-striped mt-20 text-center">
         <caption>Редактирование Дела номер: <span  th:text="${note.getNumber()}"/></caption>
         <thead>
@@ -43,6 +44,7 @@
         </tbody>
     </table>
     <button type="submit" class="floating-button">Внести</button>
+    </div>
 </form>
 
     <table class="table table-striped mt-20 text-center">

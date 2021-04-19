@@ -78,6 +78,19 @@ public class NoteController {
         return "notes/noteShow";
     }
 
+//    // Просмотр Дела короткий вариант
+//    @GetMapping
+//    @RequestMapping("/notes/{noteId}/noteShow")
+//    public String showNote(@PathVariable String noteId, Model model){
+//        // Дело
+//        model.addAttribute("note", noteService.findById(Long.valueOf(noteId)));
+//        return "notes/noteShow";
+//    }
+
+
+
+
+
     // Удаление Дела
     // Перенаправление на спискок Дел данной описи
     @GetMapping

@@ -109,42 +109,52 @@ public class NoteBootstrap implements ApplicationListener<ContextRefreshedEvent>
         Note note1 = new Note();
         note1.setAnnotation("Высочайшие приказы по Министерству Народного просвещения.");
         note1.setNumber(1L);
+        note1.setMemo("Обеспечить массовое образование крестьянства");
 
         Note note2 = new Note();
         note2.setAnnotation("О принятии в число студентов Станислава Страхова");
         note2.setNumber(2L);
+        note2.setMemo("Молодец Страхов!");
 
         Note note3 = new Note();
         note3.setAnnotation("О допущении разных лиц к испытанию на степень ДОКТОРА МЕДИЦИНЫ");
         note3.setNumber(3L);
+        note3.setMemo("Испытания - это хорошо");
 
         Note note4 = new Note();
         note4.setAnnotation("О допущении разных лиц к испытанию на степень ЛЕКАРЯ.");
         note4.setNumber(4L);
+        note4.setMemo("Испытания - это хорошо");
 
         Note note5 = new Note();
         note5.setAnnotation("О допущении разных лиц к испытанию на степень УЕЗДНОГО ВРАЧА ");
         note5.setNumber(5L);
+        note5.setMemo("Испытания - это хорошо");
 
         Note note6 = new Note();
         note6.setAnnotation("О допущении разных лиц к испытанию на степень МАГИСТРА");
         note6.setNumber(6L);
+        note6.setMemo("Испытания - это хорошо");
 
         Note note7 = new Note();
         note7.setAnnotation("О допущении разных лиц к испытанию на степень КАНДИДАТА");
         note7.setNumber(7L);
+        note7.setMemo("Испытания - это хорошо");
 
         Note note8 = new Note();
         note8.setAnnotation("О допущении разных лиц к испытанию на степень ДАНТИСТА");
         note8.setNumber(8L);
+        note8.setMemo("Испытания - это хорошо");
 
         Note note9 = new Note();
         note9.setAnnotation("О допущении к испытанию на степень провизора Ивана СИТНИКОВА и об утверждении его в этой степени");
         note9.setNumber(9L);
+        note9.setMemo("Допускаем");
 
         Note note10 = new Note();
         note10.setAnnotation("О принятии в число студентов Митрофана КЛИМЕНКО");
         note10.setNumber(10L);
+        note10.setMemo("Принимаем");
 
         Note note11 = new Note();
         note11.setAnnotation("О доставлении ведомости в Департамент Народного просвещения о выбывших студентах");
@@ -159,8 +169,9 @@ public class NoteBootstrap implements ApplicationListener<ContextRefreshedEvent>
         note13.setNumber(13L);
 
         Note note14 = new Note();
-        note14.setAnnotation("О назначении ординарному профессору Страхову 357 руб.  40 коп.  сер.   за труды его за исправление должности во время заграничной командировки ординарного профессора БРАШМАНА");
+        note14.setAnnotation("О назначении ординарному профессору Страхову 357 руб.  40 коп.  сер. за труды его за исправление должности во время заграничной командировки ординарного профессора БРАШМАНА");
         note14.setNumber(14L);
+        note14.setMemo("Купил много учебников, наверное");
 
 
         //Народное просвещение
