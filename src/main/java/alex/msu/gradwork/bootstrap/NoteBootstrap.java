@@ -4,6 +4,7 @@ import alex.msu.gradwork.commands.RegisterCommand;
 import alex.msu.gradwork.commands.SubjectCommand;
 import alex.msu.gradwork.converters.RegisterCommandToRegister;
 import alex.msu.gradwork.converters.RegisterToRegisterCommand;
+import alex.msu.gradwork.domain.Actor;
 import alex.msu.gradwork.domain.Note;
 import alex.msu.gradwork.domain.Register;
 import alex.msu.gradwork.domain.Subject;
@@ -51,13 +52,32 @@ public class NoteBootstrap implements ApplicationListener<ContextRefreshedEvent>
     }
 
 
-
-
     private List<Register> getRegister(){
 
-        List<Register> registers = new ArrayList<>(4);
+        List<Register> registers = new ArrayList(5);
         //get registers
         Register register1 = new Register();
+
+        //get actors
+        Actor actor1 = new Actor();
+        actor1.setName("Петр");
+        actor1.setPatronymic("Владимирович");
+        actor1.setSurname("Страхов");
+        actor1.setMemo("Интересная фамилия у человека");
+        register1.addActor(actor1);
+        actorRepository.save(actor1);
+
+        Actor actor2 = new Actor();
+        actor2.setName("Ираклий");
+        actor2.setPatronymic("Виссарионович");
+        actor2.setSurname("Павлиашвилли");
+        actor2.setMemo("Ещё одна интересная личность");
+        register1.addActor(actor2);
+        actorRepository.save(actor2);
+
+        Actor actor3 = new Actor();
+        Actor actor4 = new Actor();
+
 
         //get subjects
         Subject subject1 = new Subject();
@@ -167,6 +187,15 @@ public class NoteBootstrap implements ApplicationListener<ContextRefreshedEvent>
         //Страхов
         note2.getSubjects().add(subject5);
         note14.getSubjects().add(subject5);
+
+        //Акторы
+        //Павлиашвилл
+        note2.getActors().add(actor1);
+
+        //Страхов
+        note2.getActors().add(actor2);
+        note14.getActors().add(actor2);
+        note7.getActors().add(actor2);
 
 
         register1.setName("Опись номер 701");

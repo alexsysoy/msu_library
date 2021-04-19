@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Просмотр дела</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" th:href="@{/css/style.css}"/>
+</head>
+<body>
+<div class="container">
+    <!--    note tables-->
+    <table class="table table-striped mt-20 text-center">
+        <caption>Просмотр дела</caption>
+        <thead>
+        <tr>
+            <th>
+                <a href="" class="floating-button" th:href="@{'/notes/' + ${register.id} + '/note/noteCreate'}" role="button">Создать</a>
+            </th>
+            <th>
+                <a href="" class="floating-button" th:href="@{'/notes/' + ${register.id} + '/note/' + ${note.id} + '/noteUpdate'}" role="button">Редактировать</a>
+            </th>
+            <th>
+                <a href="" class="floating-button" th:href="@{'/registers/' + ${register.id} + '/note/' + ${note.id} + '/noteDelete'}" role="button">Удалить</a>
+            </th>
+        </tr>
+        <tr>
+            <th><a href="#" th:text="${register.getName()}" th:href="@{'/page/registers/' + ${register.getId()} + '/notes'}">Название описи: </a></th>
+            <th>Номер дела: <span  th:text="${note.getNumber()}"/></th>
+            <th>Изображение</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td colspan="3" style="text-align: left" th:text="${note.getAnnotation()}">Аннотация</td>
+        </tr>
+        <tr>
+            <td th:text="${note.getMemo()}">Примечание</td>
+        </tr>
+        </tbody>
+    </table>
+
+    <table class="table table-striped mt-20 text-center">
+        <tr>
+            <th>Предметный указатель:</th>
+            <th>Именной указатель:</th>
+        </tr>
+        <tbody>
+        <tr>
+            <td>
+                <div th:each="subject : ${note.getSubjects()}">
+                    <p><a th:text="${subject.getName()}" th:href="@{'/page/registers/' + ${register.getId()} + '/notes'}"></a></p>
+                </div>
+            </td>
+            <td>
+                <div th:each="actor : ${note.getActors()}">
+                    <p><a th:text="${actor.getName()} + ' ' + ${actor.getPatronymic()} + ' ' + ${actor.getSurname()}" th:href="@{'/page/registers/' + ${register.getId()} + '/notes'}"></a></p>
+                </div>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+    </div>
+</body>
+</html>

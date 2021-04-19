@@ -16,11 +16,15 @@ public interface NoteService {
 
     Note findById(Long l);
 
+    Note findByNumber(Long l);
+
     NoteCommand findByRegisterIdAndNoteId(Long registerId, Long noteId);
 
     Set<Note>  findNoteCommand(NoteCommand noteCommand);
 
     NoteCommand saveNoteCommand(NoteCommand command);
+
+    NoteCommand createNoteCommand(NoteCommand command);
 
     void DeleteById(Long registerId, Long idToDelete);
 

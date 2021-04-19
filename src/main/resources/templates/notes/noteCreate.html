@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Редактирование дела</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" th:href="@{/css/style.css}"/>
+</head>
+<body>
+<div class="container">
+    <form  th:object="${note}" th:action="@{'/note/' + ${note.getRegisterId()} + '/noteCreate'} " method="post">
+        <input type="hidden" th:field="*{id}"/>
+        <table class="table table-striped mt-20 text-center">
+            <caption>Создание Дела</caption>
+            <thead>
+            <tr>
+                <th></th>
+                <th></th>
+                <th></th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <label>Номер:</label>
+                <input type="number" class="form-control" th:field="*{number}"/>
+            </tr>
+            <tr>
+                <label>Аннотация:</label>
+                <input type="text" class="form-control" th:field="*{annotation}"/>
+            </tr>
+            <tr>
+                <label>Примечание:</label>
+                <input type="text" class="form-control" th:field="*{memo}"/>
+            </tr>
+            <tr>
+                <label>Предметный указатель:</label>
+                <input type="text" class="form-control" th:field="*{findSubject}"/>
+            </tr>
+            <tr>
+                <label>Именной указатель:</label>
+                <input type="text" class="form-control" th:field="*{findActor}"/>
+            </tr>
+            </tbody>
+        </table>
+        <button type="submit" class="floating-button">Создать</button>
+    </form>
+
+</div>
+</body>
+</html>

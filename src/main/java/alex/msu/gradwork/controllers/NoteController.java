@@ -30,14 +30,13 @@ public class NoteController {
     // URL - http://localhost:8080/register/{registerId}/notes
     //Направляем на сортировку и на постраничный просмотр
     @GetMapping
-    @RequestMapping(value = "page/register/{registerId}/notes")
+    @RequestMapping(value = "/page/registers/{registerId}/notes")
     public String viewNoteList(@PathVariable String registerId, Model model){
         //model.addAttribute("register", registerService.findById(Long.valueOf(registerId)));
         return "redirect:/registers/" + registerId + "/noteList/page/1?sort-field=id&sort-dir=asc";
     }
 
-
-
+    //Сортировка и постраничный просмотр Дел
     // URL - http://localhost:8080/register/{registerId}/notes/page/1?sort-field=firstName&sort-dir=desc
     @GetMapping
     @RequestMapping(value = "/registers/{registerId}/noteList/page/{page-number}")
@@ -61,58 +60,85 @@ public class NoteController {
         model.addAttribute("reverseSortDir", sortDir.equals("asc") ? "desc" : "asc");
         // Список дел
         model.addAttribute("noteList", noteList);
-        // Номер Описи
+        // Опись
         model.addAttribute("register", registerService.findById(Long.valueOf(registerId)));
         return "registers/noteList";
     }
 
-
-//    @GetMapping
-//    @RequestMapping("page/register/{registerId}/notes")
-//    public String listNotes(@PathVariable String registerId, Model model){
-//
-//        model.addAttribute("register", registerService.findById(Long.valueOf(registerId)));
-//
-//        return "register/list";
-//    }
-
+    // Просмотр Дела
+    // URL - http://localhost:8080///notes/{registerId}/note/{noteId}/noteShow
     @GetMapping
-    @RequestMapping("/register/{registerId}/note/{noteId}/show")
+    @RequestMapping("/notes/{registerId}/note/{noteId}/noteShow")
     public String showNote(@PathVariable String registerId,
                            @PathVariable String noteId, Model model){
-        log.debug("Getting Note id: " + noteId + " from Register id: " + registerId);
+        // Дело
         model.addAttribute("note", noteService.findByRegisterIdAndNoteId(Long.valueOf(registerId), Long.valueOf(noteId)));
-
-        return "register/note/show";
+        // Опись
+        model.addAttribute("register", registerService.findById(Long.valueOf(registerId)));
+        return "notes/noteShow";
     }
 
-    @PostMapping("register/{registerId}/note")
+    // Удаление Дела
+    // Перенаправление на спискок Дел данной описи
+    @GetMapping
+    @RequestMapping("/registers/{registerId}/note/{id}/noteDelete")
+    public String deleteNote(@PathVariable String registerId,
+                             @PathVariable String id){
+
+        noteService.DeleteById(Long.valueOf(registerId),Long.valueOf(id));
+        return "redirect:/registers/" + registerId + "/noteList/page/1?sort-field=id&sort-dir=asc";
+    }
+
+
+    // Редактирование Дела
+    @GetMapping
+    @RequestMapping("/notes/{registerId}/note/{noteId}/noteUpdate")
+    public String updateRecipeNote(@PathVariable String registerId,
+                                   @PathVariable String noteId, Model model){
+
+        model.addAttribute("note", noteService.findByRegisterIdAndNoteId(Long.valueOf(registerId), Long.valueOf(noteId)));
+        return "/notes/noteUpdate";
+    }
+
+
+    // Внесение изменений в Дело
+    // Перенаправление на представление данного Дела
+    @PostMapping("/register/{registerId}/note")
     public String saveOrUpdate(@ModelAttribute NoteCommand command){
 
         NoteCommand savedCommand = noteService.saveNoteCommand(command);
-
-        //return "index";
-        return "redirect:/register/" + savedCommand.getRegisterId() + "/note/" + savedCommand.getId() + "/show";
+        return "redirect:/notes/" + savedCommand.getRegisterId() + "/note/" + savedCommand.getId() + "/noteShow";
     }
 
+    // Создание нового Дела
+    // Перенаправление на представление данного Дела
+    @PostMapping("/note/{registerId}/noteCreate")
+    public String createNote(@ModelAttribute NoteCommand command){
+
+        NoteCommand savedCommand = noteService.createNoteCommand(command);
+        return "redirect:/notes/" + savedCommand.getRegisterId() + "/note/" + savedCommand.getId() + "/noteShow";
+    }
+
+
+    // Создание нового Дела
+    // Направляем на post
     @GetMapping
-    @RequestMapping("register/{registerId}/note/{noteId}/update")
-    public String updateRecipeNote(@PathVariable String registerId,
-                                   @PathVariable String noteId, Model model){
-        model.addAttribute("note", noteService.findByRegisterIdAndNoteId(Long.valueOf(registerId), Long.valueOf(noteId)));
-        return "register/note/noteform";
+    @RequestMapping("/notes/{registerId}/note/noteCreate")
+    public String createNote(@PathVariable String registerId, Model model){
+
+        RegisterCommand registerCommand = registerService.findCommandById(Long.valueOf(registerId));
+        //todo raise exception if null
+
+        //need to return back parent id for hidden form property
+        NoteCommand noteCommand = new NoteCommand();
+
+        noteCommand.setRegisterId(Long.valueOf(registerId));
+        model.addAttribute("note", noteCommand);
+
+        return "/notes/noteCreate";
     }
 
-    @GetMapping
-    @RequestMapping("register/{registerId}/note/{id}/delete")
-    public String deleteNote(@PathVariable String registerId,
-                                   @PathVariable String id){
 
-        log.debug("deleting note id:" + id);
-        noteService.DeleteById(Long.valueOf(registerId),Long.valueOf(id));
-
-        return "redirect:/register/" + registerId + "/notes";
-    }
 
     @GetMapping
     @RequestMapping("register/{registerId}/note/new")
@@ -149,7 +175,6 @@ public class NoteController {
     @PostMapping("register/{registerId}/findnote")
     public String find(@ModelAttribute NoteCommand command,
                        Model model){
-
 
         Set<Note> notes = noteService.findNoteCommand(command);
         model.addAttribute("notes", notes);

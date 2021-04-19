@@ -2,14 +2,14 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Notes</title>
+    <title>Список дел</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css">
     <link rel="stylesheet" type="text/css" th:href="@{/css/style.css}"/>
 </head>
 <body>
 <div class="container">
     <!--    note table-->
-    <table class="table table-striped mt-20 text-center" id="employeesTable">
+    <table class="table table-striped mt-20 text-center">
         <caption>Список Дел</caption>
         <thead>
         <tr>
@@ -21,14 +21,19 @@
             <th>
                 <a th:href="@{'/registers/' + ${register.getId()} + '/noteList/page/' + ${currentPage} + '?sort-field=annotation&sort-dir=' + ${reverseSortDir}}">Аннотация</a>
             </th>
+            <th>Просмотр</th>
+            <th>Редактирование</th>
+            <th>Удаление</th>
         </tr>
         </thead>
 
         <tbody>
         <tr th:each="note : ${noteList}">
             <td th:text="${note.getNumber()}">Номер</td>
-            <td th:text="${note.getAnnotation()}">Аннотация</td>
-<!--            <td><a href="#" th:href="@{'register/' + ${register.getId()} + '/notes'}">Просмотр</a></td>-->
+            <td style="text-align: left" th:text="${note.getAnnotation()}">Аннотация</td>
+            <td><a href="#" th:href="@{'/notes/' + ${register.id} + '/note/' + ${note.id} + '/noteShow'}">Просмотр</a></td>
+            <td><a href="#" th:href="@{'/notes/' + ${register.id} + '/note/' + ${note.id} + '/noteUpdate'}">Редактирование</a></td>
+            <td><a href="#" th:href="@{'/registers/' + ${register.id} + '/note/' + ${note.id} + '/noteDelete'}">Удаление</a></td>
         </tr>
         </tbody>
     </table>

@@ -1,6 +1,6 @@
 table {
     font-family: "Lucida Sans Unicode", "Lucida Grande", Sans-Serif;
-    font-size: 14px;
+    font-size: 20px;
     background: white;
     max-width: 70%;
     width: 70%;
@@ -27,4 +27,64 @@ td {
 }
 tr:hover td {
     background: #e8edff;
+}
+body {
+    font-size: 20px;
+    background: url(https://html5book.ru/wp-content/uploads/2015/07/background39.png);
+}
+
+
+input[type=button], input[type=submit], input[type=reset], .floating-button {
+    background-color: #d8dce5;
+    border: none;
+    color: white;
+    padding: 20px 32px;
+    text-decoration: none;
+    margin: 4px 2px;
+    cursor: pointer;
+}
+.floating-button:hover {
+    background: #2EE59D;
+    box-shadow: 0 15px 20px rgba(46, 229, 157, .4);
+    color: white;
+    transform: translateY(-7px);
+}
+
+
+
+label {
+    padding: 12px 12px 12px 0;
+    display: inline-block;
+}
+
+
+input[type=submit]:hover {
+    background-color: #45a049;
+}
+
+.col-25 {
+    float: left;
+    width: 25%;
+    margin-top: 6px;
+}
+
+.col-75 {
+    float: left;
+    width: 75%;
+    margin-top: 6px;
+}
+
+/* Clear floats after the columns */
+.row:after {
+    content: "";
+    display: table;
+    clear: both;
+}
+
+/* Responsive layout - when the screen is less than 600px wide, make the two columns stack on top of each other instead of next to each other */
+@media screen and (max-width: 600px) {
+    .col-25, .col-75, input[type=submit] {
+        width: 100%;
+        margin-top: 0;
+    }
 }

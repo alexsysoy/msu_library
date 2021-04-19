@@ -8,9 +8,9 @@
 </head>
 <body>
 <div class="container">
-    <h3 class="text-info text-center mt-20">Список описей</h3>
     <!--    registers table-->
-    <table class="table table-striped mt-20 text-center" id="employeesTable">
+    <table class="table table-striped mt-20 text-center">
+        <caption>Список описей</caption>
         <thead>
         <tr>
             <!-- sorting control via register id -->
@@ -21,13 +21,14 @@
             <th>
                 <a th:href="@{'/page/' + ${currentPage} + '?sort-field=name&sort-dir=' + ${reverseSortDir}}">Название</a>
             </th>
+            <th>Просмотр</th>
         </tr>
         </thead>
         <tbody>
         <tr th:each="register : ${registerList}">
             <td th:text="${register.getId()}">Номер</td>
             <td th:text="${register.getName()}">Название</td>
-            <td><a href="#" th:href="@{'register/' + ${register.getId()} + '/notes'}">Просмотр</a></td>
+            <td><a href="#" th:href="@{'/page/registers/' + ${register.getId()} + '/notes'}">Просмотр</a></td>
         </tr>
         </tbody>
     </table>
