@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Просмотр дела</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" th:href="@{/css/style.css}"/>
+</head>
+<body>
+
+<div class="header">
+    <h4>Номер дела:</h4>
+    <h1 th:text="${note.getNumber()}"></h1>
+</div>
+
+<div class="row">
+
+    <div class="column side">
+        <table class="table table-striped mt-20 text-center">
+        <caption>Действия:</caption>
+            <thead>
+            <tr>
+
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td>
+                    <div>
+                        <p><a th:href="@{'/notes/' + ${register.id} + '/note/noteCreate'}" role="button">Создать</a></p>
+                        <p><a th:href="@{'/notes/' + ${register.id} + '/note/' + ${note.id} + '/noteUpdate'}" role="button">Редактировать</a></p>
+                        <p><a th:href="@{'/registers/' + ${register.id} + '/note/' + ${note.id} + '/noteDelete'}" role="button">Удалить</a></p>
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <div>
+                        <p>Найти Дело</p>
+                        <p>Перейти к Описи: <a href="#" th:text="${register.getName()}" th:href="@{'/page/registers/' + ${register.getId()} + '/notes'}">Название описи: </a></p>
+                    </div>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
+
+    <div class="column middle">
+        <table class="table table-striped mt-20 text-center">
+            <caption>Просмотр данных Дела</caption>
+            <thead>
+            <tr>
+                <th></th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr><td>Аннотация:</td></tr>
+            <tr>
+                <td colspan="3" style="text-align: left" th:text="${note.getAnnotation()}"></td>
+            </tr>
+            <tr><td>Примечание:</td></tr>
+            <tr>
+                <td th:text="${note.getMemo()}"></td>
+            </tr>
+            </tbody>
+        </table>
+
+    </div>
+
+
+
+    <div class="column side">
+        <table class="table table-striped mt-20 text-center">
+            <caption>Указатели:</caption>
+            <tr>
+                <th>Предметный указатель:</th>
+                <th>Именной указатель:</th>
+            </tr>
+            <tbody>
+            <tr>
+                <td>
+                    <div th:each="subject : ${note.getSubjects()}">
+                        <p><a th:text="${subject.getName()}" th:href="@{'/subjects/' + ${subject.getId()} + '/subjectList'}"></a></p>
+                    </div>
+                </td>
+                <td>
+                    <div th:each="actor : ${note.getActors()}">
+                        <p><a th:text="${actor.getName()} + ' ' + ${actor.getPatronymic()} + ' ' + ${actor.getSurname()}" th:href="@{'/actors/' + ${actor.getId()} + '/actorList'}"></a></p>
+                    </div>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+
+        <table class="table table-striped mt-20 text-center">
+            <tr>
+                <th>Изображение:</th>
+            </tr>
+            <tbody>
+            <tr>
+                <td>
+                    <div>
+                        Ссылка на изображение
+<!--                        <p><a th:text="${note.getImageId()}">Номер изображения</a></p>-->
+                    </div>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
+</div>
+
+
+<div class="footer">
+    <table class="table table-striped mt-20 text-center">
+        <caption>Документы Дела:</caption>
+        <tr>
+            <th>Страницы Дела:</th>
+        </tr>
+        <tbody>
+        <tr>
+            <td>
+                <div>
+                    Ссылки на странцы
+                    <!--                        <p><a th:text="${note.getImageId()}">Номер изображения</a></p>-->
+                </div>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+
+</body>
+</html>

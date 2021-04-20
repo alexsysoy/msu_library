@@ -53,4 +53,20 @@ public class RegisterController {
         return "main";
     }
 
+    // Направляем на Предметный указатель Описи
+    @GetMapping(value = "/registers/{RegisterId}/subjectListRegister")
+    public String viewSubjectRegister(@PathVariable(name = "RegisterId") final Long RegisterId,
+                                      Model model){
+        model.addAttribute("register", registerService.findById(RegisterId));
+        return "/registers/subjectListRegister";
+    }
+
+    // Направляем на Именной указатель Описи
+    @GetMapping(value = "/registers/{RegisterId}/actorListRegister")
+    public String viewActorRegister(@PathVariable(name = "RegisterId") final Long RegisterId,
+                                      Model model){
+        model.addAttribute("register", registerService.findById(RegisterId));
+        return "/registers/actorListRegister";
+    }
+
 }

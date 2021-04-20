@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Предметный указатель Описи</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" th:href="@{/css/style.css}"/>
+</head>
+<body>
+<div class="container">
+    <!--    note tables-->
+    <table class="table table-striped mt-20 text-center">
+        <caption>Просмотр дел предметного указателя Описи</caption>
+        <thead>
+        <tr>
+            <th>Предметный указатель:</th>
+            <th>Связанные дела:</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="subject : ${register.getSubjects()}">
+            <td>
+                <p th:text="${subject.getName()}"></p>
+            </td>
+            <td style="font-size: 25px">
+                <a th:each="note : ${subject.getNotes()}" th:text="'&nbsp ' + ${note.number} + ' &nbsp'" th:href="@{'/notes/' + ${register.id} + '/note/' + ${note.id} + '/noteShowGrid'}"></a>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+</body>
+</html>

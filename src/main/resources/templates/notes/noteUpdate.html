@@ -6,9 +6,8 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css">
     <link rel="stylesheet" type="text/css" th:href="@{/css/style.css}"/>
 </head>
-<body>
-<div class="container">
-<form  th:object="${note}" th:action="@{'/register/' + ${note.getRegisterId()} + '/note'} " method="post">
+
+<form th:object="${note}" th:action="@{'/register/' + ${note.getRegisterId()} + '/note'} " method="post">
     <input type="hidden" th:field="*{id}"/>
     <div class="container">
     <table class="table table-striped mt-20 text-center">
@@ -42,8 +41,8 @@
             <input type="text" class="form-control" th:field="*{findActor}"/>
         </tr>
         </tbody>
+        <button type="submit" class="floating-button">Внести</button>
     </table>
-    <button type="submit" class="floating-button">Внести</button>
     </div>
 </form>
 
@@ -68,6 +67,4 @@
         </tbody>
     </table>
 
-</div>
-</body>
 </html>

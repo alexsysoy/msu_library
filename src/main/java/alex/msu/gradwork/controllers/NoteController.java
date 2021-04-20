@@ -62,20 +62,22 @@ public class NoteController {
         model.addAttribute("noteList", noteList);
         // Опись
         model.addAttribute("register", registerService.findById(Long.valueOf(registerId)));
-        return "registers/noteList";
+        return "registers/noteListGrid";
+        //return "registers/noteList";
+
     }
 
     // Просмотр Дела
     // URL - http://localhost:8080///notes/{registerId}/note/{noteId}/noteShow
     @GetMapping
-    @RequestMapping("/notes/{registerId}/note/{noteId}/noteShow")
+    @RequestMapping("/notes/{registerId}/note/{noteId}/noteShowGrid")
     public String showNote(@PathVariable String registerId,
                            @PathVariable String noteId, Model model){
         // Дело
         model.addAttribute("note", noteService.findByRegisterIdAndNoteId(Long.valueOf(registerId), Long.valueOf(noteId)));
         // Опись
         model.addAttribute("register", registerService.findById(Long.valueOf(registerId)));
-        return "notes/noteShow";
+        return "notes/noteShowGrid";
     }
 
 //    // Просмотр Дела короткий вариант
