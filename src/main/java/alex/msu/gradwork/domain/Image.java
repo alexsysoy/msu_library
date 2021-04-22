@@ -11,7 +11,7 @@ import java.util.Set;
 @Data
 @EqualsAndHashCode(exclude = {"notes"})
 @Entity
-@Table(name = "imagees")
+@Table(name = "images")
 public class Image {
 
     @Id
@@ -21,13 +21,14 @@ public class Image {
     //Название страницы изображения
     private String imageName;
 
-    private Byte[] image;
+    @Lob
+    private Byte[] bytes;
 
     //Дела, связанные с данным изображением
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "image")
     private Set<Note> notes = new HashSet<>();
 
-    //Конструкторы для удобного добавления Дела, Предметного указателя
+    //Конструкторы для удобного добавления Дела
     public Image addNote(Note note){
         note.setImage(this);
         this.notes.add(note);

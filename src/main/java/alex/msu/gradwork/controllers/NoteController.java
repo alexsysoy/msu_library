@@ -2,10 +2,12 @@ package alex.msu.gradwork.controllers;
 
 import alex.msu.gradwork.commands.NoteCommand;
 import alex.msu.gradwork.commands.RegisterCommand;
+import alex.msu.gradwork.domain.Image;
 import alex.msu.gradwork.domain.Note;
 import alex.msu.gradwork.services.NoteService;
 import alex.msu.gradwork.services.RegisterService;
 import lombok.extern.slf4j.Slf4j;
+import org.dom4j.rule.Mode;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -117,21 +119,23 @@ public class NoteController {
 
 
     // Внесение изменений в Дело
+    //ВНИМАНИЕ!!! Именной указатель - в три слова!!!
     // Перенаправление на представление данного Дела
     @PostMapping("/register/{registerId}/note")
     public String saveOrUpdate(@ModelAttribute NoteCommand command){
 
         NoteCommand savedCommand = noteService.saveNoteCommand(command);
-        return "redirect:/notes/" + savedCommand.getRegisterId() + "/note/" + savedCommand.getId() + "/noteShow";
+        return "redirect:/notes/" + savedCommand.getRegisterId() + "/note/" + savedCommand.getId() + "/noteShowGrid";
     }
 
     // Создание нового Дела
+    //ВНИМАНИЕ!!! Именной указатель - в три слова!!!
     // Перенаправление на представление данного Дела
     @PostMapping("/note/{registerId}/noteCreate")
     public String createNote(@ModelAttribute NoteCommand command){
 
         NoteCommand savedCommand = noteService.createNoteCommand(command);
-        return "redirect:/notes/" + savedCommand.getRegisterId() + "/note/" + savedCommand.getId() + "/noteShow";
+        return "redirect:/notes/" + savedCommand.getRegisterId() + "/note/" + savedCommand.getId() + "/noteShowGrid";
     }
 
 
@@ -152,8 +156,6 @@ public class NoteController {
 
         return "/notes/noteCreate";
     }
-
-
 
     @GetMapping
     @RequestMapping("register/{registerId}/note/new")

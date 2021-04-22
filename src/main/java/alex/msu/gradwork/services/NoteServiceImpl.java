@@ -5,14 +5,8 @@ import alex.msu.gradwork.converters.NoteCommandToNote;
 import alex.msu.gradwork.converters.NoteToNoteCommand;
 import alex.msu.gradwork.converters.SubjectCommandToSubject;
 import alex.msu.gradwork.converters.SubjectToSubjectCommand;
-import alex.msu.gradwork.domain.Actor;
-import alex.msu.gradwork.domain.Note;
-import alex.msu.gradwork.domain.Register;
-import alex.msu.gradwork.domain.Subject;
-import alex.msu.gradwork.repositories.ActorRepository;
-import alex.msu.gradwork.repositories.NoteRepository;
-import alex.msu.gradwork.repositories.RegisterRepository;
-import alex.msu.gradwork.repositories.SubjectRepository;
+import alex.msu.gradwork.domain.*;
+import alex.msu.gradwork.repositories.*;
 import lombok.Synchronized;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
@@ -22,7 +16,6 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.sound.midi.Soundbank;
 import java.util.HashSet;
 import java.util.Optional;
 import java.util.Set;
@@ -31,6 +24,7 @@ import java.util.Set;
 @Service
 public class NoteServiceImpl implements NoteService{
 
+    private final ImageRepository imageRepository;
     private final NoteRepository noteRepository;
     private final RegisterRepository registerRepository;
     private final SubjectRepository subjectRepository;
@@ -40,7 +34,8 @@ public class NoteServiceImpl implements NoteService{
     private final SubjectCommandToSubject subjectCommandToSubject;
     private final SubjectToSubjectCommand subjectToSubjectCommand;
 
-    public NoteServiceImpl(NoteRepository noteRepository, RegisterRepository registerRepository, SubjectRepository subjectRepository, ActorRepository actorRepository, NoteToNoteCommand noteToNoteCommand, NoteCommandToNote noteCommandToNote, SubjectCommandToSubject subjectCommandToSubject, SubjectToSubjectCommand subjectToSubjectCommand) {
+    public NoteServiceImpl(ImageRepository imageRepository, NoteRepository noteRepository, RegisterRepository registerRepository, SubjectRepository subjectRepository, ActorRepository actorRepository, NoteToNoteCommand noteToNoteCommand, NoteCommandToNote noteCommandToNote, SubjectCommandToSubject subjectCommandToSubject, SubjectToSubjectCommand subjectToSubjectCommand) {
+        this.imageRepository = imageRepository;
         this.noteRepository = noteRepository;
         this.registerRepository = registerRepository;
         this.subjectRepository = subjectRepository;
@@ -339,6 +334,30 @@ public class NoteServiceImpl implements NoteService{
         registerRepository.save(registerFound);
 
         return noteToNoteCommand.convert(note);
+    }
+
+    //Ищем Дело по id Изображения и Дела
+    @Override
+    public NoteCommand findByImageIdAndNoteId(Long imageId, Long noteId) {
+
+        Optional<Image> imageOptional = imageRepository.findById(imageId);
+
+        if(imageOptional.isEmpty()){
+            log.error("Изображения нет. id: " + imageId);
+        }
+
+        Image image = imageOptional.get();
+
+        Optional<NoteCommand> noteCommandOptional = image.getNotes().stream()
+                .filter(note -> note.getId().equals(noteId))
+                .map(noteToNoteCommand::convert)
+                .findFirst();
+
+        if(noteCommandOptional.isEmpty()){
+            log.error("Дело не найдено. id: " + noteId);
+        }
+
+        return noteCommandOptional.get() ;
     }
 
 

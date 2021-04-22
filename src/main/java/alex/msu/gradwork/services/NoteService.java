@@ -26,6 +26,9 @@ public interface NoteService {
 
     NoteCommand createNoteCommand(NoteCommand command);
 
+    //Поиск Дела по номеру Изображения и номеру Дела
+    NoteCommand findByImageIdAndNoteId(Long imageId, Long noteId);
+
     void DeleteById(Long registerId, Long idToDelete);
 
 }

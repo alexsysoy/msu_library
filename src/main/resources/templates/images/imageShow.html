@@ -2,7 +2,7 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Именной указатель Дела</title>
+    <title>Просмотр Изображения</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css">
     <link rel="stylesheet" type="text/css" th:href="@{/css/style.css}"/>
 </head>
@@ -10,20 +10,17 @@
 <div class="container">
     <!--    note tables-->
     <table class="table table-striped mt-20 text-center">
-        <caption>Просмотр именного указателя Дела</caption>
+        <caption>Просмотр Изображения Дела</caption>
         <thead>
         <tr>
-            <th>Номер дела</th>
-            <th>Аннотация</th>
+            <th></th>
         </tr>
         </thead>
         <tbody>
-        <tr th:each="note : ${notes}">
+        <tr>
             <td>
-                <p><a th:text="${note.number}" th:href="@{'/notes/' + ${note.getRegisterId()} + '/note/' + ${note.getId()} + '/noteShow'}"></a></p>
-            </td>
-            <td>
-                <p style="text-align: left" th:text="${note.getAnnotation()}"></p>
+                <img th:src="@{'/images/' + ${image.getId()} + '/imageShow/display'}"
+                        src="../../static/images/image_1.jpg">
             </td>
         </tr>
         </tbody>

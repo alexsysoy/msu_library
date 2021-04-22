@@ -17,7 +17,7 @@
 <div class="row">
     <div class="column side">
         <table class="table table-striped mt-20 text-center">
-            <caption>Наваигация:</caption>
+            <caption>Навигация:</caption>
             <thead>
             <tr>
                 <th></th>
@@ -100,7 +100,7 @@
 
     <div class="column side">
         <table class="table table-striped mt-20 text-center">
-            <caption>Изображения Описи:</caption>
+            <caption>Действия:</caption>
             <thead>
             <tr>
                 <th></th>
@@ -109,6 +109,19 @@
             <tbody>
             <tr>
                 <td>Фотографии описи</td>
+            </tr>
+            <tr>
+                <td>
+                    <a th:href="@{'/images/' + ${register.getId()} + '/load'}">Добавить фотографию</a>
+                </td>
+            </tr>
+            <tr>
+                <td>Файлы описи</td>
+            </tr>
+            <tr>
+                <td>
+<!--                    <a th:href="@{'/images/' + ${register.getId()} + '/load'}">Добавить фотографию</a>-->
+                </td>
             </tr>
             </tbody>
         </table>

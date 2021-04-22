@@ -101,10 +101,7 @@
             <tbody>
             <tr>
                 <td>
-                    <div>
-                        Ссылка на изображение
-<!--                        <p><a th:text="${note.getImageId()}">Номер изображения</a></p>-->
-                    </div>
+                    <p><a th:href="@{'/images/' + ${note.getImageId()} + '/imageShow'}">Просмотр Изображения</a></p>
                 </td>
             </tr>
             </tbody>
