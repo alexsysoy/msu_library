@@ -15,6 +15,7 @@
 </div>
 
 <div class="row">
+
     <div class="column side">
         <table class="table table-striped mt-20 text-center">
             <caption>Навигация:</caption>
@@ -26,8 +27,12 @@
             <tbody>
             <tr>
                 <td>
+                    <p>Поиск</p>
+                </td>
+            </tr>
+            <tr>
+                <td>
                     <div>
-                        <p>Поиск</p>
                         <p><a th:href="'/registers/' + ${register.getId()} + '/subjectListRegister'">Предметный указатель</a></p>
                         <p><a th:href="'/registers/' + ${register.getId()} + '/actorListRegister'">Именной указатель</a></p>
                     </div>

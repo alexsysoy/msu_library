@@ -28,15 +28,17 @@ public class NoteController {
         this.registerService = registerService;
     }
 
+
     // Выводит список всех Дел данной Описи
     // URL - http://localhost:8080/register/{registerId}/notes
     //Направляем на сортировку и на постраничный просмотр
     @GetMapping
     @RequestMapping(value = "/page/registers/{registerId}/notes")
     public String viewNoteList(@PathVariable String registerId, Model model){
-        //model.addAttribute("register", registerService.findById(Long.valueOf(registerId)));
-        return "redirect:/registers/" + registerId + "/noteList/page/1?sort-field=id&sort-dir=asc";
+
+        return "redirect:/registers/" + registerId + "/noteList/page/1?sort-field=number&sort-dir=asc";
     }
+
 
     //Сортировка и постраничный просмотр Дел
     // URL - http://localhost:8080/register/{registerId}/notes/page/1?sort-field=firstName&sort-dir=desc
@@ -49,7 +51,8 @@ public class NoteController {
                                 final Model model) {
         // Устанавливаем количество записей на странице
         final int pageSize = 10;
-        final Page<Note> page = noteService.findPaginated(pageNo, pageSize, sortField, sortDir);
+
+        final Page<Note> page = noteService.findPaginated(Long.valueOf(registerId), pageNo, pageSize, sortField, sortDir);
         final List<Note> noteList = page.getContent();
 
         // Параметры постраничного ввода
@@ -65,7 +68,6 @@ public class NoteController {
         // Опись
         model.addAttribute("register", registerService.findById(Long.valueOf(registerId)));
         return "registers/noteListGrid";
-        //return "registers/noteList";
 
     }
 

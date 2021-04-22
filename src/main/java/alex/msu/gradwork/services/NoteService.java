@@ -10,7 +10,9 @@ public interface NoteService {
 
     Long getTotalNotes();
 
-    Page<Note> findPaginated(int pageNumber, int pageSize, String sortField, String sortDirection);
+//    Page<Note> findPaginated(int pageNumber, int pageSize, String sortField, String sortDirection);
+
+    Page<Note> findPaginated(Long registerId, int pageNumber, int pageSize, String sortField, String sortDirection);
 
     Set<Note> getNotes();
 
