@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Сохранение изображения</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" th:href="@{/css/style.css}"/>
+</head>
+<body>
+
+<form th:object="${register}" th:action="@{'/files/' + ${register.getId()} + '/load'}" method="post"  enctype="multipart/form-data">
+    <input type="hidden" th:field="*{id}"/>
+    <table class="table table-striped mt-20 text-center">
+        <caption>Сохранение изображения</caption>
+        <thead>
+        <tr>
+            <th></th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td>
+                <label class="control-label">Выбрать файл</label>
+                <input id="file" name="file" type="file" class="file">
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <button type="submit" class="floating-button">Внести</button>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+
+</form>
+</body>
+</html>
