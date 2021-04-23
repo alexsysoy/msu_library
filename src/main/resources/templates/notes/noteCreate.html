@@ -44,8 +44,13 @@
             </tr>
             <tr>
                 <td>
-                    <label>Именной указатель:</label>
-                    <input type="text" class="form-control" th:field="*{findActor}"/>
+                    <p>Именной указатель:</p>
+                    <label>Имя</label>
+                    <input type="text" class="form-control" th:field="*{findNameActor}"/>
+                    <label>Отчество</label>
+                    <input type="text" class="form-control" th:field="*{findPatronymicActor}"/>
+                    <label>Фамилия</label>
+                    <input type="text" class="form-control" th:field="*{findSurnameActor}"/>
                 </td>
             </tr>
             <tr>

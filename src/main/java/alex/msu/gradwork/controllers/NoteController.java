@@ -2,12 +2,10 @@ package alex.msu.gradwork.controllers;
 
 import alex.msu.gradwork.commands.NoteCommand;
 import alex.msu.gradwork.commands.RegisterCommand;
-import alex.msu.gradwork.domain.Image;
 import alex.msu.gradwork.domain.Note;
 import alex.msu.gradwork.services.NoteService;
 import alex.msu.gradwork.services.RegisterService;
 import lombok.extern.slf4j.Slf4j;
-import org.dom4j.rule.Mode;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -147,47 +145,65 @@ public class NoteController {
         return "/notes/noteCreate";
     }
 
+//    @GetMapping
+//    @RequestMapping("register/{registerId}/note/new")
+//    public String newNote(@PathVariable String registerId, Model model){
+//
+//        //make sure we have a good id value
+//        RegisterCommand registerCommand = registerService.findCommandById(Long.valueOf(registerId));
+//        //todo raise exception if null
+//
+//        //need to return back parent id for hidden form property
+//        NoteCommand noteCommand = new NoteCommand();
+//        noteCommand.setRegisterId(Long.valueOf(registerId));
+//        model.addAttribute("note", noteCommand);
+//
+//        return "register/note/noteform";
+//    }
+
+    // Поиск Дела
     @GetMapping
-    @RequestMapping("register/{registerId}/note/new")
-    public String newNote(@PathVariable String registerId, Model model){
+    @RequestMapping("/reports/{registerId}/searchBox")
+    public String viewSearchBox(@PathVariable String registerId, Model model) {
 
-        //make sure we have a good id value
-        RegisterCommand registerCommand = registerService.findCommandById(Long.valueOf(registerId));
-        //todo raise exception if null
+        //RegisterCommand registerCommand = registerService.findCommandById(Long.valueOf(registerId));
 
-        //need to return back parent id for hidden form property
+        // Создаём поисковое Дело и возвращаем его в форму поиска
         NoteCommand noteCommand = new NoteCommand();
         noteCommand.setRegisterId(Long.valueOf(registerId));
+
         model.addAttribute("note", noteCommand);
 
-        return "register/note/noteform";
+        return "/reports/searchBox";
     }
 
-    @GetMapping
-    @RequestMapping("register/{registerId}/note/find")
-    public String findNote(@PathVariable String registerId, Model model){
-
-        //make sure we have a good id value
-        RegisterCommand registerCommand = registerService.findCommandById(Long.valueOf(registerId));
-        //todo raise exception if null
-
-        //need to return back parent id for hidden form property
-        NoteCommand noteCommand = new NoteCommand();
-        noteCommand.setRegisterId(Long.valueOf(registerId));
-        model.addAttribute("note", noteCommand);
-
-        return "register/note/notefind";
-    }
-
-    @PostMapping("register/{registerId}/findnote")
+    // Обработка поиска, вывод результата поиска
+    @PostMapping("/reports/{registerId}/searchResult")
     public String find(@ModelAttribute NoteCommand command,
+                       @PathVariable String registerId,
                        Model model){
 
-        Set<Note> notes = noteService.findNoteCommand(command);
+        Set<Note> notes = noteService.searchNotes(command);
         model.addAttribute("notes", notes);
 
-        log.debug("Set findnotes size: " + notes.size());
-        return "register/find";
+        return "/reports/searchResult";
     }
+
+
+//    @GetMapping
+//    @RequestMapping("register/{registerId}/note/find")
+//    public String findNote(@PathVariable String registerId, Model model){
+//
+//        //make sure we have a good id value
+//        RegisterCommand registerCommand = registerService.findCommandById(Long.valueOf(registerId));
+//        //todo raise exception if null
+//
+//        //need to return back parent id for hidden form property
+//        NoteCommand noteCommand = new NoteCommand();
+//        noteCommand.setRegisterId(Long.valueOf(registerId));
+//        model.addAttribute("note", noteCommand);
+//
+//        return "register/note/notefind";
+//    }
 
 }

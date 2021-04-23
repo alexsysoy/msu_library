@@ -19,6 +19,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.HashSet;
 import java.util.Optional;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 @Slf4j
 @Service
@@ -136,6 +137,65 @@ public class NoteServiceImpl implements NoteService{
         }
     }
 
+    // Ищем Дела
+    @Override
+    @Transactional
+    @Synchronized
+    public Set<Note> searchNotes(NoteCommand command) {
+
+        Set<Note> notes = noteRepository.findNotesByRegisterId(command.getRegisterId());
+
+        log.debug("Общее количество Дел в Описи {}", notes.size());
+
+        // Ищем по номеру
+        if (command.getNumber() != null) {
+            notes = notes.stream().filter(note -> note.getNumber().equals(command.getNumber())).collect(Collectors.toSet());
+            log.debug("Количество дел {} после поиска по номеру", notes.size());
+        }
+
+
+        // Ищем по аннотоции
+        if (!command.getAnnotation().isEmpty() && notes.size() > 0) {
+            notes = notes.stream().filter(note -> note.getAnnotation().toLowerCase().contains(command.getAnnotation().toLowerCase())).collect(Collectors.toSet());
+            log.debug("Количество дел {} после поиска по аннотации", notes.size());
+        }
+
+
+        // Ищем по примечанию
+        if (!command.getMemo().isEmpty() && notes.size() > 0) {
+            notes = notes.stream()
+                    .filter(note -> !(note.getMemo() == null))
+                    .filter(note -> note.getMemo().toLowerCase().contains(command.getMemo().toLowerCase())).collect(Collectors.toSet());
+            log.debug("Количество дел {} после поиска по примечанию" , notes.size());
+        }
+
+
+        // Ищем по Предметному указателю
+        if (!command.getFindSubject().isEmpty() && notes.size() > 0) {
+            notes = notes.stream()
+                    .filter(note -> note.getSubjects().stream()
+                                        .anyMatch(subject -> subject.getName().toLowerCase().contains(command.getFindSubject().toLowerCase().trim())))
+                    .collect(Collectors.toSet());
+            log.debug("Количество дел {} после поиска по Предметному указателю", notes.size());
+        }
+
+
+        // Ищем по Именному указателю
+        if (!command.getFindNameActor().isEmpty() || !command.getFindPatronymicActor().isEmpty() || !command.getFindSurnameActor().isEmpty() && notes.size() > 0) {
+            notes = notes.stream()
+                    .filter(note -> note.getActors().stream()
+                            .anyMatch(actor -> actor.getName().toLowerCase().contains(command.getFindNameActor().toLowerCase().trim())))
+                    .filter(note -> note.getActors().stream()
+                            .anyMatch(actor -> actor.getPatronymic().toLowerCase().contains(command.getFindPatronymicActor().toLowerCase().trim())))
+                    .filter(note -> note.getActors().stream()
+                            .anyMatch(actor -> actor.getSurname().toLowerCase().contains(command.getFindSurnameActor().toLowerCase().trim())))
+                    .collect(Collectors.toSet());
+            log.debug("Количество дел {} после поиска по именному указателю", notes.size());
+        }
+
+        return notes;
+    }
+
 
     //Редактируем или сохраняем Дело
     @Override
@@ -143,7 +203,6 @@ public class NoteServiceImpl implements NoteService{
     @Synchronized
     public NoteCommand saveNoteCommand(NoteCommand command) {
 
-        //todo error if not found
         Optional<Register> registerOptional = registerRepository.findById(command.getRegisterId());
         Register registerFound = registerOptional.get();
         Optional<Note> noteOptional = noteRepository.findById(command.getId());
@@ -154,110 +213,102 @@ public class NoteServiceImpl implements NoteService{
         noteFound.setNumber(command.getNumber());
         noteFound.setMemo(command.getMemo());
 
-        Subject subjectFound;
-
-        //Ищем Предметный указатель в текущем Деле
-        Optional<Subject> subjectOptional = noteFound
-                .getSubjects()
-                .stream()
-                .filter(subject -> subject.getName().equals(command.getFindSubject()))
-                .findFirst();
-
-        if (subjectOptional.isPresent()) {
-            //Проверка: есть ли ключевое слово в данном Деле
-            subjectFound = subjectOptional.get();
-            log.debug("Ключевое слово не меняем. В деле есть данное ключевое слово! номер id: " + subjectFound.getId());
-            //noteFound.getSubjects().add(subjectFound);
-        } else {
-            //Ищем в текущей Описи
-            Optional<Subject> subjectRegister = registerFound
+        //Ищем Предметный указатель в текущем Деле если он введён
+        if (!command.getFindSubject().isEmpty()){
+            Optional<Subject> subjectOptional;
+            subjectOptional = noteFound
                     .getSubjects()
                     .stream()
-                    .filter((subject -> subject.getName().equals(command.getFindSubject())))
+                    .filter(subject -> subject.getName().equals(command.getFindSubject()))
                     .findFirst();
-            if (subjectRegister.isPresent()){
-                //Нашли ключевое слово в описи
-                //Добавляем ключевое слово к Делу
-                subjectFound = subjectRegister.get();
-                log.debug("в описи есть данное ключевое слово! номер id: " + subjectFound.getId());
-                //Добавляем к предметному списку текущего Дела
-                noteFound.getSubjects().add(subjectFound);
-                //Добавляем к предметному списку ключевого слова Описи ссылку на данное дело
-                //Делает hibernate
-            } else {
-                log.debug("в описи нет ключевого слова!");
 
-                //В деле и в описи нет данного ключевого слова
-                //Создаем новое ключевое слово
-                subjectFound = new Subject();
-                subjectFound.setName(command.getFindSubject());
-                subjectRepository.save(subjectFound);
+            subjectOptional.ifPresent(subject -> log.debug("Предметный указатель в Деле есть. Номер id: " + subject.getId()));
 
-                //Сохраняем ключевое слово в предметном указателе Описи
-                registerFound.addSubject(subjectFound);
-                registerRepository.save(registerFound);
-                //Сохраняем ключевое слово в предметном указателе Дела
-                noteFound.getSubjects().add(subjectFound);
-                log.debug("в описи нет ключевого слова! Создали новое номер id: " + subjectFound.getId());
+            //Ищем предметный указатель в текущей Описи
+            if (subjectOptional.isEmpty()){
+                subjectOptional = registerFound
+                        .getSubjects()
+                        .stream()
+                        .filter((subject -> subject.getName().equals(command.getFindSubject())))
+                        .findFirst();
+                if (subjectOptional.isPresent()) {
+                    noteFound.getSubjects().add(subjectOptional.get());
+                    log.debug("В описи есть данный Предметный указатель. Номер id: " + subjectOptional.get().getId());
+                } else {
+                    log.debug("В описи нет данного Предметного указателя!");
 
+                    //В деле и в описи нет данного ключевого слова
+                    //Создаем новое ключевое слово
+                    Subject subject = new Subject();
+                    subject.setName(command.getFindSubject());
+                    subjectRepository.save(subject);
+
+                    //Сохраняем ключевое слово в предметном указателе Описи
+                    registerFound.addSubject(subject);
+                    registerRepository.save(registerFound);
+                    //Сохраняем ключевое слово в предметном указателе Дела
+                    noteFound.getSubjects().add(subject);
+                    log.debug("Создали новый Предметный указатель, номер id: " + subject.getId());
+                }
             }
         }
 
-        Actor actorFound = null;
 
-        // Разбиваем findActor на массив слов
-        String[] parts = command.getFindActor().split(" ");
-        // Предположим, что вводятся все три слова по порядку (возможно, если слова нет вводится - )
-        if (parts.length > 1) {
+
+        // Ищем Именной указатель в текущем деле
+        Optional<Actor> actorOptional;
+
+        // Проверяем, заполнено ли поля Именного указателя (или имя, или отчество, или фамилия)
+        if (!command.getFindNameActor().isEmpty() || !command.getFindPatronymicActor().isEmpty() || !command.getFindSurnameActor().isEmpty()) {
+
             //Ищем Именной указатель в текущем Деле
-            //Ищем Имя
-            for (Actor actor : noteFound.getActors()){
-                if (actor.getName().equals(parts[0])  && actor.getPatronymic().equals(parts[1]) && actor.getSurname().equals(parts[2])){
-                    actorFound = actor;
-                    log.debug("Актор не меняем. В деле есть! номер id: " + actorFound.getId());
-                }
+            actorOptional = noteFound.getActors().stream()
+                    .filter(actor -> actor.getName().equals(command.getFindNameActor()))
+                    .filter(actor -> actor.getPatronymic().equals(command.getFindPatronymicActor()))
+                    .filter(actor -> actor.getSurname().equals(command.getFindSurnameActor()))
+                    .findFirst();
+
+            actorOptional.ifPresent(actor -> log.debug("Актор не меняем. В Деле есть. Номер id: " + actor.getId()));
+
+            //Ищем Именной указатель в текущей Описи
+            actorOptional = registerFound.getActors().stream()
+                    .filter(actor -> actor.getName().equals(command.getFindNameActor()))
+                    .filter(actor -> actor.getPatronymic().equals(command.getFindPatronymicActor()))
+                    .filter(actor -> actor.getSurname().equals(command.getFindSurnameActor()))
+                    .findFirst();
+
+            if (actorOptional.isPresent()) {
+                log.debug("В описи данный Актор есть. Номер id: " + actorOptional.get().getId());
+                noteFound.getActors().add(actorOptional.get());
             }
 
-            if (actorFound == null) {
-                //В Деле данный Актор не найден, ищем в текущей Описи
-                for (Actor actor : registerFound.getActors()){
-                    if (actor.getName().equals(parts[0])  && actor.getPatronymic().equals(parts[1]) && actor.getSurname().equals(parts[2])){
-                        actorFound = actor;
-                        log.debug("В описи данный Актор есть! номер id: " + actorFound.getId());
-                        //Нашли Актор в описи
-                        //Добавляем Актор к Делу
-                        noteFound.getActors().add(actorFound);
-                    }
-                }
-            }
 
-            if (actorFound == null) {
-                log.debug("в описи нет Актора!");
+            if (actorOptional.isEmpty()) {
+                log.debug("В описи нет данного Актора");
 
                 //В деле и в описи нет данного Актора
                 //Создаем новый Актор
-                actorFound = new Actor();
-                actorFound.setName(parts[0]);
-                actorFound.setPatronymic(parts[1]);
-                actorFound.setSurname(parts[2]);
-                actorRepository.save(actorFound);
+                Actor actor = new Actor();
+                actor.setName(command.getFindNameActor());
+                actor.setPatronymic(command.getFindPatronymicActor());
+                actor.setSurname(command.getFindSurnameActor());
+                actorRepository.save(actor);
 
                 //Сохраняем Актор в предметном указателе Описи
-                registerFound.addActor(actorFound);
+                registerFound.addActor(actor);
                 registerRepository.save(registerFound);
                 //Сохраняем Актор в предметном указателе Дела
-                noteFound.getActors().add(actorFound);
-                log.debug("в описи нет ключевого слова! Создали новое номер id: " + actorFound.getId());
+                noteFound.getActors().add(actor);
+                log.debug("Создали нового Актора, номер id: " + actor.getId());
             }
         }
 
-
-
         Note savedNote = noteRepository.save(noteFound);
-        return noteToNoteCommand.convert(noteFound);
+        return noteToNoteCommand.convert(savedNote);
     }
 
-    //Создание нового Дела
+
+    // Создание нового Дела
     @Override
     @Transactional
     @Synchronized
@@ -276,56 +327,53 @@ public class NoteServiceImpl implements NoteService{
         note.setMemo(command.getMemo());
 
         //Если был добавлен предметный указатель
-        if (command.getFindSubject() != null) {
-            //Ищем предметный указатель
-            Subject subjectFound;
+        if (!command.getFindSubject().isEmpty()) {
+
+            String subjectName = command.getFindSubject().toLowerCase().trim();
+            //Ищем предметный указатель в Описи
             Optional<Subject> subjectRegister = registerFound
                     .getSubjects()
                     .stream()
-                    .filter((subject -> subject.getName().equals(command.getFindSubject())))
+                    .filter((subject -> subject.getName().toLowerCase().equals(subjectName)))
                     .findFirst();
             if (subjectRegister.isPresent()) {
-                //Нашли Пердметный указатель в описи
-                //Добавляем его к Делу
-                subjectFound = subjectRegister.get();
-                log.debug("В описи есть данный Предметный указатель! номер id: " + subjectFound.getId() + " добавляем его");
+                log.debug("В описи есть данный Предметный указатель! номер id: " + subjectRegister.get().getId() + " добавляем его");
                 //Добавляем к предметному списку текущего Дела
-                note.getSubjects().add(subjectFound);
-                //Добавляем к предметному списку ключевого слова Описи ссылку на данное дело
-                //Делает hibernate
+                note.getSubjects().add(subjectRegister.get());
+
             } else {
                 //Если не нашли предметный указатель, создаём его
-                subjectFound = new Subject();
-                subjectFound.setName(command.getFindSubject());
-                subjectRepository.save(subjectFound);
+                Subject subject = new Subject();
+                subject.setName(command.getFindSubject().trim());
+                subjectRepository.save(subject);
 
-                //Сохраняем ключевое слово в предметном указателе Описи
-                registerFound.addSubject(subjectFound);
+                //Сохраняем Предметный указатель в Предметном указателе Описи
+                registerFound.addSubject(subject);
                 registerRepository.save(registerFound);
-                //Сохраняем ключевое слово в предметном указателе Дела
-                note.getSubjects().add(subjectFound);
+                //Сохраняем Предметный указатель в Предметный указателе Дела
+                note.getSubjects().add(subject);
             }
         }
 
-        //Если был добавлен именной указатель
-        if (command.getFindActor() != null) {
-            // Разбиваем findActor на массив слов
-            String[] parts = command.getFindActor().split(" ");
-            // Предположим, что вводятся все три слова по порядку (возможно, если слова нет вводится - )
-            if (parts.length > 1) {
-                //Ищем в текущей Описи
+        //Если был добавлен Именной указатель (или имя, или отчество, или фамилия)
+        if (!command.getFindNameActor().isEmpty() || !command.getFindPatronymicActor().isEmpty() || !command.getFindSurnameActor().isEmpty()) {
 
-                Optional<Actor> actorOptional = registerFound.getActors()
-                        .stream()
-                        .filter(actor -> actor.getName().equals(parts[0]) && actor.getPatronymic().equals(parts[1]) && actor.getSurname().equals(parts[2]))
-                        .findFirst();
+            String name = command.getFindNameActor().trim().toLowerCase();
+            String patronymic = command.getFindPatronymicActor().trim().toLowerCase();
+            String surname = command.getFindSurnameActor().trim().toLowerCase();
+            //Ищем в текущей Описи
+            Optional<Actor> actorOptional = registerFound.getActors()
+                    .stream()
+                    .filter(actor -> actor.getName().toLowerCase().equals(name) && actor.getPatronymic().toLowerCase().equals(patronymic) && actor.getSurname().toLowerCase().equals(surname))
+                    .findFirst();
+
                 if (actorOptional.isPresent()){
                     note.getActors().add(actorOptional.get());
                 } else {
                     Actor actor = new Actor();
-                    actor.setName(parts[0]);
-                    actor.setPatronymic(parts[1]);
-                    actor.setSurname(parts[2]);
+                    actor.setName(command.getFindNameActor().trim());
+                    actor.setPatronymic(command.getFindPatronymicActor().trim());
+                    actor.setSurname(command.getFindSurnameActor().trim());
                     actorRepository.save(actor);
 
                     //Сохраняем Актор в предметном указателе Описи
@@ -335,7 +383,6 @@ public class NoteServiceImpl implements NoteService{
                     note.getActors().add(actor);
                 }
             }
-        }
 
         //Сохраняем дело
         Note savedNote = noteRepository.save(note);
@@ -419,8 +466,6 @@ public class NoteServiceImpl implements NoteService{
             return notes;
         }
     }
-
-
 
 
 }

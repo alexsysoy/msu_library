@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Поиск Дела</title>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css">
+  <link rel="stylesheet" type="text/css" th:href="@{/css/style.css}"/>
+</head>
+<body>
+<div class="container">
+  <form  th:object="${note}" th:action="@{'/reports/' + ${note.getRegisterId()} + '/searchResult'} " method="post">
+<!--    <input type="hidden" th:field="*{id}"/>-->
+    <table class="table table-striped mt-20 text-center">
+      <caption>Поиск Дела</caption>
+      <thead>
+      <tr>
+        <th></th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr>
+        <td>
+          <label>Номер:</label>
+          <input type="number" class="form-control" th:field="*{number}"/>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <label>Аннотация:</label>
+          <input type="text" class="form-control" th:field="*{annotation}"/>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <label>Примечание:</label>
+          <input type="text" class="form-control" th:field="*{memo}"/>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <label>Предметный указатель:</label>
+          <input type="text" class="form-control" th:field="*{findSubject}"/>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <label>Именной указатель:</label>
+          <label>Имя</label>
+          <input type="text" class="form-control" th:field="*{findNameActor}"/>
+          <label>Отчество</label>
+          <input type="text" class="form-control" th:field="*{findPatronymicActor}"/>
+          <label>Фамилия</label>
+          <input type="text" class="form-control" th:field="*{findSurnameActor}"/>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <button type="submit" class="floating-button">Найти</button>
+        </td>
+      </tr>
+      </tbody>
+    </table>
+  </form>
+
+</div>
+</body>
+</html>

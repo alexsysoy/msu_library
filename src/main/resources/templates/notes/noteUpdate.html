@@ -15,33 +15,55 @@
         <thead>
         <tr>
             <th></th>
-            <th></th>
-            <th></th>
         </tr>
         </thead>
         <tbody>
         <tr>
-            <label>Номер:</label>
-            <input type="number" class="form-control" th:field="*{number}"/>
+            <td>
+                <label>Номер:</label>
+                <input type="number" class="form-control" th:field="*{number}"/>
+            </td>
         </tr>
+        <tr></tr>
         <tr>
-            <label>Аннотация:</label>
-            <input type="text" class="form-control" th:field="*{annotation}"/>
+            <td>
+                <label>Аннотация:</label>
+                <input type="text" class="form-control" th:field="*{annotation}"/>
+            </td>
         </tr>
+        <tr></tr>
         <tr>
-            <label>Примечание:</label>
-            <input type="text" class="form-control" th:field="*{memo}"/>
+            <td>
+                <label>Примечание:</label>
+                <input type="text" class="form-control" th:field="*{memo}"/>
+            </td>
         </tr>
+        <tr></tr>
         <tr>
-            <label>Предметный указатель:</label>
-            <input type="text" class="form-control" th:field="*{findSubject}"/>
+            <td>
+                <label>Предметный указатель:</label>
+                <input type="text" class="form-control" th:field="*{findSubject}"/>
+            </td>
         </tr>
+        <tr></tr>
         <tr>
-            <label>Именной указатель:</label>
-            <input type="text" class="form-control" th:field="*{findActor}"/>
+            <td>
+                <p>Именной указатель:</p>
+                <label>Имя</label>
+                <input type="text" class="form-control" th:field="*{findNameActor}"/>
+                <label>Отчество</label>
+                <input type="text" class="form-control" th:field="*{findPatronymicActor}"/>
+                <label>Фамилия</label>
+                <input type="text" class="form-control" th:field="*{findSurnameActor}"/>
+            </td>
+        </tr>
+        <tr></tr>
+        <tr>
+            <td>
+                <button type="submit" class="floating-button">Внести</button>
+            </td>
         </tr>
         </tbody>
-        <button type="submit" class="floating-button">Внести</button>
     </table>
     </div>
 </form>

@@ -25,7 +25,9 @@ public class NoteCommand {
 
     //Специальные поля для предметного и именного указателя
     private String findSubject;
-    private String findActor;
+    private String findNameActor;
+    private String findPatronymicActor;
+    private String findSurnameActor;
 
     private Set<SubjectCommand> subjects = new HashSet<>();
     private Set<ActorCommand> actors = new HashSet<>();

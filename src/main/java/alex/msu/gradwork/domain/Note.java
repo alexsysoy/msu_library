@@ -12,7 +12,7 @@ import java.util.Set;
 @Setter
 @EqualsAndHashCode(exclude = {"register", "image"})
 @Entity
-@Table(name = "note")
+@Table(name = "notes")
 public class Note {
 
     @Id

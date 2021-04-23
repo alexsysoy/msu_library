@@ -21,7 +21,7 @@
         <caption>Действия:</caption>
             <thead>
             <tr>
-
+                <th></th>
             </tr>
             </thead>
             <tbody>
@@ -37,8 +37,9 @@
             <tr>
                 <td>
                     <div>
-                        <p>Найти Дело</p>
+                        <p><a th:href="'/reports/' + ${register.getId()} + '/searchBox'">Поиск</a></p>
                         <p>Перейти к Описи: <a href="#" th:text="${register.getName()}" th:href="@{'/page/registers/' + ${register.getId()} + '/notes'}">Название описи: </a></p>
+                        <p><a th:href="@{'/'}">Вернуться в Фонд</a></p>
                     </div>
                 </td>
             </tr>
@@ -58,12 +59,12 @@
             <tbody>
             <tr><td>Аннотация:</td></tr>
             <tr>
-                <td colspan="3" style="text-align: left" th:text="${note.getAnnotation()}"></td>
+                <td style="text-align: left" th:text="${note.getAnnotation()}"></td>
             </tr>
             <tr>
-                <td style="text-align: left" >Примечание:</td></tr>
+                <td>Примечание:</td></tr>
             <tr>
-                <td th:text="${note.getMemo()}"></td>
+                <td style="text-align: left" th:text="${note.getMemo()}"></td>
             </tr>
             </tbody>
         </table>
@@ -76,8 +77,8 @@
         <table class="table table-striped mt-20 text-center">
             <caption>Указатели:</caption>
             <tr>
-                <th>Предметный указатель:</th>
-                <th>Именной указатель:</th>
+                <th>Предметный указатель</th>
+                <th>Именной указатель</th>
             </tr>
             <tbody>
             <tr>
@@ -97,12 +98,13 @@
 
         <table class="table table-striped mt-20 text-center">
             <tr>
-                <th>Изображение:</th>
+                <th>Изображение</th>
             </tr>
             <tbody>
             <tr>
                 <td>
-                    <p><a th:href="@{'/images/' + ${note.getImageId()} + '/imageShow'}">Просмотр Изображения</a></p>
+                    <p th:if="${not #lists.isEmpty(note.imageId)}"><a th:href="@{'/images/' + ${note.getImageId()} + '/imageShow'}">Изображение доступно</a></p>
+                    <p th:if="${#lists.isEmpty(note.imageId)}">Изображение недоступно</p>
                 </td>
             </tr>
             </tbody>
@@ -114,7 +116,7 @@
 
 <div class="footer">
     <table class="table table-striped mt-20 text-center">
-        <caption>Документы Дела:</caption>
+        <caption>Документы Дела</caption>
         <tr>
             <th>Страницы Дела:</th>
         </tr>

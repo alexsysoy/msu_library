@@ -10,7 +10,7 @@ import java.util.Set;
 @Data
 @EqualsAndHashCode(exclude = {"notes","subjects","actors"})
 @Entity
-@Table(name = "register")
+@Table(name = "registers")
 public class Register {
 
     @Id

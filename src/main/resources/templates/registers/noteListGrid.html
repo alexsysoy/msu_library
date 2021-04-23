@@ -27,7 +27,7 @@
             <tbody>
             <tr>
                 <td>
-                    <p>Поиск</p>
+                    <p><a th:href="'/reports/' + ${register.getId()} + '/searchBox'">Поиск</a></p>
                 </td>
             </tr>
             <tr>
@@ -35,6 +35,7 @@
                     <div>
                         <p><a th:href="'/registers/' + ${register.getId()} + '/subjectListRegister'">Предметный указатель</a></p>
                         <p><a th:href="'/registers/' + ${register.getId()} + '/actorListRegister'">Именной указатель</a></p>
+                        <p><a th:href="'/'">Вернуться в Фонд</a></p>
                     </div>
                 </td>
             </tr>

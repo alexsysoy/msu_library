@@ -33,4 +33,5 @@ public interface NoteService {
 
     void DeleteById(Long registerId, Long idToDelete);
 
+    Set<Note> searchNotes(NoteCommand command);
 }
