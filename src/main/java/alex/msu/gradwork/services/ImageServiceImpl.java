@@ -74,14 +74,6 @@ public class ImageServiceImpl implements ImageService {
     }
 
     @Override
-    @Transactional
-    public Image saveImage(Image source) {
-        Image image = imageRepository.save(source);
-        log.debug("Изображение сохранено. Номер id: " + image.getId());
-        return image;
-    }
-
-    @Override
     public Image findById(Long l) {
 
         Optional<Image> imageOptional = imageRepository.findById(l);

@@ -9,8 +9,6 @@ import java.util.Set;
 
 public interface RegisterService {
 
-//    Page<Register> listAll();
-
 
     Long getTotalRegisters();
 

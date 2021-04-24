@@ -145,22 +145,6 @@ public class NoteController {
         return "/notes/noteCreate";
     }
 
-//    @GetMapping
-//    @RequestMapping("register/{registerId}/note/new")
-//    public String newNote(@PathVariable String registerId, Model model){
-//
-//        //make sure we have a good id value
-//        RegisterCommand registerCommand = registerService.findCommandById(Long.valueOf(registerId));
-//        //todo raise exception if null
-//
-//        //need to return back parent id for hidden form property
-//        NoteCommand noteCommand = new NoteCommand();
-//        noteCommand.setRegisterId(Long.valueOf(registerId));
-//        model.addAttribute("note", noteCommand);
-//
-//        return "register/note/noteform";
-//    }
-
     // Поиск Дела
     @GetMapping
     @RequestMapping("/reports/{registerId}/searchBox")
@@ -188,22 +172,5 @@ public class NoteController {
 
         return "/reports/searchResult";
     }
-
-
-//    @GetMapping
-//    @RequestMapping("register/{registerId}/note/find")
-//    public String findNote(@PathVariable String registerId, Model model){
-//
-//        //make sure we have a good id value
-//        RegisterCommand registerCommand = registerService.findCommandById(Long.valueOf(registerId));
-//        //todo raise exception if null
-//
-//        //need to return back parent id for hidden form property
-//        NoteCommand noteCommand = new NoteCommand();
-//        noteCommand.setRegisterId(Long.valueOf(registerId));
-//        model.addAttribute("note", noteCommand);
-//
-//        return "register/note/notefind";
-//    }
 
 }

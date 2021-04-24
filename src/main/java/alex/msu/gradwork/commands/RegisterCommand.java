@@ -10,7 +10,7 @@ import java.util.Set;
 @Getter
 @Setter
 @NoArgsConstructor
-public class RegisterCommand {
+public class  RegisterCommand {
 
     private Long id;
     private String name;

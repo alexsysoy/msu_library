@@ -47,20 +47,6 @@ public class NoteServiceImpl implements NoteService{
         this.subjectToSubjectCommand = subjectToSubjectCommand;
     }
 
-    //Возвращает общее количество записей
-    @Override
-    public Long getTotalNotes(){
-        return noteRepository.count();
-    }
-
-//    //Возращает постранично отсортированный список Дел
-//    @Override
-//    public Page<Note> findPaginated(int pageNumber, int pageSize, String sortField, String sortDirection) {
-//        final Sort sort = sortDirection.equalsIgnoreCase(Sort.Direction.ASC.name()) ?
-//                Sort.by(sortField).ascending() : Sort.by(sortField).descending();
-//        final Pageable pageable = PageRequest.of(pageNumber - 1, pageSize, sort);
-//        return noteRepository.findAll(pageable);
-//    }
 
     //Возращает постранично отсортированный список Дел по Id Описи
     @Override

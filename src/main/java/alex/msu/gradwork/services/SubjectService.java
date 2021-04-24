@@ -11,9 +11,6 @@ public interface SubjectService {
 
     Set<NoteCommand> findAllNoteBySubjectId (Long l);
 
-//    IngredientCommand findByRecipeIdAndIngredientId(Long recipeId, Long ingredientId);
-//
     SubjectCommand saveSubjectCommand(SubjectCommand command);
 
-//    void deleteById(Long recipeId, Long idToDelete);
 }

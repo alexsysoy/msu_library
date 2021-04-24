@@ -1,9 +1,7 @@
 package alex.msu.gradwork.controllers;
 
-import alex.msu.gradwork.commands.NoteCommand;
 import alex.msu.gradwork.domain.Image;
 import alex.msu.gradwork.services.ImageService;
-import alex.msu.gradwork.services.NoteService;
 import alex.msu.gradwork.services.RegisterService;
 import org.apache.tomcat.util.http.fileupload.IOUtils;
 import org.springframework.stereotype.Controller;
@@ -20,14 +18,13 @@ import java.io.InputStream;
 public class ImageController {
 
     private final ImageService imageService;
-    private final NoteService noteService;
     private final RegisterService registerService;
 
-    public ImageController(ImageService imageService, NoteService noteService, RegisterService registerService) {
+    public ImageController(ImageService imageService, RegisterService registerService) {
         this.imageService = imageService;
-        this.noteService = noteService;
         this.registerService = registerService;
     }
+
 
     // Открываем форму для добавления Изображения
     @GetMapping("/images/{registerId}/load")

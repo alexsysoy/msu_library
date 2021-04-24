@@ -7,7 +7,5 @@ public interface ImageService {
 
     void saveImageFile(Long registerId, MultipartFile file, String fileName);
 
-    Image saveImage(Image image);
-
     Image findById(Long l);
 }
