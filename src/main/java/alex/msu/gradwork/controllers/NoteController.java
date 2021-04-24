@@ -107,7 +107,6 @@ public class NoteController {
 
 
     // Внесение изменений в Дело
-    //ВНИМАНИЕ!!! Именной указатель - в три слова!!!
     // Перенаправление на представление данного Дела
     @PostMapping("/register/{registerId}/note")
     public String saveOrUpdate(@ModelAttribute NoteCommand command){
@@ -117,7 +116,6 @@ public class NoteController {
     }
 
     // Создание нового Дела
-    //ВНИМАНИЕ!!! Именной указатель - в три слова!!!
     // Перенаправление на представление данного Дела
     @PostMapping("/note/{registerId}/noteCreate")
     public String createNote(@ModelAttribute NoteCommand command){

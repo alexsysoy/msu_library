@@ -8,61 +8,117 @@
     <link rel="stylesheet" type="text/css" th:href="@{/css/style.css}"/>
 </head>
 <body>
-<div class="container">
-    <!--    registers table-->
-    <table class="table table-striped mt-20 text-center">
-        <caption>Список описей</caption>
-        <thead>
-        <tr>
-            <!-- sorting control via register id -->
-            <th>
-                <a th:href="@{'/page/' + ${currentPage} + '?sort-field=id&sort-dir=' + ${reverseSortDir}}">Номер</a>
-            </th>
-            <!-- sorting control via register name -->
-            <th>
-                <a th:href="@{'/page/' + ${currentPage} + '?sort-field=name&sort-dir=' + ${reverseSortDir}}">Название</a>
-            </th>
-            <th>Просмотр</th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr th:each="register : ${registerList}">
-            <td th:text="${register.getId()}">Номер</td>
-            <td th:text="${register.getName()}">Название</td>
-            <td><a href="#" th:href="@{'/page/registers/' + ${register.getId()} + '/notes'}">Просмотр</a></td>
-        </tr>
-        </tbody>
-    </table>
-    <!-- pagination control -->
-    <div th:if="${totalPages > 1}">
-        <div class="row col-sm-10">
-            <div class="col-sm-2">
-                Всего описей:        <strong>[[${totalItems}]]</strong>
-            </div>
-            <div class="col-sm-2">
+<div class="header">
+    <h4>Название Фонда</h4>
+    <h1></h1>
+</div>
+
+<div class="row">
+
+    <div class="column side">
+        <table class="table table-striped mt-20 text-center">
+            <caption>Навигация:</caption>
+            <thead>
+            <tr>
+                <th></th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td>
+                    <p><a>Поиск</a></p>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <div>
+                        <p><a>Просмотр данных Фонда</a></p>
+                    </div>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div class="column middle">
+        <table class="table table-striped mt-20 text-center">
+            <caption>Список Описей:</caption>
+            <thead>
+            <tr>
+                <!-- sorting control via register id -->
+                <th>
+                    <a th:href="@{'/page/' + ${currentPage} + '?sort-field=id&sort-dir=' + ${reverseSortDir}}">Номер</a>
+                </th>
+                <!-- sorting control via register name -->
+                <th>
+                    <a th:href="@{'/page/' + ${currentPage} + '?sort-field=name&sort-dir=' + ${reverseSortDir}}">Название</a>
+                </th>
+                <th>Просмотр</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="register : ${registerList}">
+                <td th:text="${register.getId()}">Номер</td>
+                <td th:text="${register.getName()}">Название</td>
+                <td><a href="#" th:href="@{'/page/registers/' + ${register.getId()} + '/notes'}">Просмотр</a></td>
+            </tr>
+            </tbody>
+        </table>
+        <div th:if="${totalPages > 1}">
+            <div class="row col-sm-10">
+                <div class="col-sm-2">
+                    Всего описей:        <strong>[[${totalItems}]]</strong>
+                </div>
+                <div class="col-sm-2">
 					<span th:each="i: ${#numbers.sequence(1, totalPages)}">
 						<a th:href="@{'/page/' + ${i} + '?sort-field=' + ${sortField} + '&sort-dir=' + ${sortDir}}"
                            th:if="${currentPage != i}">[[${i}]]</a>
 						<span th:unless="${currentPage != i}">[[${i}]]</span>
 					</span>
-            </div>
-            <div class="col-sm-2">
-                <a th:href="@{'/page/' + ${currentPage + 1} + '?sort-field=' + ${sortField} + '&sort-dir=' + ${sortDir}}"
-                   th:if="${currentPage < totalPages}">
-                    Следующая
-                </a>
-                <span th:unless="${currentPage < totalPages}">Следующая</span>
-            </div>
-            <div class="col-sm-2">
-                <a th:href="@{'/page/' + ${totalPages} + '?sort-field=' + ${sortField} + '&sort-dir=' + ${sortDir}}"
-                   th:if="${currentPage < totalPages}">
-                    Последняя
-                </a>
-                <span th:unless="${currentPage < totalPages}">Последняя</span>
+                </div>
+                <div class="col-sm-2">
+                    <a th:href="@{'/page/' + ${currentPage + 1} + '?sort-field=' + ${sortField} + '&sort-dir=' + ${sortDir}}"
+                       th:if="${currentPage < totalPages}">
+                        Следующая
+                    </a>
+                    <span th:unless="${currentPage < totalPages}">Следующая</span>
+                </div>
+                <div class="col-sm-2">
+                    <a th:href="@{'/page/' + ${totalPages} + '?sort-field=' + ${sortField} + '&sort-dir=' + ${sortDir}}"
+                       th:if="${currentPage < totalPages}">
+                        Последняя
+                    </a>
+                    <span th:unless="${currentPage < totalPages}">Последняя</span>
+                </div>
             </div>
         </div>
     </div>
+
+    <div class="column side">
+        <table class="table table-striped mt-20 text-center">
+            <caption>Действия:</caption>
+            <thead>
+            <tr>
+                <th></th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td>
+                    <div>
+                        <p><a th:href="@{'/registers/registerCreate'}" role="button">Создать Опись</a></p>
+                    </div>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
 </div>
+
+<div class="footer">
+</div>
+
 
 </body>
 </html>

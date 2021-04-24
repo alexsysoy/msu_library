@@ -75,6 +75,7 @@ public class RegisterServiceImpl implements RegisterService {
         return registerToRegisterCommand.convert(findById(l));
     }
 
+    // Сохраняем Опись
     @Override
     @Transactional
     public RegisterCommand saveRegisterCommand(RegisterCommand command) {
@@ -90,4 +91,6 @@ public class RegisterServiceImpl implements RegisterService {
     public void deleteById(Long idToDelete) {
         registerRepository.deleteById(idToDelete);
     }
+
+
 }

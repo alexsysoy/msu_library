@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Создание новой Описи</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" th:href="@{/css/style.css}"/>
+</head>
+<body>
+<div class="container">
+    <form  th:object="${register}" th:action="@{'/registers/registerCreate'}" method="post">
+        <input type="hidden" th:field="*{id}"/>
+        <table class="table table-striped mt-20 text-center">
+            <caption>Создание новой Описи</caption>
+            <thead>
+            <tr>
+                <th></th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td>
+                    <label>Название:</label>
+                    <input type="text" class="form-control" th:field="*{name}"/>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <label>Аннотация:</label>
+                    <input type="text" class="form-control" th:field="*{annotation}"/>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <label>Примечание:</label>
+                    <input type="text" class="form-control" th:field="*{memo}"/>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <button type="submit" class="floating-button">Создать</button>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </form>
+
+</div>
+</body>
+</html>

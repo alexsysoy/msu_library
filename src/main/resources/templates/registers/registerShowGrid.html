@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Просмотр Описи</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" th:href="@{/css/style.css}"/>
+</head>
+<body>
+
+<div class="header">
+    <h4>Название Описи:</h4>
+    <h1 th:text="${register.getName()}"></h1>
+</div>
+
+<div class="row">
+
+    <div class="column side">
+        <table class="table table-striped mt-20 text-center">
+            <caption>Навигация</caption>
+            <thead>
+            <tr>
+                <th></th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td>
+                    <div>
+                        <p><a th:href="@{'/registers/registerCreate'}" role="button">Создать</a></p>
+                        <p><a th:href="@{'/registers/' + ${register.id} + '/registerUpdate'}" role="button">Редактировать</a></p>
+                        <p><a th:href="@{'/registers/' + ${register.id} + '/registerDelete'}" role="button">Удалить</a></p>
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <div>
+                        <p><a th:href="'/reports/' + ${register.getId()} + '/searchBox'">Поиск</a></p>
+                        <p><a th:href="@{'/'}">Вернуться в Фонд</a></p>
+                    </div>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
+
+    <div class="column middle">
+        <table class="table table-striped mt-20 text-center">
+            <caption>Просмотр данных Описи</caption>
+            <thead>
+            <tr>
+                <th></th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr><td>Аннотация:</td></tr>
+            <tr>
+                <td style="text-align: left" th:text="${register.getAnnotation()}"></td>
+            </tr>
+            <tr>
+                <td>Примечание:</td></tr>
+            <tr>
+                <td style="text-align: left" th:text="${register.getMemo()}"></td>
+            </tr>
+            </tbody>
+        </table>
+
+    </div>
+
+
+
+    <div class="column side">
+        <table class="table table-striped mt-20 text-center">
+            <caption>Изображения</caption>
+            <thead>
+            <tr>
+                <th></th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td>Изображение
+<!--                    <p th:if="${not #lists.isEmpty(note.imageId)}"><a th:href="@{'/images/' + ${note.getImageId()} + '/imageShow'}">Изображение доступно</a></p>-->
+<!--                    <p th:if="${#lists.isEmpty(note.imageId)}">Изображение недоступно</p>-->
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
+</div>
+
+
+<!--<div class="footer">-->
+<!--    <table class="table table-striped mt-20 text-center">-->
+<!--        <caption>Указатели</caption>-->
+<!--        <tr>-->
+<!--            <th>Предметный указатель</th>-->
+<!--            <th>Именной указатель</th>-->
+<!--        </tr>-->
+<!--        <tbody>-->
+<!--        <tr>-->
+<!--            <td>-->
+<!--                <div th:each="subject : ${register.getSubjects()}">-->
+<!--                    <p><a th:text="${subject.getName()}" th:href="@{'/subjects/' + ${subject.getId()} + '/subjectList'}"></a></p>-->
+<!--                </div>-->
+<!--            </td>-->
+<!--            <td>-->
+<!--                <div th:each="actor : ${register.getActors()}">-->
+<!--                    <p><a th:text="${actor.getName()} + ' ' + ${actor.getPatronymic()} + ' ' + ${actor.getSurname()}" th:href="@{'/actors/' + ${actor.getId()} + '/actorList'}"></a></p>-->
+<!--                </div>-->
+<!--            </td>-->
+<!--        </tr>-->
+<!--        </tbody>-->
+<!--    </table>-->
+<!--</div>-->
+
+</body>
+</html>

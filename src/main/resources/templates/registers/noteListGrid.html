@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title>Список дел описи</title>
+    <title>Список дел Описи</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css">
@@ -10,7 +10,7 @@
 
 <body>
 <div class="header">
-    <h4>Название описи:</h4>
+    <h4>Название Описи:</h4>
     <h1 th:text="${register.getName()}"></h1>
 </div>
 
@@ -36,6 +36,7 @@
                         <p><a th:href="'/registers/' + ${register.getId()} + '/subjectListRegister'">Предметный указатель</a></p>
                         <p><a th:href="'/registers/' + ${register.getId()} + '/actorListRegister'">Именной указатель</a></p>
                         <p><a th:href="'/'">Вернуться в Фонд</a></p>
+                        <p><a th:href="'/registers/' + ${register.getId()} + '/registerShowGrid'">Просмотр данных Описи</a></p>
                     </div>
                 </td>
             </tr>

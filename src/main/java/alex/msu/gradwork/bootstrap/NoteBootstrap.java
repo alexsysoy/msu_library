@@ -1,15 +1,10 @@
 package alex.msu.gradwork.bootstrap;
 
-import alex.msu.gradwork.commands.RegisterCommand;
-import alex.msu.gradwork.commands.SubjectCommand;
-import alex.msu.gradwork.converters.RegisterCommandToRegister;
-import alex.msu.gradwork.converters.RegisterToRegisterCommand;
 import alex.msu.gradwork.domain.Actor;
 import alex.msu.gradwork.domain.Note;
 import alex.msu.gradwork.domain.Register;
 import alex.msu.gradwork.domain.Subject;
 import alex.msu.gradwork.repositories.ActorRepository;
-import alex.msu.gradwork.repositories.NoteRepository;
 import alex.msu.gradwork.repositories.RegisterRepository;
 import alex.msu.gradwork.repositories.SubjectRepository;
 import lombok.extern.slf4j.Slf4j;
@@ -26,22 +21,16 @@ import java.util.List;
 
 public class NoteBootstrap implements ApplicationListener<ContextRefreshedEvent> {
 
-    private final NoteRepository noteRepository;
     private final RegisterRepository registerRepository;
     private final ActorRepository actorRepository;
     private final SubjectRepository subjectRepository;
 
-    private final RegisterCommandToRegister registerCommandToRegister;
-    private final RegisterToRegisterCommand registerToRegisterCommand;
-
-    public NoteBootstrap(NoteRepository noteRepository, RegisterRepository registerRepository, ActorRepository actorRepository, SubjectRepository subjectRepository, RegisterCommandToRegister registerCommandToRegister, RegisterToRegisterCommand registerToRegisterCommand) {
-        this.noteRepository = noteRepository;
+    public NoteBootstrap(RegisterRepository registerRepository, ActorRepository actorRepository, SubjectRepository subjectRepository) {
         this.registerRepository = registerRepository;
         this.actorRepository = actorRepository;
         this.subjectRepository = subjectRepository;
-        this.registerCommandToRegister = registerCommandToRegister;
-        this.registerToRegisterCommand = registerToRegisterCommand;
     }
+
 
     @Override
     @Transactional
@@ -224,6 +213,9 @@ public class NoteBootstrap implements ApplicationListener<ContextRefreshedEvent>
         register1.addNote(note12);
         register1.addNote(note13);
         register1.addNote(note14);
+
+        register1.setAnnotation("Первая тестовая Опись");
+        register1.setMemo("В Описи по умолчанию отсутствуют Изображения");
 
         Register register2 = new Register();
         register2.setName("Опись номер 702");
