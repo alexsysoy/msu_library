@@ -3,8 +3,13 @@ package alex.msu.gradwork.services;
 import alex.msu.gradwork.commands.NoteCommand;
 import alex.msu.gradwork.converters.NoteToNoteCommand;
 import alex.msu.gradwork.domain.Actor;
+import alex.msu.gradwork.domain.Subject;
 import alex.msu.gradwork.repositories.ActorRepository;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.HashSet;
@@ -25,7 +30,7 @@ public class ActorServiceImpl implements ActorService {
     }
 
 
-    //Возвращаем множество Дел, принадлежащих данному именному указателю
+    //Возвращаем множество дел, принадлежащих данному именному указателю
     @Override
     public Set<NoteCommand> findAllNoteByActorId(Long l) {
 
@@ -41,5 +46,16 @@ public class ActorServiceImpl implements ActorService {
         }
 
         return noteCommands;
+    }
+
+    //Возращает постранично отсортированный список именного указателя по Id описи
+    @Override
+    public Page<Actor> findPaginated(Long registerId, int pageNumber, int pageSize, String sortField, String sortDirection) {
+
+        final Sort sort = sortDirection.equalsIgnoreCase(Sort.Direction.ASC.name()) ?
+                Sort.by(sortField).ascending() : Sort.by(sortField).descending();
+        final Pageable pageable = PageRequest.of(pageNumber - 1, pageSize, sort);
+
+        return actorRepository.findActorsByRegisterId(registerId, pageable);
     }
 }

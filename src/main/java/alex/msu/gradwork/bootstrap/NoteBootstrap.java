@@ -198,7 +198,7 @@ public class NoteBootstrap implements ApplicationListener<ContextRefreshedEvent>
         note7.getActors().add(actor2);
 
 
-        register1.setName("Опись номер 701");
+        register1.setName("№701");
         register1.addNote(note1);
         register1.addNote(note2);
         register1.addNote(note3);
@@ -214,15 +214,15 @@ public class NoteBootstrap implements ApplicationListener<ContextRefreshedEvent>
         register1.addNote(note13);
         register1.addNote(note14);
 
-        register1.setAnnotation("Первая тестовая Опись");
-        register1.setMemo("В Описи по умолчанию отсутствуют Изображения");
+        register1.setAnnotation("Опись по центральному учету. Вписано в данную опись двести двадцать пять (225) единиц хранения");
+        register1.setMemo("Числится 1 (одно) особо ценное дело: №156. Зав. архивом Коболова 27.02.1991");
 
         Register register2 = new Register();
-        register2.setName("Опись номер 702");
+        register2.setName("№702");
         Register register3 = new Register();
-        register3.setName("Опись номер 703");
+        register3.setName("№703");
         Register register4 = new Register();
-        register4.setName("Опись номер 704");
+        register4.setName("№704");
 
         registers.add(register1);
         registers.add(register2);

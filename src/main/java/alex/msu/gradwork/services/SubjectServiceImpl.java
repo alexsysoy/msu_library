@@ -11,6 +11,10 @@ import alex.msu.gradwork.repositories.NoteRepository;
 import alex.msu.gradwork.repositories.RegisterRepository;
 import alex.msu.gradwork.repositories.SubjectRepository;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.HashSet;
@@ -68,6 +72,17 @@ public class SubjectServiceImpl implements SubjectService {
         }
 
         return notes;
+    }
+
+    //Возращает постранично отсортированный список предметного указателя по Id Описи
+    @Override
+    public Page<Subject> findPaginated(Long registerId, int pageNumber, int pageSize, String sortField, String sortDirection) {
+
+        final Sort sort = sortDirection.equalsIgnoreCase(Sort.Direction.ASC.name()) ?
+                Sort.by(sortField).ascending() : Sort.by(sortField).descending();
+        final Pageable pageable = PageRequest.of(pageNumber - 1, pageSize, sort);
+
+        return subjectRepository.findSubjectsByRegisterId(registerId, pageable);
     }
 
 

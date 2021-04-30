@@ -66,7 +66,6 @@ public class NoteController {
         // Опись
         model.addAttribute("register", registerService.findById(Long.valueOf(registerId)));
         return "registers/noteListGrid";
-
     }
 
     // Просмотр Дела
@@ -91,14 +90,14 @@ public class NoteController {
                              @PathVariable String id){
 
         noteService.DeleteById(Long.valueOf(registerId),Long.valueOf(id));
-        return "redirect:/registers/" + registerId + "/noteList/page/1?sort-field=id&sort-dir=asc";
+        return "redirect:/registers/" + registerId + "/noteList/page/1?sort-field=number&sort-dir=asc";
     }
 
 
     // Редактирование Дела
     @GetMapping
     @RequestMapping("/notes/{registerId}/note/{noteId}/noteUpdate")
-    public String updateRecipeNote(@PathVariable String registerId,
+    public String updateNote(@PathVariable String registerId,
                                    @PathVariable String noteId, Model model){
 
         model.addAttribute("note", noteService.findByRegisterIdAndNoteId(Long.valueOf(registerId), Long.valueOf(noteId)));
@@ -108,7 +107,7 @@ public class NoteController {
 
     // Внесение изменений в Дело
     // Перенаправление на представление данного Дела
-    @PostMapping("/register/{registerId}/note")
+    @PostMapping("/notes/{registerId}/noteUpdate")
     public String saveOrUpdate(@ModelAttribute NoteCommand command){
 
         NoteCommand savedCommand = noteService.saveNoteCommand(command);
@@ -117,7 +116,7 @@ public class NoteController {
 
     // Создание нового Дела
     // Перенаправление на представление данного Дела
-    @PostMapping("/note/{registerId}/noteCreate")
+    @PostMapping("/notes/{registerId}/noteCreate")
     public String createNote(@ModelAttribute NoteCommand command){
 
         NoteCommand savedCommand = noteService.createNoteCommand(command);

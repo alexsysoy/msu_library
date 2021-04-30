@@ -2,32 +2,130 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Предметный указатель Описи</title>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css">
-    <link rel="stylesheet" type="text/css" th:href="@{/css/style.css}"/>
+    <title>Именной указатель описи</title>
+    <!-- Required meta tags -->
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous">
+
 </head>
 <body>
+
+<!--Navbar-->
+<nav class="navbar navbar-expand navbar-dark bg-dark">
+    <a class="navbar-brand" href="#">Управление</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarActionContent" aria-controls="navbarActionContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbarActionContent">
+        <ul class="navbar-nav mr-auto">
+            <li class="nav-item">
+                <a class="nav-link" th:href="@{'/'}" href="#"> Фонд №418</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#" th:href="@{'/page/registers/' + ${register.getId()} + '/notes'}">Опись <span th:text="${register.getName()}"></span></a>
+            </li>
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Действия
+                </a>
+                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                    <a class="dropdown-item" href="#" th:href="@{'/notes/' + ${register.id} + '/note/noteCreate'}" role="button">Добавить дело</a>
+                    <div class="dropdown-divider"></div>
+                    <a class="dropdown-item" href="#" th:href="@{'/files/' + ${register.getId()} + '/load'}">Добавить файл</a>
+                    <a class="dropdown-item" href="#" th:href="@{'/images/' + ${register.getId()} + '/load'}">Добавить изображение</a>
+                    <div class="dropdown-divider"></div>
+                    <a class="dropdown-item" role="button" th:href="'/registers/' + ${register.getId()} + '/registerUpdate'">Редактирование данных описи</a>
+                    <div class="dropdown-divider"></div>
+                </div>
+            </li>
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownIndex" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Указатели
+                </a>
+                <div class="dropdown-menu" aria-labelledby="navbarDropdownIndex">
+                    <a class="dropdown-item" role="button" th:href="@{'/subjects/' + ${register.getId()} + '/subjectListRegister/page/' + ${currentPage} + '?sort-field=name&sort-dir=asc'}">Предметный указатель</a>
+                </div>
+            </li>
+        </ul>
+        <form class="form-inline my-2 my-lg-0">
+            <input class="form-control mr-2" type="search" placeholder="Искать везде" aria-label="Search">
+            <button class="btn btn-outline-success my-2" type="submit">Найти</button>
+        </form>
+    </div>
+</nav>
+
+<br>
 <div class="container">
-    <!--    note tables-->
-    <table class="table table-striped mt-20 text-center">
-        <caption>Просмотр дел именного указателя Описи</caption>
+
+    <table class="table table-bordered table-sm">
         <thead>
         <tr>
-            <th>Именной указатель:</th>
-            <th>Связанные дела:</th>
+            <th scope="col" ><a th:href="@{'/actors/' + ${register.getId()} + '/actorListRegister/page/' + ${currentPage} + '?sort-field=surname&sort-dir=' + ${reverseSortDir}}">Фамилия</a></th>
+            <th scope="col" ><a th:href="@{'/actors/' + ${register.getId()} + '/actorListRegister/page/' + ${currentPage} + '?sort-field=name&sort-dir=' + ${reverseSortDir}}">Имя</a></th>
+            <th scope="col" ><a th:href="@{'/actors/' + ${register.getId()} + '/actorListRegister/page/' + ${currentPage} + '?sort-field=patronymic&sort-dir=' + ${reverseSortDir}}">Отчество</a></th>
+            <th scope="col">Связанные единицы хранения</th>
         </tr>
         </thead>
         <tbody>
-        <tr th:each="actor : ${register.getActors()}">
+        <tr th:each="actor : ${actorList}">
             <td>
-                <p th:text="${actor.getName()} + ' ' + ${actor.getPatronymic()} + ' ' + ${actor.getSurname()}"></p>
+                <a th:text="${actor.getSurname()}" th:href="'/subjects/' + ${actor.getId()} + '/subjectList'"></a>
             </td>
-            <td style="font-size: 25px">
+            <td>
+                <a th:text="${actor.getName()}" th:href="'/subjects/' + ${actor.getId()} + '/subjectList'"></a>
+            </td>
+            <td>
+                <a th:text="${actor.getPatronymic()}" th:href="'/subjects/' + ${actor.getId()} + '/subjectList'"></a>
+            </td>
+            <td>
                 <a th:each="note : ${actor.getNotes()}" th:text="'&nbsp ' + ${note.number} + ' &nbsp'" th:href="@{'/notes/' + ${register.id} + '/note/' + ${note.id} + '/noteShowGrid'}"></a>
             </td>
         </tr>
         </tbody>
     </table>
+
 </div>
+
+<!-- Option 1: jQuery and Bootstrap Bundle (includes Popper) -->
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-Piv4xVNRyMGpqkS2by6br4gNJ7DXjqk09RmUpJ8jgGtD7zP9yug3goQfGII0yAns" crossorigin="anonymous"></script>
+
 </body>
 </html>
+
+
+<!--<!DOCTYPE html>-->
+<!--<html lang="en" xmlns:th="http://www.thymeleaf.org">-->
+<!--<head>-->
+<!--    <meta charset="UTF-8">-->
+<!--    <title>Предметный указатель Описи</title>-->
+<!--    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css">-->
+<!--    <link rel="stylesheet" type="text/css" th:href="@{/css/style.css}"/>-->
+<!--</head>-->
+<!--<body>-->
+<!--<div class="container">-->
+<!--    &lt;!&ndash;    note tables&ndash;&gt;-->
+<!--    <table class="table table-striped mt-20 text-center">-->
+<!--        <caption>Просмотр дел именного указателя Описи</caption>-->
+<!--        <thead>-->
+<!--        <tr>-->
+<!--            <th>Именной указатель:</th>-->
+<!--            <th>Связанные дела:</th>-->
+<!--        </tr>-->
+<!--        </thead>-->
+<!--        <tbody>-->
+<!--        <tr th:each="actor : ${register.getActors()}">-->
+<!--            <td>-->
+<!--                <p th:text="${actor.getName()} + ' ' + ${actor.getPatronymic()} + ' ' + ${actor.getSurname()}"></p>-->
+<!--            </td>-->
+<!--            <td style="font-size: 25px">-->
+<!--                <a th:each="note : ${actor.getNotes()}" th:text="'&nbsp ' + ${note.number} + ' &nbsp'" th:href="@{'/notes/' + ${register.id} + '/note/' + ${note.id} + '/noteShowGrid'}"></a>-->
+<!--            </td>-->
+<!--        </tr>-->
+<!--        </tbody>-->
+<!--    </table>-->
+<!--</div>-->
+<!--</body>-->
+<!--</html>-->
