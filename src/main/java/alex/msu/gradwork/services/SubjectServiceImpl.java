@@ -6,17 +6,21 @@ import alex.msu.gradwork.converters.NoteToNoteCommand;
 import alex.msu.gradwork.converters.SubjectCommandToSubject;
 import alex.msu.gradwork.converters.SubjectToSubjectCommand;
 import alex.msu.gradwork.domain.Note;
+import alex.msu.gradwork.domain.Register;
 import alex.msu.gradwork.domain.Subject;
 import alex.msu.gradwork.repositories.NoteRepository;
 import alex.msu.gradwork.repositories.RegisterRepository;
 import alex.msu.gradwork.repositories.SubjectRepository;
+import lombok.Synchronized;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Optional;
 import java.util.Set;
@@ -89,5 +93,46 @@ public class SubjectServiceImpl implements SubjectService {
     @Override
     public SubjectCommand saveSubjectCommand(SubjectCommand command) {
         return new SubjectCommand();
+    }
+
+    @Override
+    public Subject findById(Long l){
+        return subjectRepository.findById(l).get();
+    }
+
+    @Override
+    @Transactional
+    @Synchronized
+    public SubjectCommand saveSubjectCommand(String registerId, String notesText, SubjectCommand command) {
+
+        Optional<Register> registerOptional = registerRepository.findById(Long.valueOf(registerId));
+        Register registerFound = registerOptional.get();
+        Optional<Subject> subjectOptional = subjectRepository.findById(command.getId());
+        Subject subjectFound = subjectOptional.get();
+
+        subjectFound.setName(command.getName());
+        subjectFound.setMemo(command.getMemo());
+
+        //Парсим номера дел, которые надо прикрепить к предметному указателю
+        if (!notesText.equals("")) {
+            String[] parts = notesText.split("_");
+            Set<Long> noteNumbers = new HashSet<>();
+
+            for (String string : parts){
+                try {
+                    noteNumbers.add(Long.valueOf(string));
+                } catch (NumberFormatException e) {
+                    continue;
+                }
+            }
+
+            for (Long l : noteNumbers) {
+                //Добавляем предметный указатель к делу, если дело с данным номером существует
+                Optional<Note> noteOptional = noteRepository.findNoteByNumber(l);
+                noteOptional.ifPresent(note -> note.getSubjects().add(subjectFound));
+            }
+        }
+
+        return subjectToSubjectCommand.convert(subjectFound);
     }
 }

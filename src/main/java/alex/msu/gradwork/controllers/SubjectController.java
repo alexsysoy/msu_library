@@ -1,5 +1,7 @@
 package alex.msu.gradwork.controllers;
 
+import alex.msu.gradwork.commands.NoteCommand;
+import alex.msu.gradwork.commands.SubjectCommand;
 import alex.msu.gradwork.domain.Subject;
 import alex.msu.gradwork.services.RegisterService;
 import alex.msu.gradwork.services.SubjectService;
@@ -7,10 +9,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
@@ -31,6 +31,7 @@ public class SubjectController {
     public String subjectList(@PathVariable String subjectId, Model model){
 
         model.addAttribute("notes", subjectService.findAllNoteBySubjectId(Long.valueOf(subjectId)));
+        model.addAttribute("subject", subjectService.findById(Long.valueOf(subjectId)));
 
         return "/subjects/subjectList";
     }
@@ -62,6 +63,30 @@ public class SubjectController {
         // Опись
         model.addAttribute("register", registerService.findById(Long.valueOf(registerId)));
         return "registers/subjectListRegister";
+    }
+
+    //Редактирования предметного указателя
+    @GetMapping
+    @RequestMapping(value = "/subjects/{registerId}/subject/{subjectId}/subjectUpdate")
+    private String subjectUpdate(@PathVariable(name = "registerId") final Long registerId,
+                                 @PathVariable(name = "subjectId") final Long subjectId,
+                                 Model model) {
+
+        model.addAttribute("subject", subjectService.findById(subjectId));
+        model.addAttribute("register", registerService.findById(registerId));
+
+        return "/subjects/subjectUpdate";
+    }
+
+    // Внесение изменений в предметный указатель
+    // Перенаправление на представление данного указателя
+    @PostMapping("/subjects/{registerId}/subject/{subjectId}/subjectUpdate")
+    public String saveOrUpdate(@ModelAttribute SubjectCommand command,
+                               @RequestParam(name = "notesText") String notesText,
+                               @PathVariable(name = "registerId") final String registerId
+                               ){
+        SubjectCommand savedSubjectCommand = subjectService.saveSubjectCommand(registerId, notesText, command);
+        return "redirect:/subjects/" + savedSubjectCommand.getId() + "/subjectList";
     }
 
 }

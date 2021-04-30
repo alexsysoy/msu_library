@@ -66,21 +66,25 @@
             <th scope="col" ><a th:href="@{'/actors/' + ${register.getId()} + '/actorListRegister/page/' + ${currentPage} + '?sort-field=name&sort-dir=' + ${reverseSortDir}}">Имя</a></th>
             <th scope="col" ><a th:href="@{'/actors/' + ${register.getId()} + '/actorListRegister/page/' + ${currentPage} + '?sort-field=patronymic&sort-dir=' + ${reverseSortDir}}">Отчество</a></th>
             <th scope="col">Связанные единицы хранения</th>
+            <th scope="col">Просмотр</th>
         </tr>
         </thead>
         <tbody>
         <tr th:each="actor : ${actorList}">
             <td>
-                <a th:text="${actor.getSurname()}" th:href="'/subjects/' + ${actor.getId()} + '/subjectList'"></a>
+                <p th:text="${actor.getSurname()}"></p>
             </td>
             <td>
-                <a th:text="${actor.getName()}" th:href="'/subjects/' + ${actor.getId()} + '/subjectList'"></a>
+                <p th:text="${actor.getName()}"></p>
             </td>
             <td>
-                <a th:text="${actor.getPatronymic()}" th:href="'/subjects/' + ${actor.getId()} + '/subjectList'"></a>
+                <p th:text="${actor.getPatronymic()}"></p>
             </td>
             <td>
                 <a th:each="note : ${actor.getNotes()}" th:text="'&nbsp ' + ${note.number} + ' &nbsp'" th:href="@{'/notes/' + ${register.id} + '/note/' + ${note.id} + '/noteShowGrid'}"></a>
+            </td>
+            <td>
+                <a th:href="'/actors/' + ${actor.getId()} + '/actorList'">Просмотр</a>
             </td>
         </tr>
         </tbody>
@@ -94,38 +98,3 @@
 
 </body>
 </html>
-
-
-<!--<!DOCTYPE html>-->
-<!--<html lang="en" xmlns:th="http://www.thymeleaf.org">-->
-<!--<head>-->
-<!--    <meta charset="UTF-8">-->
-<!--    <title>Предметный указатель Описи</title>-->
-<!--    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css">-->
-<!--    <link rel="stylesheet" type="text/css" th:href="@{/css/style.css}"/>-->
-<!--</head>-->
-<!--<body>-->
-<!--<div class="container">-->
-<!--    &lt;!&ndash;    note tables&ndash;&gt;-->
-<!--    <table class="table table-striped mt-20 text-center">-->
-<!--        <caption>Просмотр дел именного указателя Описи</caption>-->
-<!--        <thead>-->
-<!--        <tr>-->
-<!--            <th>Именной указатель:</th>-->
-<!--            <th>Связанные дела:</th>-->
-<!--        </tr>-->
-<!--        </thead>-->
-<!--        <tbody>-->
-<!--        <tr th:each="actor : ${register.getActors()}">-->
-<!--            <td>-->
-<!--                <p th:text="${actor.getName()} + ' ' + ${actor.getPatronymic()} + ' ' + ${actor.getSurname()}"></p>-->
-<!--            </td>-->
-<!--            <td style="font-size: 25px">-->
-<!--                <a th:each="note : ${actor.getNotes()}" th:text="'&nbsp ' + ${note.number} + ' &nbsp'" th:href="@{'/notes/' + ${register.id} + '/note/' + ${note.id} + '/noteShowGrid'}"></a>-->
-<!--            </td>-->
-<!--        </tr>-->
-<!--        </tbody>-->
-<!--    </table>-->
-<!--</div>-->
-<!--</body>-->
-<!--</html>-->

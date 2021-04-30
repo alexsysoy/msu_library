@@ -2,7 +2,7 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Предметный указатель</title>
+    <title>Редактирование предметного указателя</title>
     <!-- Required meta tags -->
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <!-- Bootstrap CSS -->
@@ -23,19 +23,10 @@
                 <a class="nav-link" th:href="@{'/'}" href="#"> Фонд №418</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="#" th:href="@{'/page/registers/' + ${subject.getRegister().getId()} + '/notes'}">Опись: <span th:text="${subject.getRegister().getName()}"></span></a>
+                <a class="nav-link" href="#" th:href="@{'/page/registers/' + ${register.getId()} + '/notes'}">Опись: <span th:text="${register.getName()}">№999</span></a>
             </li>
             <li class="nav-item">
-                <p class="nav-link">Предметный указатель: <span th:text="${subject.getName()}"></span></p>
-            </li>
-            <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    Действия
-                </a>
-                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                    <a class="dropdown-item" href="#" th:href="@{'/subjects/' + ${subject.getRegister().getId()} + '/subject/' + ${subject.getId()} + '/subjectUpdate'}" role="button">Редактировать предметный указатель</a>
-                    <div class="dropdown-divider"></div>
-                </div>
+                <p class="nav-link">Редактирование указателя: <span th:text="${subject.getName()}">Василий</span></p>
             </li>
         </ul>
         <form class="form-inline my-2 my-lg-0">
@@ -46,27 +37,29 @@
 </nav>
 
 <br>
+
 <div class="container">
-
-    <table class="table table-bordered table-sm">
-        <thead>
-        <tr>
-            <th scope="col">Номер единицы хранения</a></th>
-            <th scope="col">Заголовок единицы хранения</th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr th:each="note : ${notes}">
-            <td>
-                <a th:text="${note.number}" th:href="@{'/notes/' + ${note.getRegisterId()} + '/note/' + ${note.getId()} + '/noteShowGrid'}"></a>
-            </td>
-            <td>
-                <p th:text="${note.getAnnotation()}"></p>
-            </td>
-        </tr>
-        </tbody>
-    </table>
-
+    <form th:object="${subject}" th:action="@{'/subjects/' + ${register.getId()} + '/subject/' + ${subject.getId()} + '/subjectUpdate'}" method="post">
+        <input type="hidden" th:field="*{id}"/>
+<!--        <input type="hidden" id="registerId" name="registerId" th:value="${register.getId()}"/>-->
+        <div class="form-row mx-3 my-1">
+            <div class="col-12">
+                <label for = "inputName">Название предметного указателя</label>
+                <div class="p-0">
+                    <input type="text" class="form-control" id="inputName" th:field="*{name}">
+                </div>
+            </div>
+        </div>
+        <div class="form-group mx-3">
+            <label for="inputMemo">Примечание</label>
+            <textarea class="form-control" id="inputMemo" rows="3" th:field="*{memo}"></textarea>
+        </div>
+        <div class="form-group mx-3">
+            <label for="notesText">Прикрепить единицы хранения к предметному указателю</label>
+            <input type="text" class="form-control" id="notesText" name="notesText" placeholder="4_15_23_7">
+        </div>
+        <button class="btn btn-primary mx-3" type="submit">Изменить</button>
+    </form>
 </div>
 
 <!-- Option 1: jQuery and Bootstrap Bundle (includes Popper) -->

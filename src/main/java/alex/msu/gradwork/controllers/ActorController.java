@@ -1,5 +1,7 @@
 package alex.msu.gradwork.controllers;
 
+import alex.msu.gradwork.commands.ActorCommand;
+import alex.msu.gradwork.commands.SubjectCommand;
 import alex.msu.gradwork.domain.Actor;
 import alex.msu.gradwork.services.ActorService;
 import alex.msu.gradwork.services.RegisterService;
@@ -7,10 +9,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -31,6 +30,7 @@ public class ActorController {
     public String subjectList(@PathVariable String actorId, Model model){
 
         model.addAttribute("notes", actorService.findAllNoteByActorId(Long.valueOf(actorId)));
+        model.addAttribute("actor", actorService.findById(Long.valueOf(actorId)));
 
         return "/actors/actorList";
     }
@@ -62,6 +62,30 @@ public class ActorController {
         // Опись
         model.addAttribute("register", registerService.findById(Long.valueOf(registerId)));
         return "registers/actorListRegister";
+    }
+
+    //Редактирования именного указателя
+    @GetMapping
+    @RequestMapping(value = "/actors/{registerId}/actor/{actorId}/actorUpdate")
+    private String subjectUpdate(@PathVariable(name = "registerId") final Long registerId,
+                                 @PathVariable(name = "actorId") final Long actorId,
+                                 Model model) {
+
+        model.addAttribute("actor", actorService.findById(actorId));
+        model.addAttribute("register", registerService.findById(registerId));
+
+        return "/actors/actorUpdate";
+    }
+
+    // Внесение изменений в именной указатель
+    // Перенаправление на представление именного указателя
+    @PostMapping("/actors/{registerId}/actor/{actorId}/actorUpdate")
+    public String saveOrUpdate(@ModelAttribute ActorCommand command,
+                               @RequestParam(name = "notesText") String notesText,
+                               @PathVariable(name = "registerId") final String registerId) {
+
+        ActorCommand savedActorCommand = actorService.saveActorCommand(registerId, notesText, command);
+        return "redirect:/actors/" + savedActorCommand.getId() + "/actorList";
     }
 
 }

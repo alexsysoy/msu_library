@@ -64,15 +64,19 @@
         <tr>
             <th scope="col" ><a th:href="@{'/subjects/' + ${register.getId()} + '/subjectListRegister/page/' + ${currentPage} + '?sort-field=name&sort-dir=' + ${reverseSortDir}}">Предметный указатель</a></th>
             <th scope="col">Связанные единицы хранения</th>
+            <th scope="col">Просмотр</th>
         </tr>
         </thead>
         <tbody>
         <tr th:each="subject : ${subjectList}">
             <td>
-                <a th:text="${subject.getName()}" th:href="'/subjects/' + ${subject.getId()} + '/subjectList'"></a>
+                <p th:text="${subject.getName()}"></p>
             </td>
             <td>
                 <a th:each="note : ${subject.getNotes()}" th:text="'&nbsp ' + ${note.number} + ' &nbsp'" th:href="@{'/notes/' + ${register.id} + '/note/' + ${note.id} + '/noteShowGrid'}"></a>
+            </td>
+            <td>
+                <a th:href="'/subjects/' + ${subject.getId()} + '/subjectList'">Просмотр</a>
             </td>
         </tr>
         </tbody>
