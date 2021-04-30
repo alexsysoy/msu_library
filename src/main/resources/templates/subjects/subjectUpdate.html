@@ -38,28 +38,64 @@
 
 <br>
 
+
 <div class="container">
-    <form th:object="${subject}" th:action="@{'/subjects/' + ${register.getId()} + '/subject/' + ${subject.getId()} + '/subjectUpdate'}" method="post">
-        <input type="hidden" th:field="*{id}"/>
-<!--        <input type="hidden" id="registerId" name="registerId" th:value="${register.getId()}"/>-->
-        <div class="form-row mx-3 my-1">
-            <div class="col-12">
-                <label for = "inputName">Название предметного указателя</label>
-                <div class="p-0">
-                    <input type="text" class="form-control" id="inputName" th:field="*{name}">
+    <div class="row">
+        <!--        left bar-->
+        <div class="col-4 border">
+            <form th:object="${subject}" th:action="@{'/subjects/' + ${register.getId()} + '/subject/' + ${subject.getId()} + '/subjectUpdate'}" method="post">
+                <input type="hidden" th:field="*{id}"/>
+                <div class="form-row mx-3 my-1">
+                    <div class="col-12">
+                        <label for = "inputName">Название предметного указателя</label>
+                        <div class="p-0">
+                            <input type="text" class="form-control" id="inputName" th:field="*{name}">
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group mx-3">
+                    <label for="inputMemo">Примечание</label>
+                    <textarea class="form-control" id="inputMemo" rows="3" th:field="*{memo}"></textarea>
+                </div>
+                <div class="form-group mx-3">
+                    <label for="notesText">Прикрепить единицы хранения к предметному указателю</label>
+                    <input type="text" class="form-control" id="notesText" name="notesText" placeholder="4_15_23_7">
+                </div>
+                <button class="btn btn-primary mx-3 my-2" type="submit">Изменить</button>
+            </form>
+        </div>
+        <div class="col-8">
+            <div class="card">
+                <div class="card-header">
+                    Единицы хранения, связанные с данным предметным указателем
+                </div>
+                <div class="card-body">
+                    <table class="table table-bordered table-sm">
+                        <thead>
+                        <tr>
+                            <th scope="col">Номер единицы хранения</th>
+                            <th scope="col">Заголовок единицы хранения</th>
+                            <th scope="col">Открепить от единицы хранения </th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr th:each="note : ${subject.getNotes()}">
+                            <td>
+                                <a th:text="${note.number}"></a>
+                            </td>
+                            <td>
+                                <p th:text="${note.getAnnotation()}"></p>
+                            </td>
+                            <td>
+                                <a th:href="@{'/subjects/' + ${note.getRegister().getId()} + '/subject/' + ${subject.getId()} + '/note/' + ${note.getId()} + '/subjectDeleteRelationWithNote'}">Открепить</a>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
                 </div>
             </div>
         </div>
-        <div class="form-group mx-3">
-            <label for="inputMemo">Примечание</label>
-            <textarea class="form-control" id="inputMemo" rows="3" th:field="*{memo}"></textarea>
-        </div>
-        <div class="form-group mx-3">
-            <label for="notesText">Прикрепить единицы хранения к предметному указателю</label>
-            <input type="text" class="form-control" id="notesText" name="notesText" placeholder="4_15_23_7">
-        </div>
-        <button class="btn btn-primary mx-3" type="submit">Изменить</button>
-    </form>
+    </div>
 </div>
 
 <!-- Option 1: jQuery and Bootstrap Bundle (includes Popper) -->

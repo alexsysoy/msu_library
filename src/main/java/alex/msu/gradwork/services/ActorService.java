@@ -19,4 +19,8 @@ public interface ActorService {
     Page<Actor> findPaginated(Long registerId, int pageNumber, int pageSize, String sortField, String sortDirection);
 
     ActorCommand saveActorCommand(String registerId, String notesText, ActorCommand command);
+
+    void DeleteById(Long registerId, Long idToDelete);
+
+    void DeleteRelationWithNote(Long registerId, Long noteId, Long actorId);
 }

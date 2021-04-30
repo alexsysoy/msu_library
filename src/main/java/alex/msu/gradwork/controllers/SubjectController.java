@@ -89,4 +89,28 @@ public class SubjectController {
         return "redirect:/subjects/" + savedSubjectCommand.getId() + "/subjectList";
     }
 
+    // Удаление предметного указателя
+    // Перенаправление на спискок предметного указателя данной описи
+    @GetMapping
+    @RequestMapping("/subjects/{registerId}/subject/{subjectId}/subjectDelete")
+    public String deleteNote(@PathVariable String registerId,
+                             @PathVariable String subjectId) {
+
+        subjectService.DeleteById(Long.valueOf(registerId), Long.valueOf(subjectId));
+
+        return "redirect:/subjects/" + registerId + "/subjectListRegister/page/1?sort-field=name&sort-dir=asc";
+    }
+
+    // Удаление связи предметного указателя
+    @GetMapping
+    @RequestMapping("/subjects/{registerId}/subject/{subjectId}/note/{noteId}/subjectDeleteRelationWithNote")
+    public String deleteRelationWithNote(@PathVariable String registerId,
+                                         @PathVariable String noteId,
+                                         @PathVariable String subjectId) {
+
+        subjectService.DeleteRelationWithNote(Long.valueOf(registerId), Long.valueOf(noteId), Long.valueOf(subjectId));
+
+        return "redirect:/subjects/" + registerId + "/subject/" + subjectId + "/subjectUpdate";
+    }
+
 }

@@ -13,6 +13,7 @@ import alex.msu.gradwork.repositories.RegisterRepository;
 import alex.msu.gradwork.repositories.SubjectRepository;
 import lombok.Synchronized;
 import lombok.extern.slf4j.Slf4j;
+import org.aspectj.weaver.ast.Not;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -134,5 +135,75 @@ public class SubjectServiceImpl implements SubjectService {
         }
 
         return subjectToSubjectCommand.convert(subjectFound);
+    }
+
+    @Override
+    public void DeleteById(Long registerId, Long idToDelete) {
+        log.debug("Удаляем предметный указатель id {} и id Описи {}", idToDelete, registerId);
+
+        //Ищем Опись с данным id
+        Optional<Register> registerOptional = registerRepository.findById(registerId);
+        if(registerOptional.isPresent()){
+            Register register = registerOptional.get();
+
+            Optional<Subject> subjectOptional = register.getSubjects().stream()
+                    .filter(subject -> subject.getId().equals(idToDelete))
+                    .findFirst();
+
+            if(subjectOptional.isPresent()){
+
+                Subject subjectToDelete = subjectOptional.get();
+                //Уничтожаем ссылки предмета из описи
+                subjectToDelete.setRegister(null);
+                register.getSubjects().remove(subjectToDelete);
+                //Уничтожаем ссылки предмета из дел
+                for (Note note: subjectToDelete.getNotes()){
+                    note.getSubjects().remove(subjectToDelete);
+                }
+                subjectToDelete.setNotes(null);
+                //Удаляем Дело
+                subjectRepository.deleteById(idToDelete);
+                //Сохраняем новое состояние Описи
+                registerRepository.save(register);
+            }
+        } else {
+            log.debug("Опись с id {} не найдена:", registerId);
+        }
+
+    }
+
+    @Override
+    public void DeleteRelationWithNote(Long registerId, Long noteId, Long subjectId) {
+
+        //Ищем Опись с данным id
+        Optional<Register> registerOptional = registerRepository.findById(registerId);
+        if(registerOptional.isPresent()){
+            Register register = registerOptional.get();
+
+            //Ищем в описи предмет и дело
+            Optional<Subject> subjectOptional = register.getSubjects().stream()
+                    .filter(subject -> subject.getId().equals(subjectId))
+                    .findFirst();
+
+            Optional<Note> noteOptional = register.getNotes().stream()
+                    .filter(note -> note.getId().equals(noteId))
+                    .findFirst();
+
+
+            if(subjectOptional.isPresent() && noteOptional.isPresent()){
+
+                Subject subject = subjectOptional.get();
+                Note note = noteOptional.get();
+
+                //Уничтожаем ссылки
+                subject.getNotes().remove(note);
+                note.getSubjects().remove(subject);
+
+                //Сохраняем новое состояние Описи
+                registerRepository.save(register);
+            }
+        } else {
+            log.debug("Опись с id {} не найдена:", registerId);
+        }
     }
 }

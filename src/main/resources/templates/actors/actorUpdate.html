@@ -38,35 +38,71 @@
 
 <br>
 
-<div class="container">
-  <form th:object="${actor}" th:action="@{'/actors/' + ${register.getId()} + '/actor/' + ${actor.getId()} + '/actorUpdate'}" method="post">
-    <input type="hidden" th:field="*{id}"/>
-    <!--        <input type="hidden" id="registerId" name="registerId" th:value="${register.getId()}"/>-->
-    <div class="form-row mx-3">
-      <div class="col-4">
-        <label for="inputName">Фамилия</label>
-        <input type="text" class="form-control" id="inputName" th:field="*{surname}">
+<div class="container-fluid">
+  <div class="row">
+    <!--        left bar-->
+    <div class="container col-4 border ml-3">
+        <form th:object="${actor}" th:action="@{'/actors/' + ${register.getId()} + '/actor/' + ${actor.getId()} + '/actorUpdate'}" method="post">
+          <input type="hidden" th:field="*{id}"/>
+          <!--        <input type="hidden" id="registerId" name="registerId" th:value="${register.getId()}"/>-->
+          <div class="form-row mx-3">
+            <div class="col-4">
+              <label for="inputName">Фамилия</label>
+              <input type="text" class="form-control" id="inputName" th:field="*{surname}">
+            </div>
+            <div class="col-4">
+              <label for="inputPatronymic">Имя</label>
+              <input type="text" class="form-control" id="inputPatronymic" th:field="*{name}">
+            </div>
+            <div class="col-4">
+              <label for="inputSurname">Отчество</label>
+              <input type="text" class="form-control" id="inputSurname" th:field="*{patronymic}">
+            </div>
+          </div>
+          <div class="form-group mx-3">
+            <label for="inputMemo">Примечание</label>
+            <textarea class="form-control" id="inputMemo" rows="3" th:field="*{memo}"></textarea>
+          </div>
+          <div class="form-group mx-3">
+            <label for="notesText">Прикрепить единицы хранения к именному указателю</label>
+            <input type="text" class="form-control" id="notesText" name="notesText" placeholder="4_15_23_7">
+          </div>
+          <button class="btn btn-primary mx-3 my-3" type="submit">Изменить</button>
+        </form>
+    </div>
+
+    <div class="card container col-7 border p-0">
+      <div class="card-header">
+        Единицы хранения, связанные с данным именным указателем
       </div>
-      <div class="col-4">
-        <label for="inputPatronymic">Имя</label>
-        <input type="text" class="form-control" id="inputPatronymic" th:field="*{name}">
-      </div>
-      <div class="col-4">
-        <label for="inputSurname">Отчество</label>
-        <input type="text" class="form-control" id="inputSurname" th:field="*{patronymic}">
+      <div class="card-body">
+        <table class="table table-bordered table-sm">
+          <thead>
+          <tr>
+            <th scope="col">Номер единицы хранения</th>
+            <th scope="col">Заголовок единицы хранения</th>
+            <th scope="col">Открепить от единицы хранения </th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr th:each="note : ${actor.getNotes()}">
+            <td>
+              <a th:text="${note.number}"></a>
+            </td>
+            <td>
+              <p th:text="${note.getAnnotation()}"></p>
+            </td>
+            <td>
+              <a th:href="@{'/actors/' + ${note.getRegister().getId()} + '/actor/' + ${actor.getId()} + '/note/' + ${note.getId()} + '/actorDeleteRelationWithNote'}">Открепить</a>
+            </td>
+          </tr>
+          </tbody>
+        </table>
       </div>
     </div>
-    <div class="form-group mx-3">
-      <label for="inputMemo">Примечание</label>
-      <textarea class="form-control" id="inputMemo" rows="3" th:field="*{memo}"></textarea>
-    </div>
-    <div class="form-group mx-3">
-      <label for="notesText">Прикрепить единицы хранения к именному указателю</label>
-      <input type="text" class="form-control" id="notesText" name="notesText" placeholder="4_15_23_7">
-    </div>
-    <button class="btn btn-primary mx-3" type="submit">Изменить</button>
-  </form>
+  </div>
 </div>
+
 
 <!-- Option 1: jQuery and Bootstrap Bundle (includes Popper) -->
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>

@@ -88,4 +88,27 @@ public class ActorController {
         return "redirect:/actors/" + savedActorCommand.getId() + "/actorList";
     }
 
+    // Удаление именного указателя
+    // Перенаправление на спискок именного указателя данной описи
+    @GetMapping
+    @RequestMapping("/actors/{registerId}/actor/{actorId}/actorDelete")
+    public String deleteNote(@PathVariable String registerId,
+                             @PathVariable String actorId) {
+
+        actorService.DeleteById(Long.valueOf(registerId), Long.valueOf(actorId));
+
+        return "redirect:/actors/" + registerId + "/actorListRegister/page/1?sort-field=surname&sort-dir=asc";
+    }
+
+    // Удаление связи предметного указателя
+    @GetMapping
+    @RequestMapping("/actors/{registerId}/actor/{actorId}/note/{noteId}/actorDeleteRelationWithNote")
+    public String deleteRelationWithNote(@PathVariable String registerId,
+                                         @PathVariable String noteId,
+                                         @PathVariable String actorId) {
+
+        actorService.DeleteRelationWithNote(Long.valueOf(registerId), Long.valueOf(noteId), Long.valueOf(actorId));
+
+        return "redirect:/actors/" + registerId + "/actor/" + actorId + "/actorUpdate";
+    }
 }

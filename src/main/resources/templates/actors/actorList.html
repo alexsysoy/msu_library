@@ -34,6 +34,7 @@
                 </a>
                 <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                     <a class="dropdown-item" href="#" th:href="@{'/actors/' + ${actor.getRegister().getId()} + '/actor/' + ${actor.getId()} + '/actorUpdate'}" role="button">Редактировать именной указатель</a>
+                    <a class="dropdown-item" href="#" th:href="@{'/actors/' + ${actor.getRegister().getId()} + '/actor/' + ${actor.getId()} + '/actorDelete'}" role="button">Удалить именной указатель</a>
                     <div class="dropdown-divider"></div>
                 </div>
             </li>
@@ -44,29 +45,51 @@
         </form>
     </div>
 </nav>
-
 <br>
-<div class="container">
 
-    <table class="table table-bordered table-sm">
-        <thead>
-        <tr>
-            <th scope="col">Номер единицы хранения</a></th>
-            <th scope="col">Заголовок единицы хранения</th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr th:each="note : ${notes}">
-            <td>
-                <a th:text="${note.number}" th:href="@{'/notes/' + ${note.getRegisterId()} + '/note/' + ${note.getId()} + '/noteShowGrid'}"></a>
-            </td>
-            <td>
-                <p th:text="${note.getAnnotation()}"></p>
-            </td>
-        </tr>
-        </tbody>
-    </table>
-
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-4">
+            <div class="card">
+                <div class="card-header">
+                    Именной указатель
+                </div>
+                <div class="card-body">
+                    <p class="card-text" >Фамилия: <span th:text="${actor.getSurname()}"></span></p>
+                    <p class="card-text" >Имя: <span th:text="${actor.getName()}"></span></p>
+                    <p class="card-text" >Отчество: <span th:text="${actor.getSurname()}"></span></p>
+                </div>
+            </div>
+            <div class="card my-3">
+                <div class="card-header">
+                    Примечание
+                </div>
+                <div class="card-body">
+                    <p class="card-text" th:text="${actor.getMemo()}">Примечание</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-8">
+            <table class="table table-bordered table-sm">
+                <thead>
+                <tr>
+                    <th scope="col">Номер единицы хранения</a></th>
+                    <th scope="col">Заголовок единицы хранения</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="note : ${notes}">
+                    <td>
+                        <a th:text="${note.number}" th:href="@{'/notes/' + ${note.getRegisterId()} + '/note/' + ${note.getId()} + '/noteShowGrid'}"></a>
+                    </td>
+                    <td>
+                        <p th:text="${note.getAnnotation()}"></p>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
 </div>
 
 <!-- Option 1: jQuery and Bootstrap Bundle (includes Popper) -->
@@ -75,38 +98,3 @@
 
 </body>
 </html>
-
-
-<!--<!DOCTYPE html>-->
-<!--<html lang="en" xmlns:th="http://www.thymeleaf.org">-->
-<!--<head>-->
-<!--    <meta charset="UTF-8">-->
-<!--    <title>Именной указатель Дела</title>-->
-<!--    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css">-->
-<!--    <link rel="stylesheet" type="text/css" th:href="@{/css/style.css}"/>-->
-<!--</head>-->
-<!--<body>-->
-<!--<div class="container">-->
-<!--    &lt;!&ndash;    note tables&ndash;&gt;-->
-<!--    <table class="table table-striped mt-20 text-center">-->
-<!--        <caption>Просмотр именного указателя Дела</caption>-->
-<!--        <thead>-->
-<!--        <tr>-->
-<!--            <th>Номер дела</th>-->
-<!--            <th>Аннотация</th>-->
-<!--        </tr>-->
-<!--        </thead>-->
-<!--        <tbody>-->
-<!--        <tr th:each="note : ${notes}">-->
-<!--            <td>-->
-<!--                <p><a th:text="${note.number}" th:href="@{'/notes/' + ${note.getRegisterId()} + '/note/' + ${note.getId()} + '/noteShowGrid'}"></a></p>-->
-<!--            </td>-->
-<!--            <td>-->
-<!--                <p style="text-align: left" th:text="${note.getAnnotation()}"></p>-->
-<!--            </td>-->
-<!--        </tr>-->
-<!--        </tbody>-->
-<!--    </table>-->
-<!--</div>-->
-<!--</body>-->
-<!--</html>-->

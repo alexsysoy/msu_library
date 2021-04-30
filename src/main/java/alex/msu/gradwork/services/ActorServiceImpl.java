@@ -6,8 +6,11 @@ import alex.msu.gradwork.converters.ActorToActorCommand;
 import alex.msu.gradwork.converters.NoteToNoteCommand;
 import alex.msu.gradwork.domain.Actor;
 import alex.msu.gradwork.domain.Note;
+import alex.msu.gradwork.domain.Register;
+import alex.msu.gradwork.domain.Subject;
 import alex.msu.gradwork.repositories.ActorRepository;
 import alex.msu.gradwork.repositories.NoteRepository;
+import alex.msu.gradwork.repositories.RegisterRepository;
 import lombok.Synchronized;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
@@ -30,12 +33,14 @@ public class ActorServiceImpl implements ActorService {
     private final NoteToNoteCommand noteToNoteCommand;
     private final NoteRepository noteRepository;
     private final ActorToActorCommand actorToActorCommand;
+    private final RegisterRepository registerRepository;
 
-    public ActorServiceImpl(ActorRepository actorRepository, NoteToNoteCommand noteToNoteCommand, NoteRepository noteRepository, ActorToActorCommand actorToActorCommand) {
+    public ActorServiceImpl(ActorRepository actorRepository, NoteToNoteCommand noteToNoteCommand, NoteRepository noteRepository, ActorToActorCommand actorToActorCommand, RegisterRepository registerRepository) {
         this.actorRepository = actorRepository;
         this.noteToNoteCommand = noteToNoteCommand;
         this.noteRepository = noteRepository;
         this.actorToActorCommand = actorToActorCommand;
+        this.registerRepository = registerRepository;
     }
 
 
@@ -109,5 +114,73 @@ public class ActorServiceImpl implements ActorService {
         }
 
         return actorToActorCommand.convert(actorFound);
+    }
+
+    @Override
+    public void DeleteById(Long registerId, Long idToDelete) {
+        log.debug("Удаляем именной указатель id {} и id Описи {}", idToDelete, registerId);
+
+        //Ищем Опись с данным id
+        Optional<Register> registerOptional = registerRepository.findById(registerId);
+        if(registerOptional.isPresent()){
+            Register register = registerOptional.get();
+
+            //Удаляем из описи
+            Optional<Actor> actorOptional = register.getActors().stream()
+                    .filter(actor -> actor.getId().equals(idToDelete))
+                    .findFirst();
+
+            if(actorOptional.isPresent()){
+                Actor actorToDelete = actorOptional.get();
+                //Уничтожаем ссылки предмета из описи
+                actorToDelete.setRegister(null);
+                register.getActors().remove(actorToDelete);
+                //Уничтожаем ссылки предмета из дел
+                for (Note note: actorToDelete.getNotes()){
+                    note.getActors().remove(actorToDelete);
+                }
+                actorToDelete.setNotes(null);
+                //Удаляем Дело
+                actorRepository.deleteById(idToDelete);
+                //Сохраняем новое состояние Описи
+                registerRepository.save(register);
+            }
+        } else {
+            log.debug("Опись с id {} не найдена:", registerId);
+        }
+    }
+
+    @Override
+    public void DeleteRelationWithNote(Long registerId, Long noteId, Long actorId) {
+        //Ищем Опись с данным id
+        Optional<Register> registerOptional = registerRepository.findById(registerId);
+        if(registerOptional.isPresent()){
+            Register register = registerOptional.get();
+
+            //Ищем в описи именной указатель и дело
+            Optional<Actor> actorOptional = register.getActors().stream()
+                    .filter(actor -> actor.getId().equals(actorId))
+                    .findFirst();
+
+            Optional<Note> noteOptional = register.getNotes().stream()
+                    .filter(note -> note.getId().equals(noteId))
+                    .findFirst();
+
+
+            if(actorOptional.isPresent() && noteOptional.isPresent()){
+
+                Actor actor = actorOptional.get();
+                Note note = noteOptional.get();
+
+                //Уничтожаем ссылки
+                actor.getNotes().remove(note);
+                note.getActors().remove(actor);
+
+                //Сохраняем новое состояние Описи
+                registerRepository.save(register);
+            }
+        } else {
+            log.debug("Опись с id {} не найдена:", registerId);
+        }
     }
 }

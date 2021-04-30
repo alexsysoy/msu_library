@@ -24,4 +24,8 @@ public interface SubjectService {
     Subject findById(Long l);
 
     SubjectCommand saveSubjectCommand(String registerId, String notesText, SubjectCommand command);
+
+    void DeleteById(Long registerId, Long idToDelete);
+
+    void DeleteRelationWithNote(Long registerId, Long noteId, Long subjectId);
 }
