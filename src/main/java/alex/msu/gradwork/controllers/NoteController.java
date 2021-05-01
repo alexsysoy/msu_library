@@ -142,14 +142,11 @@ public class NoteController {
         return "/notes/noteCreate";
     }
 
-    // Поиск Дела
+    // Расширенный поиск единиц хранения
     @GetMapping
     @RequestMapping("/reports/{registerId}/searchBox")
     public String viewSearchBox(@PathVariable String registerId, Model model) {
 
-        //RegisterCommand registerCommand = registerService.findCommandById(Long.valueOf(registerId));
-
-        // Создаём поисковое Дело и возвращаем его в форму поиска
         NoteCommand noteCommand = new NoteCommand();
         noteCommand.setRegisterId(Long.valueOf(registerId));
 
@@ -166,6 +163,7 @@ public class NoteController {
 
         Set<Note> notes = noteService.searchNotes(command);
         model.addAttribute("notes", notes);
+        model.addAttribute("register", registerService.findById(Long.valueOf(registerId)));
 
         return "/reports/searchResult";
     }

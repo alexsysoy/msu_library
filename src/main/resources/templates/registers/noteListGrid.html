@@ -32,6 +32,8 @@
                     Действия
                 </a>
                 <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                    <a class="dropdown-item" href="#" th:href="@{'/reports/' + ${register.id} + '/searchBox'}" role="button">Расширенный поиск</a>
+                    <div class="dropdown-divider"></div>
                     <a class="dropdown-item" href="#" th:href="@{'/notes/' + ${register.id} + '/note/noteCreate'}" role="button">Добавить дело</a>
                     <div class="dropdown-divider"></div>
                     <a class="dropdown-item" href="#" th:href="@{'/files/' + ${register.getId()} + '/load'}">Добавить файл</a>

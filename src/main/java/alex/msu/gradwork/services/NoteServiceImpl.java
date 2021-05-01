@@ -123,7 +123,7 @@ public class NoteServiceImpl implements NoteService{
         }
     }
 
-    // Ищем Дела
+    // Расширенный поиск единиц хранения по данной описи
     @Override
     @Transactional
     @Synchronized
