@@ -33,7 +33,7 @@ public class SubjectController {
         model.addAttribute("notes", subjectService.findAllNoteBySubjectId(Long.valueOf(subjectId)));
         model.addAttribute("subject", subjectService.findById(Long.valueOf(subjectId)));
 
-        return "/subjects/subjectList";
+        return "subjects/subjectList";
     }
 
     //Сортировка и постраничный просмотр предметного указателя
@@ -75,7 +75,7 @@ public class SubjectController {
         model.addAttribute("subject", subjectService.findById(subjectId));
         model.addAttribute("register", registerService.findById(registerId));
 
-        return "/subjects/subjectUpdate";
+        return "subjects/subjectUpdate";
     }
 
     // Внесение изменений в предметный указатель

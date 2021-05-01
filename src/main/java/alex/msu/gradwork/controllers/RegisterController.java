@@ -74,7 +74,15 @@ public class RegisterController {
     public String viewRegisterShowGrid(@PathVariable String registerId, Model model) {
 
         model.addAttribute("register", registerService.findById(Long.valueOf(registerId)));
-        return "/registers/registerShowGrid";
+        return "registers/registerShowGrid";
+    }
+
+    // Редактирование Описи
+    @GetMapping("/registers/{registerId}/registerUpdate")
+    public String updateRecipeNote(@PathVariable String registerId, Model model) {
+
+        model.addAttribute("register", registerService.findById(Long.valueOf(registerId)));
+        return "registers/registerUpdate";
     }
 
     // Направляем на создание новой Описи
@@ -85,8 +93,9 @@ public class RegisterController {
 
         model.addAttribute("register", registerCommand);
 
-        return "/registers/registerCreate";
+        return "registers/registerCreate";
     }
+
 
     // Принимаем данные на создание новой Описи
     @PostMapping(value = "/registers/registerCreate")
@@ -107,14 +116,6 @@ public class RegisterController {
         return "redirect:/";
     }
 
-    // Редактирование Описи
-    @GetMapping
-    @RequestMapping("/registers/{registerId}/registerUpdate")
-    public String updateRecipeNote(@PathVariable String registerId, Model model) {
-
-        model.addAttribute("register", registerService.findById(Long.valueOf(registerId)));
-        return "/registers/registerUpdate";
-    }
 
     // Внесение изменений в Опись
     @PostMapping("/registers/registerUpdate")

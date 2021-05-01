@@ -33,7 +33,7 @@ public class ImageController {
         // Передаём Опись
         model.addAttribute("register", registerService.findById(Long.valueOf(registerId)));
 
-        return "/images/imageLoader";
+        return "images/imageLoader";
     }
 
 
@@ -75,7 +75,7 @@ public class ImageController {
 
         model.addAttribute("image", imageService.findById(Long.valueOf(ImageId)));
 
-        return "/images/imageShow";
+        return "images/imageShow";
     }
 
 }

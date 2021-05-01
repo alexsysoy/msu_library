@@ -32,7 +32,7 @@ public class ActorController {
         model.addAttribute("notes", actorService.findAllNoteByActorId(Long.valueOf(actorId)));
         model.addAttribute("actor", actorService.findById(Long.valueOf(actorId)));
 
-        return "/actors/actorList";
+        return "actors/actorList";
     }
 
     //Сортировка и постраничный просмотр именного указателя
@@ -74,7 +74,7 @@ public class ActorController {
         model.addAttribute("actor", actorService.findById(actorId));
         model.addAttribute("register", registerService.findById(registerId));
 
-        return "/actors/actorUpdate";
+        return "actors/actorUpdate";
     }
 
     // Внесение изменений в именной указатель

@@ -101,7 +101,7 @@ public class NoteController {
                                    @PathVariable String noteId, Model model){
 
         model.addAttribute("note", noteService.findByRegisterIdAndNoteId(Long.valueOf(registerId), Long.valueOf(noteId)));
-        return "/notes/noteUpdate";
+        return "notes/noteUpdate";
     }
 
 
@@ -139,7 +139,7 @@ public class NoteController {
         noteCommand.setRegisterId(Long.valueOf(registerId));
         model.addAttribute("note", noteCommand);
 
-        return "/notes/noteCreate";
+        return "notes/noteCreate";
     }
 
     // Расширенный поиск единиц хранения
@@ -152,7 +152,7 @@ public class NoteController {
 
         model.addAttribute("note", noteCommand);
 
-        return "/reports/searchBox";
+        return "reports/searchBox";
     }
 
     // Обработка поиска, вывод результата поиска
@@ -165,7 +165,7 @@ public class NoteController {
         model.addAttribute("notes", notes);
         model.addAttribute("register", registerService.findById(Long.valueOf(registerId)));
 
-        return "/reports/searchResult";
+        return "reports/searchResult";
     }
 
 }

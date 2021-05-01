@@ -38,7 +38,7 @@ public class ExcelController {
         // Передаём Опись
         model.addAttribute("register", registerService.findById(Long.valueOf(registerId)));
 
-        return "/files/fileLoader";
+        return "files/fileLoader";
     }
 
 
