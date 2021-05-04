@@ -1,12 +1,10 @@
 package alex.msu.gradwork.bootstrap;
 
-import alex.msu.gradwork.domain.Actor;
-import alex.msu.gradwork.domain.Note;
-import alex.msu.gradwork.domain.Register;
-import alex.msu.gradwork.domain.Subject;
+import alex.msu.gradwork.domain.*;
 import alex.msu.gradwork.repositories.ActorRepository;
 import alex.msu.gradwork.repositories.RegisterRepository;
 import alex.msu.gradwork.repositories.SubjectRepository;
+import alex.msu.gradwork.repositories.UserRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.ApplicationListener;
 import org.springframework.context.event.ContextRefreshedEvent;
@@ -14,6 +12,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 @Slf4j
@@ -24,11 +23,13 @@ public class NoteBootstrap implements ApplicationListener<ContextRefreshedEvent>
     private final RegisterRepository registerRepository;
     private final ActorRepository actorRepository;
     private final SubjectRepository subjectRepository;
+    private final UserRepository userRepository;
 
-    public NoteBootstrap(RegisterRepository registerRepository, ActorRepository actorRepository, SubjectRepository subjectRepository) {
+    public NoteBootstrap(RegisterRepository registerRepository, ActorRepository actorRepository, SubjectRepository subjectRepository, UserRepository userRepository) {
         this.registerRepository = registerRepository;
         this.actorRepository = actorRepository;
         this.subjectRepository = subjectRepository;
+        this.userRepository = userRepository;
     }
 
 
@@ -37,7 +38,6 @@ public class NoteBootstrap implements ApplicationListener<ContextRefreshedEvent>
     public void onApplicationEvent(ContextRefreshedEvent contextRefreshedEvent) {
         log.debug("Loaded Bootstrap Data!");
         registerRepository.saveAll(getRegister());
-
     }
 
 
