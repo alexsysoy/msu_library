@@ -28,9 +28,9 @@
             <div class="navbar-brand" sec:authentication="name">Иван Иванов</div>
             <input class="btn btn-outline-danger" type="submit" value="Выйти из учетной записи"/>
         </form>
-        <form class="form-inline ml-2 my-2 my-lg-0">
-            <input class="form-control mr-2" type="search" placeholder="Искать везде" aria-label="Search">
-            <button class="btn btn-outline-success" type="submit">Найти</button>
+        <form class="form-inline ml-2 my-2 my-lg-0" th:action="@{/reports/searchResult}" method="post">
+            <input type="text" name="wordToSearch" class="form-control mr-2" placeholder="Искать везде" aria-describedby="button-addon">
+            <button class="btn btn-outline-success" type="submit" id="button-addon" >Найти</button>
         </form>
     </div>
 </nav>

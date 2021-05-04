@@ -31,9 +31,9 @@
             <div class="navbar-brand" sec:authentication="name">Иван Иванов</div>
             <input class="btn btn-outline-danger" type="submit" value="Выйти из учетной записи"/>
         </form>
-        <form class="form-inline ml-2 my-2 my-lg-0">
-            <input class="form-control mr-2" type="search" placeholder="Искать везде" aria-label="Search">
-            <button class="btn btn-outline-success" type="submit">Найти</button>
+        <form class="form-inline ml-2 my-2 my-lg-0" th:action="@{/reports/searchResult}" method="post">
+            <input type="text" name="wordToSearch" class="form-control mr-2" placeholder="Искать везде" aria-describedby="button-addon">
+            <button class="btn btn-outline-success" type="submit" id="button-addon" >Найти</button>
         </form>
     </div>
 </nav>
@@ -51,6 +51,16 @@
         </form>
     </div>
 </div>
+
+<!--<div class="input-group mb-3">-->
+<!--    <div class="input-group-prepend">-->
+<!--        <span class="input-group-text" id="inputGroupFileAddon01">Загрузка</span>-->
+<!--    </div>-->
+<!--    <div class="custom-file">-->
+<!--        <input type="file" class="custom-file-input" id="inputGroupFile01" aria-describedby="inputGroupFileAddon01">-->
+<!--        <label class="custom-file-label" for="inputGroupFile01">Выбрать файл</label>-->
+<!--    </div>-->
+<!--</div>-->
 
 <!-- Option 1: jQuery and Bootstrap Bundle (includes Popper) -->
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
