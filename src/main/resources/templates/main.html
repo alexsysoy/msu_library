@@ -1,7 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org"
-      xmlns:sec="https://www.thymeleaf.org/thymeleaf.extras.springsecurity5"
->
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="https://www.thymeleaf.org/thymeleaf.extras.springsecurity5">
 <head>
     <title>Фонд</title>
 
@@ -14,18 +12,19 @@
 </head>
 <!--Navbar-->
 <nav class="navbar navbar-expand navbar-dark bg-dark">
+    <a class="navbar-brand my-2" href="#">Просмотр фонда</a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
     </button>
 
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav mr-auto">
-            <li class="navbar-brand">
-                <div class="nav-link">Фонд</div>
-            </li>
+<!--            <li class="navbar-brand">-->
+<!--                <div class="nav-link">Фонд</div>-->
+<!--            </li>-->
             <li class="navbar-brand dropdown" sec:authorize="hasAnyAuthority('ROLE_ADMIN','ADMIN')">
                 <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    Действия
+                    Администрирование
                 </a>
                 <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                     <a class="dropdown-item" th:href="@{'/registers/registerCreate'}" role="button">Добавить опись</a>

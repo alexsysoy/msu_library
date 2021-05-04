@@ -1,33 +1,74 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="https://www.thymeleaf.org/thymeleaf.extras.springsecurity5">
 <head>
-    <meta charset="UTF-8">
     <title>Результат поиска</title>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css">
-    <link rel="stylesheet" type="text/css" th:href="@{/css/style.css}"/>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous">
 </head>
 <body>
+<!--Navbar-->
+<nav class="navbar navbar-expand navbar-dark bg-dark">
+    <a class="navbar-brand" href="#">Результат поиска</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarActionContent" aria-controls="navbarActionContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbarActionContent">
+        <ul class="navbar-nav mr-auto">
+            <li class="navbar-brand">
+                <a class="nav-link" th:href="@{'/'}" href="#">Фонд</a>
+            </li>
+        </ul>
+        <form class="form-inline ml-2 my-2 my-lg-0" sec:authorize="isAuthenticated()" th:action="@{/logout}" method="post">
+            <div class="navbar-brand" sec:authentication="name">Иван Иванов</div>
+            <input class="btn btn-outline-danger" type="submit" value="Выйти из учетной записи"/>
+        </form>
+        <form class="form-inline ml-2 my-2 my-lg-0">
+            <input class="form-control mr-2" type="search" placeholder="Искать везде" aria-label="Search">
+            <button class="btn btn-outline-success" type="submit">Найти</button>
+        </form>
+    </div>
+</nav>
+<br>
 <div class="container">
-    <!--    note tables-->
-    <table class="table table-striped mt-20 text-center">
-        <caption>Результат поиска</caption>
+    <table class="table table-bordered table-sm">
         <thead>
         <tr>
-            <th>Номер дела</th>
-            <th>Аннотация</th>
+            <th scope="col">Номер</th>
+            <th scope="col">Заголовок единицы хранения</th>
+            <th scope="col">Примечание</th>
+            <th scope="col">Предметный указатель</th>
+            <th scope="col">Именной указатель</th>
+            <th scope="col">Добавить к выборке</th>
         </tr>
         </thead>
         <tbody>
         <tr th:each="note : ${notes}">
+            <td><a th:text="${note.number}" th:href="@{'/notes/' + ${note.getRegister().getId()} + '/note/' + ${note.getId()} + '/noteShowGrid'}"></a></td>
+            <td th:text="${note.getAnnotation()}">Заголовок дела</td>
+            <td th:text="${note.getMemo()}">Примечание</td>
             <td>
-                <p><a th:text="${note.number}" th:href="@{'/notes/' + ${note.getRegister().getId()} + '/note/' + ${note.getId()} + '/noteShowGrid'}"></a></p>
+                <div th:each="subject : ${note.getSubjects()}">
+                    <p th:text="${subject.getName()}"></p>
+                </div>
             </td>
             <td>
-                <p style="text-align: left" th:text="${note.getAnnotation()}"></p>
+                <div th:each="actor : ${note.getActors()}">
+                    <p th:text="${actor.getName()} + ' ' + ${actor.getPatronymic()} + ' ' + ${actor.getSurname()}"></p>
+                </div>
             </td>
+            <td>Добавить</td>
         </tr>
         </tbody>
     </table>
 </div>
+
+<!-- Option 1: jQuery and Bootstrap Bundle (includes Popper) -->
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-Piv4xVNRyMGpqkS2by6br4gNJ7DXjqk09RmUpJ8jgGtD7zP9yug3goQfGII0yAns" crossorigin="anonymous"></script>
+
 </body>
 </html>

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="https://www.thymeleaf.org/thymeleaf.extras.springsecurity5">
 <head>
     <meta charset="UTF-8">
     <title>Предметный указатель описи</title>
@@ -13,22 +13,22 @@
 
 <!--Navbar-->
 <nav class="navbar navbar-expand navbar-dark bg-dark">
-    <a class="navbar-brand" href="#">Управление</a>
+    <a class="navbar-brand my-2" href="#">Предметный указатель описи <span th:text="${register.getName()}"></span></a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarActionContent" aria-controls="navbarActionContent" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
     </button>
 
     <div class="collapse navbar-collapse" id="navbarActionContent">
         <ul class="navbar-nav mr-auto">
-            <li class="nav-item">
-                <a class="nav-link" th:href="@{'/'}" href="#"> Фонд №418</a>
+            <li class="navbar-brand">
+                <a class="nav-link" th:href="@{'/'}" href="#">Фонд</a>
             </li>
-            <li class="nav-item">
-                <a class="nav-link" href="#" th:href="@{'/page/registers/' + ${register.getId()} + '/notes'}">Опись <span th:text="${register.getName()}"></span></a>
+            <li class="navbar-brand">
+                <a class="nav-link" href="#" th:href="@{'/page/registers/' + ${register.getId()} + '/notes'}">Опись</a>
             </li>
-            <li class="nav-item dropdown">
+            <li class="navbar-brand dropdown" sec:authorize="hasAnyAuthority('ROLE_ADMIN','ADMIN')">
                 <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    Действия
+                    Администрирование
                 </a>
                 <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                     <a class="dropdown-item" href="#" th:href="@{'/notes/' + ${register.id} + '/note/noteCreate'}" role="button">Добавить дело</a>
@@ -37,10 +37,19 @@
                     <a class="dropdown-item" href="#" th:href="@{'/images/' + ${register.getId()} + '/load'}">Добавить изображение</a>
                     <div class="dropdown-divider"></div>
                     <a class="dropdown-item" role="button" th:href="'/registers/' + ${register.getId()} + '/registerUpdate'">Редактирование данных описи</a>
-                    <div class="dropdown-divider"></div>
                 </div>
             </li>
-            <li class="nav-item dropdown">
+            <li class="navbar-brand dropdown" sec:authorize="hasAnyAuthority('ROLE_USER','USER')">
+                <a class="nav-link dropdown-toggle" href="#" id="Dropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Действия
+                </a>
+                <div class="dropdown-menu" aria-labelledby="Dropdown">
+                    <a class="dropdown-item" href="#" th:href="@{'/reports/' + ${register.id} + '/searchBox'}" role="button">Расширенный поиск</a>
+                    <div class="dropdown-divider"></div>
+                    <a class="dropdown-item" role="button" th:href="'/registers/' + ${register.getId()} + '/registerShowGrid'">Просмотр данных описи</a>
+                </div>
+            </li>
+            <li class="navbar-brand dropdown">
                 <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownIndex" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     Указатели
                 </a>
@@ -49,9 +58,13 @@
                 </div>
             </li>
         </ul>
-        <form class="form-inline my-2 my-lg-0">
+        <form class="form-inline ml-2 my-2 my-lg-0" sec:authorize="isAuthenticated()" th:action="@{/logout}" method="post">
+            <div class="navbar-brand" sec:authentication="name">Иван Иванов</div>
+            <input class="btn btn-outline-danger" type="submit" value="Выйти из учетной записи"/>
+        </form>
+        <form class="form-inline ml-2 my-2 my-lg-0">
             <input class="form-control mr-2" type="search" placeholder="Искать везде" aria-label="Search">
-            <button class="btn btn-outline-success my-2" type="submit">Найти</button>
+            <button class="btn btn-outline-success" type="submit">Найти</button>
         </form>
     </div>
 </nav>

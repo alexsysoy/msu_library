@@ -1,34 +1,38 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="https://www.thymeleaf.org/thymeleaf.extras.springsecurity5">
 <head>
-  <meta charset="UTF-8">
   <title>Расширенный поиск</title>
   <!-- Required meta tags -->
+  <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   <!-- Bootstrap CSS -->
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous">
 </head>
-<body>
 
+<body>
 <!--Navbar-->
 <nav class="navbar navbar-expand navbar-dark bg-dark">
-  <a class="navbar-brand" href="#">Управление</a>
+  <a class="navbar-brand" href="#">Расширенный поиск по описи</a>
   <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarActionContent" aria-controls="navbarActionContent" aria-expanded="false" aria-label="Toggle navigation">
     <span class="navbar-toggler-icon"></span>
   </button>
 
   <div class="collapse navbar-collapse" id="navbarActionContent">
     <ul class="navbar-nav mr-auto">
-      <li class="nav-item">
-        <a class="nav-link" th:href="@{'/'}" href="#"> Фонд №418</a>
+      <li class="navbar-brand">
+        <a class="nav-link" th:href="@{'/'}" href="#">Фонд</a>
       </li>
-      <li class="nav-item">
+      <li class="navbar-brand">
         <a class="nav-link" href="#" th:href="@{'/page/registers/' + ${note.getRegisterId()} + '/notes'}">Опись</a>
       </li>
     </ul>
-    <form class="form-inline my-2 my-lg-0">
-      <input class="form-control mr-2" type="search" placeholder="Поиск по названию" aria-label="Search">
-      <button class="btn btn-outline-success my-2" type="submit">Найти</button>
+    <form class="form-inline ml-2 my-2 my-lg-0" sec:authorize="isAuthenticated()" th:action="@{/logout}" method="post">
+      <div class="navbar-brand" sec:authentication="name">Иван Иванов</div>
+      <input class="btn btn-outline-danger" type="submit" value="Выйти из учетной записи"/>
+    </form>
+    <form class="form-inline ml-2 my-2 my-lg-0">
+      <input class="form-control mr-2" type="search" placeholder="Искать везде" aria-label="Search">
+      <button class="btn btn-outline-success" type="submit">Найти</button>
     </form>
   </div>
 </nav>
@@ -74,62 +78,6 @@
     <button class="btn btn-primary m-3" type="submit">Найти</button>
   </form>
 </div>
-
-<!--<div class="container">-->
-<!--  <form  th:object="${note}" th:action="@{'/reports/' + ${note.getRegisterId()} + '/searchResult'} " method="post">-->
-<!--&lt;!&ndash;    <input type="hidden" th:field="*{id}"/>&ndash;&gt;-->
-<!--    <table class="table table-striped mt-20 text-center">-->
-<!--      <caption>Поиск Дела</caption>-->
-<!--      <thead>-->
-<!--      <tr>-->
-<!--        <th></th>-->
-<!--      </tr>-->
-<!--      </thead>-->
-<!--      <tbody>-->
-<!--      <tr>-->
-<!--        <td>-->
-<!--          <label>Номер:</label>-->
-<!--          <input type="number" class="form-control" th:field="*{number}"/>-->
-<!--        </td>-->
-<!--      </tr>-->
-<!--      <tr>-->
-<!--        <td>-->
-<!--          <label>Аннотация:</label>-->
-<!--          <input type="text" class="form-control" th:field="*{annotation}"/>-->
-<!--        </td>-->
-<!--      </tr>-->
-<!--      <tr>-->
-<!--        <td>-->
-<!--          <label>Примечание:</label>-->
-<!--          <input type="text" class="form-control" th:field="*{memo}"/>-->
-<!--        </td>-->
-<!--      </tr>-->
-<!--      <tr>-->
-<!--        <td>-->
-<!--          <label>Предметный указатель:</label>-->
-<!--          <input type="text" class="form-control" th:field="*{findSubject}"/>-->
-<!--        </td>-->
-<!--      </tr>-->
-<!--      <tr>-->
-<!--        <td>-->
-<!--          <label>Именной указатель:</label>-->
-<!--          <label>Имя</label>-->
-<!--          <input type="text" class="form-control" th:field="*{findNameActor}"/>-->
-<!--          <label>Отчество</label>-->
-<!--          <input type="text" class="form-control" th:field="*{findPatronymicActor}"/>-->
-<!--          <label>Фамилия</label>-->
-<!--          <input type="text" class="form-control" th:field="*{findSurnameActor}"/>-->
-<!--        </td>-->
-<!--      </tr>-->
-<!--      <tr>-->
-<!--        <td>-->
-<!--          <button type="submit" class="floating-button">Найти</button>-->
-<!--        </td>-->
-<!--      </tr>-->
-<!--      </tbody>-->
-<!--    </table>-->
-<!--  </form>-->
-<!--</div>-->
 
 <!-- Option 1: jQuery and Bootstrap Bundle (includes Popper) -->
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>

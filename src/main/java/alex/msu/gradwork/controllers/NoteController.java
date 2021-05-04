@@ -142,30 +142,5 @@ public class NoteController {
         return "notes/noteCreate";
     }
 
-    // Расширенный поиск единиц хранения
-    @GetMapping
-    @RequestMapping("/reports/{registerId}/searchBox")
-    public String viewSearchBox(@PathVariable String registerId, Model model) {
-
-        NoteCommand noteCommand = new NoteCommand();
-        noteCommand.setRegisterId(Long.valueOf(registerId));
-
-        model.addAttribute("note", noteCommand);
-
-        return "reports/searchBox";
-    }
-
-    // Обработка поиска, вывод результата поиска
-    @PostMapping("/reports/{registerId}/searchResult")
-    public String find(@ModelAttribute NoteCommand command,
-                       @PathVariable String registerId,
-                       Model model){
-
-        Set<Note> notes = noteService.searchNotes(command);
-        model.addAttribute("notes", notes);
-        model.addAttribute("register", registerService.findById(Long.valueOf(registerId)));
-
-        return "reports/searchResult";
-    }
 
 }
