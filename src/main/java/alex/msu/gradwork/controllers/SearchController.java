@@ -53,27 +53,14 @@ public class SearchController {
         return "reports/searchResult";
     }
 
-//    // Поиск везде единиц хранения
-//    @GetMapping
-//    @RequestMapping("/reports/{registerId}/searchBox")
-//    public String viewSearchBox(@PathVariable String registerId, Model model) {
-//
-//        NoteCommand noteCommand = new NoteCommand();
-//        noteCommand.setRegisterId(Long.valueOf(registerId));
-//
-//        model.addAttribute("note", noteCommand);
-//
-//        return "reports/searchBox";
-//    }
 
     // Обработка поиска везде, вывод результата поиска
     @PostMapping("/reports/searchResult")
     public String quickSearch(@RequestParam String wordToSearch,
                        Model model){
 
-        Set<Note> notes = searchService.searchNotes(wordToSearch);
+        Set<Note> notes = searchService.searchNotes(wordToSearch.toLowerCase().strip());
         model.addAttribute("notes", notes);
-//        model.addAttribute("register", registerService.findById(Long.valueOf(registerId)));
 
         return "reports/searchResult";
     }

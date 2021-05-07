@@ -140,10 +140,10 @@ public class NoteServiceImpl implements NoteService{
         }
 
 
-        // Ищем по аннотоции
+        // Ищем по заголовку дела
         if (!command.getAnnotation().isEmpty() && notes.size() > 0) {
-            notes = notes.stream().filter(note -> note.getAnnotation().toLowerCase().contains(command.getAnnotation().toLowerCase())).collect(Collectors.toSet());
-            log.debug("Количество дел {} после поиска по аннотации", notes.size());
+            notes = notes.stream().filter(note -> note.getAnnotation().toLowerCase().strip().contains(command.getAnnotation().toLowerCase())).collect(Collectors.toSet());
+            log.debug("Количество дел {} после поиска по заголовку дела", notes.size());
         }
 
 
@@ -151,18 +151,31 @@ public class NoteServiceImpl implements NoteService{
         if (!command.getMemo().isEmpty() && notes.size() > 0) {
             notes = notes.stream()
                     .filter(note -> !(note.getMemo() == null))
-                    .filter(note -> note.getMemo().toLowerCase().contains(command.getMemo().toLowerCase())).collect(Collectors.toSet());
+                    .filter(note -> note.getMemo().toLowerCase().strip().contains(command.getMemo().toLowerCase())).collect(Collectors.toSet());
             log.debug("Количество дел {} после поиска по примечанию" , notes.size());
         }
 
 
         // Ищем по Предметному указателю
         if (!command.getFindSubject().isEmpty() && notes.size() > 0) {
-            notes = notes.stream()
-                    .filter(note -> note.getSubjects().stream()
-                                        .anyMatch(subject -> subject.getName().toLowerCase().contains(command.getFindSubject().toLowerCase().trim())))
-                    .collect(Collectors.toSet());
-            log.debug("Количество дел {} после поиска по Предметному указателю", notes.size());
+
+            Set<Note> helpSet = new HashSet<>();
+
+            for (Note note : notes) {
+
+                if (!note.getSubjects().isEmpty()) {
+                    for (Subject subject : note.getSubjects()){
+                        if (subject.getName().strip().toLowerCase().contains(command.getFindSubject().strip().toLowerCase())) helpSet.add(note);
+                        if (subject.getDupSubject() != null){
+                            if (subject.getDupSubject().getName().toLowerCase().strip().contains(command.getFindSubject().strip().toLowerCase())) helpSet.add(note);
+                        }
+                    }
+                }
+            }
+
+            notes = helpSet;
+
+            log.debug("Количество дел {} после поиска по предметному указателю и его дублю", notes.size());
         }
 
 

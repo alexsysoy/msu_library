@@ -33,6 +33,9 @@
                     <a class="dropdown-item" href="#" th:href="@{'/subjects/' + ${subject.getRegister().getId()} + '/subject/' + ${subject.getId()} + '/subjectUpdate'}" role="button">Редактировать предметный указатель</a>
                     <a class="dropdown-item" href="#" th:href="@{'/subjects/' + ${subject.getRegister().getId()} + '/subject/' + ${subject.getId()} + '/subjectDelete'}" role="button">Удалить предметный указатель</a>
                     <div class="dropdown-divider"></div>
+                    <a class="dropdown-item" href="#" th:href="@{'/subjects/' + ${subject.getId()} + '/createDup'}" role="button">Создать дубликат указателя</a>
+                    <a class="dropdown-item" th:if="${not #lists.isEmpty(subject.getDupSubject())}" href="#" th:href="@{'/subjects/' + ${subject.getDupSubject().getId()} + '/updateDup'}" role="button">Редактировать дубликат указателя</a>
+                    <a class="dropdown-item" th:if="${not #lists.isEmpty(subject.getDupSubject())}" href="#" th:href="@{'/subjects/' + ${subject.getDupSubject().getId()} + '/deleteDup/' + ${subject.getId()}}" role="button">Удалить дубликат указателя</a>
                 </div>
             </li>
         </ul>
@@ -57,15 +60,25 @@
                 </div>
                 <div class="card-body">
                     <p class="card-text" >Название: <span th:text="${subject.getName()}"></span></p>
+                    <p class="card-text" >Примечание: <span th:text="${subject.getMemo()}"></span></p>
                 </div>
             </div>
-            <div class="card my-3">
+            <div th:if="${not #lists.isEmpty(subject.getDupSubject())}" class="card my-3">
                 <div class="card-header">
-                    Примечание
+                    Дубликат предметного указателя
                 </div>
                 <div class="card-body">
-                    <p class="card-text" th:text="${subject.getMemo()}">Примечание</p>
+                    <p class="card-text" >Название: <span th:text="${subject.getDupSubject().getName()}"></span></p>
+                    <p class="card-text" >Примечание: <span th:text="${subject.getDupSubject.getMemo()}"></span></p>
                 </div>
+<!--                <div class="card-body">-->
+<!--                    <p th:if="${not #lists.isEmpty(subject.getDupSubject())}">-->
+<!--                        <a th:href="@{'/subjects/' + ${subject.getDupSubject().getId()} + '/showDup'}">Просмотреть дубликат</a>-->
+<!--                        <a sec:authorize="hasAnyAuthority('ROLE_ADMIN','ADMIN')" th:href="@{'/subjects/' + ${subject.getDupSubject().getId()} + '/updateDup'}">Редактировать дубликат</a>-->
+<!--                        <a sec:authorize="hasAnyAuthority('ROLE_ADMIN','ADMIN')" th:href="@{'/subjects/' + ${subject.getDupSubject().getId()} + '/deleteDup'}">Удалить дубликат</a>-->
+<!--                    </p>-->
+<!--                    <p sec:authorize="hasAnyAuthority('ROLE_ADMIN','ADMIN')" th:if="${#lists.isEmpty(subject.getDupSubject())}"><a th:href="@{'/subjects/' + ${subject.getId()} + '/createDup'}">Создать дубликат</a></p>-->
+<!--                </div>-->
             </div>
         </div>
         <div class="col-8">
@@ -84,6 +97,9 @@
                     </td>
                     <td>
                         <p th:text="${note.getAnnotation()}"></p>
+                    </td>
+                    <td>
+<!--                        <p th:text="${note.getAnnotation()}"></p>-->
                     </td>
                 </tr>
                 </tbody>

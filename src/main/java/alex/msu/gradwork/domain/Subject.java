@@ -10,7 +10,7 @@ import java.util.Set;
 
 @Entity
 @Data
-@EqualsAndHashCode(exclude = {"notes","register"})
+@EqualsAndHashCode(exclude = {"notes","register","dupSubject"})
 @Table(name = "subjects")
 public class Subject {
 
@@ -31,6 +31,9 @@ public class Subject {
     //Опись, которой принадлежит данный предметный указатель
     @ManyToOne
     private Register register;
+
+    @OneToOne(fetch = FetchType.LAZY)
+    private DupSubject dupSubject;
 
     public Subject() {
     }

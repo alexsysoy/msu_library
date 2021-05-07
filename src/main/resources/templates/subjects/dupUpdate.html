@@ -1,17 +1,18 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="https://www.thymeleaf.org/thymeleaf.extras.springsecurity5">
 <head>
-    <title>Результат поиска</title>
+    <meta charset="UTF-8">
+    <title>Редактирование дубликата указателя</title>
     <!-- Required meta tags -->
-    <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous">
 </head>
 <body>
+
 <!--Navbar-->
 <nav class="navbar navbar-expand navbar-dark bg-dark">
-    <a class="navbar-brand" href="#">Результат поиска</a>
+    <a class="navbar-brand my-2" href="#">Редактирование дубликата указателя - <span th:text="${dupSubject.getName()}"></span></a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarActionContent" aria-controls="navbarActionContent" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
     </button>
@@ -32,41 +33,20 @@
         </form>
     </div>
 </nav>
+
 <br>
+
 <div class="container">
-    <table class="table table-bordered table-sm">
-        <thead>
-        <tr>
-            <th scope="col">Номер</th>
-            <th scope="col">Заголовок единицы хранения</th>
-            <th scope="col">Примечание</th>
-            <th scope="col">Предметный указатель</th>
-            <th scope="col">Именной указатель</th>
-            <th scope="col">Добавить к выборке</th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr th:each="note : ${notes}">
-            <td><a th:text="${note.number}" th:href="@{'/notes/' + ${note.getRegister().getId()} + '/note/' + ${note.getId()} + '/noteShowGrid'}"></a></td>
-            <td th:text="${note.getAnnotation()}">Заголовок дела</td>
-            <td th:text="${note.getMemo()}">Примечание</td>
-            <td>
-                <div th:each="subject : ${note.getSubjects()}">
-                    <p th:text="${subject.getName()}"></p>
-                    <div th:if="${not #lists.isEmpty(subject.getDupSubject())}" th:each="dup : ${subject.getDupSubject()}">
-                        <p th:text="${dup.getName()}"></p>
-                    </div>
-                </div>
-            </td>
-            <td>
-                <div th:each="actor : ${note.getActors()}">
-                    <p th:text="${actor.getName()} + ' ' + ${actor.getPatronymic()} + ' ' + ${actor.getSurname()}"></p>
-                </div>
-            </td>
-            <td>Добавить</td>
-        </tr>
-        </tbody>
-    </table>
+    <div class="container border">
+        <form th:object="${dupSubject}" th:action="@{'/subjects/' + ${dupSubject.getId()} + '/updateDup/' + ${dupSubject.getSubject().getId()}}" method="post">
+            <input type="hidden" th:field="*{id}"/>
+            <label for = "inputName">Название предметного указателя</label>
+            <input type="text" class="form-control" id="inputName" th:field="*{name}">
+            <label for="inputMemo">Примечание</label>
+            <textarea class="form-control" id="inputMemo" rows="3" th:field="*{memo}"></textarea>
+            <button class="btn btn-primary mx-3 my-2" type="submit">Изменить</button>
+        </form>
+    </div>
 </div>
 
 <!-- Option 1: jQuery and Bootstrap Bundle (includes Popper) -->
