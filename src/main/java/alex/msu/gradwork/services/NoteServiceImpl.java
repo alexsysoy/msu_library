@@ -164,7 +164,7 @@ public class NoteServiceImpl implements NoteService{
             for (Note note : notes) {
 
                 if (!note.getSubjects().isEmpty()) {
-                    for (Subject subject : note.getSubjects()){
+                    for (Subject subject : note.getSubjects()) {
                         if (subject.getName().strip().toLowerCase().contains(command.getFindSubject().strip().toLowerCase())) helpSet.add(note);
                         if (subject.getDupSubject() != null){
                             if (subject.getDupSubject().getName().toLowerCase().strip().contains(command.getFindSubject().strip().toLowerCase())) helpSet.add(note);
@@ -178,19 +178,98 @@ public class NoteServiceImpl implements NoteService{
             log.debug("Количество дел {} после поиска по предметному указателю и его дублю", notes.size());
         }
 
+        if (!command.getFindNameActor().isEmpty()) {
+            Set<Note> helpSet = new HashSet<>();
 
-        // Ищем по Именному указателю
-        if (!command.getFindNameActor().isEmpty() || !command.getFindPatronymicActor().isEmpty() || !command.getFindSurnameActor().isEmpty() && notes.size() > 0) {
-            notes = notes.stream()
-                    .filter(note -> note.getActors().stream()
-                            .anyMatch(actor -> actor.getName().toLowerCase().contains(command.getFindNameActor().toLowerCase().trim())))
-                    .filter(note -> note.getActors().stream()
-                            .anyMatch(actor -> actor.getPatronymic().toLowerCase().contains(command.getFindPatronymicActor().toLowerCase().trim())))
-                    .filter(note -> note.getActors().stream()
-                            .anyMatch(actor -> actor.getSurname().toLowerCase().contains(command.getFindSurnameActor().toLowerCase().trim())))
-                    .collect(Collectors.toSet());
-            log.debug("Количество дел {} после поиска по именному указателю", notes.size());
+            for (Note note : notes) {
+                if (!note.getActors().isEmpty()) {
+                    for (Actor actor : note.getActors()) {
+                        if (actor.getName().strip().toLowerCase().contains(command.getFindNameActor().strip().toLowerCase())) helpSet.add(note);
+                        if (actor.getDupActor() != null) {
+                            if (actor.getDupActor().getName().strip().toLowerCase().contains(command.getFindNameActor().strip().toLowerCase())) helpSet.add(note);
+                        }
+                    }
+                }
+            }
+
+            notes = helpSet;
+            log.debug("Количество дел {} после поиска по имени", notes.size());
         }
+
+        if (!command.getFindPatronymicActor().isEmpty()) {
+            Set<Note> helpSet = new HashSet<>();
+
+            for (Note note : notes) {
+                if (!note.getActors().isEmpty()) {
+                    for (Actor actor : note.getActors()) {
+                        if (actor.getPatronymic().strip().toLowerCase().contains(command.getFindPatronymicActor().strip().toLowerCase())) helpSet.add(note);
+                        if (actor.getDupActor() != null) {
+                            if (actor.getDupActor().getPatronymic().strip().toLowerCase().contains(command.getFindPatronymicActor().strip().toLowerCase())) helpSet.add(note);
+                        }
+                    }
+                }
+            }
+
+            notes = helpSet;
+            log.debug("Количество дел {} после поиска по отчеству", notes.size());
+        }
+
+        if (!command.getFindSurnameActor().isEmpty()) {
+            Set<Note> helpSet = new HashSet<>();
+
+            for (Note note : notes) {
+                if (!note.getActors().isEmpty()) {
+                    for (Actor actor : note.getActors()) {
+                        if (actor.getSurname().strip().toLowerCase().contains(command.getFindSurnameActor().strip().toLowerCase())) helpSet.add(note);
+                        if (actor.getDupActor() != null) {
+                            if (actor.getDupActor().getSurname().strip().toLowerCase().contains(command.getFindSurnameActor().strip().toLowerCase())) helpSet.add(note);
+                        }
+                    }
+                }
+            }
+
+            notes = helpSet;
+            log.debug("Количество дел {} после поиска по фамилии", notes.size());
+        }
+
+//        if ( || !command.getFindPatronymicActor().isEmpty() || !command.getFindSurnameActor().isEmpty() && notes.size() > 0) {
+//
+//            Set<Note> helpSet = new HashSet<>();
+//
+//            for (Note note : notes) {
+//                if (!note.getActors().isEmpty()) {
+//                    for (Actor actor : note.getActors()) {
+//                        if (actor.getName().strip().toLowerCase().contains(command.getFindNameActor().strip().toLowerCase())
+//                                ||
+//                                actor.getPatronymic().strip().toLowerCase().contains(command.getFindPatronymicActor().strip().toLowerCase())
+//                                ||
+//                                actor.getSurname().strip().toLowerCase().contains(command.getFindSurnameActor().strip().toLowerCase())) helpSet.add(note);
+//                        if (actor.getDupActor() != null) {
+//                            if (actor.getDupActor().getName().toLowerCase().strip().contains(command.getFindNameActor().strip().toLowerCase())) helpSet.add(note);
+//                            if (actor.getDupActor().getPatronymic().toLowerCase().strip().contains(command.getFindPatronymicActor().strip().toLowerCase())) helpSet.add(note);
+//                            if (actor.getDupActor().getSurname().toLowerCase().strip().contains(command.getFindSurnameActor().strip().toLowerCase())) helpSet.add(note);
+//                        }
+//                    }
+//                }
+//            }
+//
+//            notes = helpSet;
+//
+//        }
+
+
+//        // Ищем по Именному указателю
+//        if (!command.getFindNameActor().isEmpty() || !command.getFindPatronymicActor().isEmpty() || !command.getFindSurnameActor().isEmpty() && notes.size() > 0) {
+//            notes = notes.stream()
+//                    .filter(note -> note.getActors().stream()
+//                            .anyMatch(actor -> actor.getName().toLowerCase().contains(command.getFindNameActor().toLowerCase().trim())))
+//                    .filter(note -> note.getActors().stream()
+//                            .anyMatch(actor -> actor.getPatronymic().toLowerCase().contains(command.getFindPatronymicActor().toLowerCase().trim())))
+//                    .filter(note -> note.getActors().stream()
+//                            .anyMatch(actor -> actor.getSurname().toLowerCase().contains(command.getFindSurnameActor().toLowerCase().trim())))
+//                    .collect(Collectors.toSet());
+//            log.debug("Количество дел {} после поиска по именному указателю", notes.size());
+//        }
 
         return notes;
     }

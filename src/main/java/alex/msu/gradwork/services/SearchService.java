@@ -48,9 +48,14 @@ public class SearchService {
                     }
 
                     if (note.getActors().size()>0) {
-                        for (Actor actor : note.getActors()){
+                        for (Actor actor : note.getActors()) {
                             if (actor.getName().contains(wordToSearch) || actor.getSurname().contains(wordToSearch) || actor.getPatronymic().contains(wordToSearch)){
                                 notes.add(note);
+                            }
+                            if (actor.getDupActor() != null) {
+                                if (actor.getDupActor().getName().strip().toLowerCase().contains(wordToSearch)) notes.add(note);
+                                if (actor.getDupActor().getPatronymic().strip().toLowerCase().contains(wordToSearch)) notes.add(note);
+                                if (actor.getDupActor().getSurname().strip().toLowerCase().contains(wordToSearch)) notes.add(note);
                             }
                         }
                     }

@@ -1,11 +1,7 @@
 package alex.msu.gradwork.controllers;
 
-import alex.msu.gradwork.commands.DupSubjectCommand;
-import alex.msu.gradwork.commands.SubjectCommand;
 import alex.msu.gradwork.domain.DupSubject;
 import alex.msu.gradwork.services.DupSubjectService;
-import alex.msu.gradwork.services.SubjectService;
-import lombok.Value;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -15,13 +11,12 @@ import org.springframework.web.bind.annotation.*;
 @Slf4j
 public class DupSubjectController {
 
-    private final SubjectService subjectService;
     private final DupSubjectService dupSubjectService;
 
-    public DupSubjectController(SubjectService subjectService, DupSubjectService dupSubjectService) {
-        this.subjectService = subjectService;
+    public DupSubjectController(DupSubjectService dupSubjectService) {
         this.dupSubjectService = dupSubjectService;
     }
+
 
     //Создание дубликата
     @GetMapping("/subjects/{subjectId}/createDup")

@@ -71,14 +71,6 @@
                     <p class="card-text" >Название: <span th:text="${subject.getDupSubject().getName()}"></span></p>
                     <p class="card-text" >Примечание: <span th:text="${subject.getDupSubject.getMemo()}"></span></p>
                 </div>
-<!--                <div class="card-body">-->
-<!--                    <p th:if="${not #lists.isEmpty(subject.getDupSubject())}">-->
-<!--                        <a th:href="@{'/subjects/' + ${subject.getDupSubject().getId()} + '/showDup'}">Просмотреть дубликат</a>-->
-<!--                        <a sec:authorize="hasAnyAuthority('ROLE_ADMIN','ADMIN')" th:href="@{'/subjects/' + ${subject.getDupSubject().getId()} + '/updateDup'}">Редактировать дубликат</a>-->
-<!--                        <a sec:authorize="hasAnyAuthority('ROLE_ADMIN','ADMIN')" th:href="@{'/subjects/' + ${subject.getDupSubject().getId()} + '/deleteDup'}">Удалить дубликат</a>-->
-<!--                    </p>-->
-<!--                    <p sec:authorize="hasAnyAuthority('ROLE_ADMIN','ADMIN')" th:if="${#lists.isEmpty(subject.getDupSubject())}"><a th:href="@{'/subjects/' + ${subject.getId()} + '/createDup'}">Создать дубликат</a></p>-->
-<!--                </div>-->
             </div>
         </div>
         <div class="col-8">

@@ -33,6 +33,9 @@
                     <a class="dropdown-item" href="#" th:href="@{'/actors/' + ${actor.getRegister().getId()} + '/actor/' + ${actor.getId()} + '/actorUpdate'}" role="button">Редактировать именной указатель</a>
                     <a class="dropdown-item" href="#" th:href="@{'/actors/' + ${actor.getRegister().getId()} + '/actor/' + ${actor.getId()} + '/actorDelete'}" role="button">Удалить именной указатель</a>
                     <div class="dropdown-divider"></div>
+                    <a class="dropdown-item" href="#" th:if="${#lists.isEmpty(actor.getDupActor())}" th:href="@{'/actors/' + ${actor.getId()} + '/createDup'}" role="button">Создать дубликат указателя</a>
+                    <a class="dropdown-item" th:if="${not #lists.isEmpty(actor.getDupActor())}" href="#" th:href="@{'/actors/' + ${actor.getDupActor().getId()} + '/updateDup'}" role="button">Редактировать дубликат указателя</a>
+                    <a class="dropdown-item" th:if="${not #lists.isEmpty(actor.getDupActor())}" href="#" th:href="@{'/actors/' + ${actor.getDupActor().getId()} + '/deleteDup/' + ${actor.getId()}}" role="button">Удалить дубликат указателя</a>
                 </div>
             </li>
         </ul>
@@ -59,14 +62,18 @@
                     <p class="card-text" >Фамилия: <span th:text="${actor.getSurname()}"></span></p>
                     <p class="card-text" >Имя: <span th:text="${actor.getName()}"></span></p>
                     <p class="card-text" >Отчество: <span th:text="${actor.getSurname()}"></span></p>
+                    <p class="card-text" >Примечание: <span th:text="${actor.getMemo()}"></span></p>
                 </div>
             </div>
-            <div class="card my-3">
+            <div th:if="${not #lists.isEmpty(actor.getDupActor())}" class="card my-3">
                 <div class="card-header">
-                    Примечание
+                    Дубликат именного указателя
                 </div>
                 <div class="card-body">
-                    <p class="card-text" th:text="${actor.getMemo()}">Примечание</p>
+                    <p class="card-text" >Фамилия: <span th:text="${actor.getDupActor().getSurname()}"></span></p>
+                    <p class="card-text" >Имя: <span th:text="${actor.getDupActor().getName()}"></span></p>
+                    <p class="card-text" >Отчество: <span th:text="${actor.getDupActor().getPatronymic()}"></span></p>
+                    <p class="card-text" >Примечание: <span th:text="${actor.getDupActor().getMemo()}"></span></p>
                 </div>
             </div>
         </div>

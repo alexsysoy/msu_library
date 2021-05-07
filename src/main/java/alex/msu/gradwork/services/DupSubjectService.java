@@ -1,10 +1,6 @@
 package alex.msu.gradwork.services;
 
-import alex.msu.gradwork.commands.DupSubjectCommand;
-import alex.msu.gradwork.converters.DupSubjectCommandToDupCommand;
 import alex.msu.gradwork.domain.DupSubject;
-import alex.msu.gradwork.domain.Note;
-import alex.msu.gradwork.domain.Register;
 import alex.msu.gradwork.domain.Subject;
 import alex.msu.gradwork.repositories.DupSubjectRepository;
 import alex.msu.gradwork.repositories.SubjectRepository;
@@ -13,7 +9,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Optional;
 
 @Service
 @Slf4j
@@ -51,7 +46,7 @@ public class DupSubjectService {
     @Synchronized
     public DupSubject save(DupSubject dupSubject, Long subjectId) {
 
-        DupSubject savedDup =dupSubjectRepository.findById(dupSubject.getId()).get();
+        DupSubject savedDup = dupSubjectRepository.findById(dupSubject.getId()).get();
         savedDup.setMemo(dupSubject.getMemo());
         savedDup.setName(dupSubject.getName());
 

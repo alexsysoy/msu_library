@@ -36,6 +36,9 @@ public class Actor {
     @ManyToOne
     private Register register;
 
+    @OneToOne(fetch = FetchType.LAZY)
+    private DupActor dupActor;
+
     public Actor() {
     }
 }
