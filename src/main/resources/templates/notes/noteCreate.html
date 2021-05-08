@@ -44,13 +44,13 @@
         <input type="hidden" th:field="*{id}"/>
 
         <div class="form-row mx-3 my-1">
-            <div class="col-3">
-                <label for = "inputNumber">Номер</label>
+            <div class="col-4">
+                <label for = "inputNumber">Номер единицы хранения</label>
                 <div class="p-0">
                     <input type="number" class="form-control" id="inputNumber" required th:field="*{number}">
                 </div>
             </div>
-            <div class="col-9">
+            <div class="col-8">
                 <label for="inputSubject">Предметный указатель</label>
                 <input type="text" class="form-control" id="inputSubject" th:field="*{findSubject}">
             </div>

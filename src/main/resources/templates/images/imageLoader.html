@@ -13,7 +13,7 @@
 
 <!--Navbar-->
 <nav class="navbar navbar-expand navbar-dark bg-dark">
-    <a class="navbar-brand" href="#">Добавление файла xlsx к описи <span th:text="${register.getName()}"></span></a>
+    <a class="navbar-brand" href="#">Добавление изображения страницы к описи <span th:text="${register.getName()}"></span></a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarActionContent" aria-controls="navbarActionContent" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
     </button>
@@ -44,7 +44,7 @@
         <form class="form"  th:object="${register}" th:action="@{'/images/' + ${register.getId()} + '/load'}" method="post"  enctype="multipart/form-data">
             <input type="hidden" th:field="*{id}"/>
             <div class="form-group">
-                <label class="control-label" for="diap">Ввести диапазон дел, связанных с данным изображением (Например: 23_123)</label>
+                <label class="control-label" for="diap">Ввести диапазон единиц хранения, связанных с данным изображением (Например: 23_123)</label>
                 <input style="text-align: center" type="text" class="form-control" name="fileName" id="diap"/>
                 <br>
                 <label class="control-label">Выбрать файл</label>
