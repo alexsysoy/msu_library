@@ -66,6 +66,9 @@
             <input type="text" name="wordToSearch" class="form-control mr-2" placeholder="Искать везде" aria-describedby="button-addon">
             <button class="btn btn-outline-success" type="submit" id="button-addon" >Найти</button>
         </form>
+        <form class="form-inline ml-2 my-2 my-lg-0" th:action="@{'/selections/showSelection'}" method="post">
+            <button class="btn btn-outline-info" type="submit" id="button-info" >Просмотреть выборку</button>
+        </form>
     </div>
 </nav>
 
@@ -78,7 +81,6 @@
             <th scope="col" ><a th:href="@{'/subjects/' + ${register.getId()} + '/subjectListRegister/page/' + ${currentPage} + '?sort-field=name&sort-dir=' + ${reverseSortDir}}">Предметный указатель</a></th>
             <th scope="col">Связанные единицы хранения</th>
             <th scope="col">Просмотр</th>
-            <th scope="col">Просмотр дубликата</th>
         </tr>
         </thead>
         <tbody>
@@ -91,9 +93,6 @@
             </td>
             <td>
                 <a th:href="'/subjects/' + ${subject.getId()} + '/subjectList'">Просмотр</a>
-            </td>
-            <td>
-<!--                <a th:href="'/subjects/' + ${subject.getId()} + '/subjectList'">Просмотр</a>-->
             </td>
         </tr>
         </tbody>

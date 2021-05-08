@@ -11,13 +11,10 @@ import org.springframework.context.event.ContextRefreshedEvent;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
 
 @Slf4j
 @Component
-
 public class NoteBootstrap implements ApplicationListener<ContextRefreshedEvent> {
 
     private final RegisterRepository registerRepository;
@@ -38,6 +35,48 @@ public class NoteBootstrap implements ApplicationListener<ContextRefreshedEvent>
     public void onApplicationEvent(ContextRefreshedEvent contextRefreshedEvent) {
         log.debug("Loaded Bootstrap Data!");
         registerRepository.saveAll(getRegister());
+        userRepository.saveAll(getUsers());
+
+//        Set<Note> notes = new HashSet<>();
+//        Note note1 = new Note();
+//        Note note2 = new Note();
+//        Note note3 = new Note();
+//        Note note4 = new Note();
+//        Note note5 = new Note();
+//
+////        notes.add(note1);
+////        notes.add(note2);
+////        notes.add(note3);
+////        notes.add(note4);
+////        notes.add(note5);
+//        NotesToReport notesToReport = NotesToReport.INSTANCE;
+//        notesToReport.setNotes(Collections.singleton(note1));
+//        notesToReport.setNotes(Collections.singleton(note2));
+//        System.out.println(notesToReport.getNotes().size());
+
+
+    }
+
+
+
+    private List<User> getUsers(){
+        List<User> users = new ArrayList<>();
+
+        User user1 = new User();
+        user1.setUsername("qwe");
+        user1.setPassword("qwe");
+        user1.setRoles(Collections.singleton(Role.USER));
+        user1.setActive(true);
+        users.add(user1);
+
+        User user2 = new User();
+        user2.setUsername("asd");
+        user2.setPassword("asd");
+        user2.setRoles(Collections.singleton(Role.ADMIN));
+        user2.setActive(true);
+        users.add(user2);
+
+        return users;
     }
 
 

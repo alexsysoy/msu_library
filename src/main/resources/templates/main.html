@@ -52,40 +52,21 @@
             <input type="text" name="wordToSearch" class="form-control mr-2" placeholder="Искать везде" aria-describedby="button-addon">
             <button class="btn btn-outline-success" type="submit" id="button-addon" >Найти</button>
         </form>
+        <form class="form-inline ml-2 my-2 my-lg-0" th:action="@{'/selections/showSelection'}" method="post">
+            <button class="btn btn-outline-info" type="submit" id="button-info" >Просмотреть выборку</button>
+        </form>
     </div>
 </nav>
 <br>
-<div class="container-fluid">
+<div class="container">
     <div class="row">
-<!--        left bar-->
-        <div class="col-3">
-            <div class="card">
-                <div class="card-header">
-                    Аннотация
-                </div>
-                <div class="card-body">
-                    <p>ЦЕНТРАЛЬНЫЙ ГОСУДАРСТВЕННЫЙ АРХИВ Г.МОСКВЫ. Московский университет. Фонд №418. Канцелярия совета. Год 1837</p>
-                </div>
-            </div>
-            <br>
-            <div class="card">
-                <div class="card-header">
-                    Примечание
-                </div>
-                <div class="card-body">
-                    <p>В описи №6 фонда №418 числится 225 дел с №1 по №231: выбыли №№ 32, 169, 170, 185, 211, 230</p>
-                    <footer class="blockquote-footer">Зав. архивохранилищем<cite title="Заголовок источника">13.07.1977</cite></footer>
-                </div>
-            </div>
-        </div>
-
-<!--        Table with pagination-->
-        <div class="col-9">
+        <!--        Table with pagination-->
+        <div class="col">
             <table class="table table-bordered table-sm">
                 <thead>
                 <tr>
-                    <th scope="col"><a th:href="@{'/page/' + ${currentPage} + '?sort-field=name&sort-dir=' + ${reverseSortDir}}">Название</a></th>
-                    <th scope="col">Аннотация</th>
+                    <th scope="col"><a th:href="@{'/page/' + ${currentPage} + '?sort-field=name&sort-dir=' + ${reverseSortDir}}">Номер описи</a></th>
+                    <th scope="col">Описание</th>
                     <th scope="col">Примечание</th>
                     <th scope="col">Просмотр</th>
                 </tr>

@@ -32,8 +32,8 @@
                 <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                     <a class="dropdown-item" href="#" th:href="@{'/notes/' + ${register.id} + '/note/noteCreate'}" role="button">Добавить дело</a>
                     <div class="dropdown-divider"></div>
-                    <a class="dropdown-item" href="#" th:href="@{'/files/' + ${register.getId()} + '/load'}">Добавить файл</a>
-                    <a class="dropdown-item" href="#" th:href="@{'/images/' + ${register.getId()} + '/load'}">Добавить изображение</a>
+                    <a class="dropdown-item" href="#" th:href="@{'/files/' + ${register.getId()} + '/load'}">Добавить файл с единицами хранения</a>
+                    <a class="dropdown-item" href="#" th:href="@{'/images/' + ${register.getId()} + '/load'}">Добавить изображение страницы описи</a>
                     <div class="dropdown-divider"></div>
                     <a class="dropdown-item" role="button" th:href="'/registers/' + ${register.getId()} + '/registerUpdate'">Редактирование данных описи</a>
                 </div>
@@ -71,7 +71,7 @@
 </nav>
 <br>
 
-<div class="container-fluid">
+<div class="container">
     <div class="row">
         <div class="col-12">
             <div class="card">

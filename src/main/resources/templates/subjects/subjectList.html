@@ -91,7 +91,7 @@
                         <p th:text="${note.getAnnotation()}"></p>
                     </td>
                     <td>
-<!--                        <p th:text="${note.getAnnotation()}"></p>-->
+                        <a href="#" th:href="@{'/selections/' + ${note.id} + '/addSelection'}">Добавить</a>
                     </td>
                 </tr>
                 </tbody>

@@ -37,12 +37,12 @@
     <table class="table table-bordered table-sm">
         <thead>
         <tr>
-            <th scope="col">Номер</th>
+            <th scope="col">Номер единицы хранения</th>
             <th scope="col">Заголовок единицы хранения</th>
             <th scope="col">Примечание</th>
             <th scope="col">Предметный указатель</th>
             <th scope="col">Именной указатель</th>
-            <th scope="col">Добавить к выборке</th>
+<!--            <th scope="col">Добавить к выборке</th>-->
         </tr>
         </thead>
         <tbody>
@@ -63,7 +63,9 @@
                     <p th:text="${actor.getName()} + ' ' + ${actor.getPatronymic()} + ' ' + ${actor.getSurname()}"></p>
                 </div>
             </td>
-            <td>Добавить</td>
+<!--            <td>-->
+<!--                <a href="#" th:href="@{'/selections/' + ${note.id} + '/addSelection'}">Добавить</a>-->
+<!--            </td>-->
         </tr>
         </tbody>
     </table>

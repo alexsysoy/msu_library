@@ -9,7 +9,7 @@ import org.springframework.data.repository.PagingAndSortingRepository;
 
 import java.util.Optional;
 
-public interface SubjectRepository  extends PagingAndSortingRepository<Subject,Long> {
+public interface SubjectRepository extends PagingAndSortingRepository<Subject,Long> {
 
     Optional<Subject> findByName(String name);
 

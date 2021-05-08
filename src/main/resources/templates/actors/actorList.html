@@ -83,6 +83,7 @@
                 <tr>
                     <th scope="col">Номер единицы хранения</a></th>
                     <th scope="col">Заголовок единицы хранения</th>
+                    <th scope="col">Добавить к выборке</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -92,6 +93,9 @@
                     </td>
                     <td>
                         <p th:text="${note.getAnnotation()}"></p>
+                    </td>
+                    <td>
+                        <a href="#" th:href="@{'/selections/' + ${note.id} + '/addSelection'}">Добавить</a>
                     </td>
                 </tr>
                 </tbody>

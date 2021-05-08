@@ -66,6 +66,9 @@
             <input type="text" name="wordToSearch" class="form-control mr-2" placeholder="Искать везде" aria-describedby="button-addon">
             <button class="btn btn-outline-success" type="submit" id="button-addon" >Найти</button>
         </form>
+        <form class="form-inline ml-2 my-2 my-lg-0" th:action="@{'/selections/showSelection'}" method="post">
+            <button class="btn btn-outline-info" type="submit" id="button-info" >Просмотреть выборку</button>
+        </form>
     </div>
 </nav>
 

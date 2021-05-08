@@ -30,8 +30,8 @@
                     <div class="dropdown-divider"></div>
                     <a class="dropdown-item" href="#" th:href="@{'/notes/' + ${register.id} + '/note/noteCreate'}" role="button">Добавить дело</a>
                     <div class="dropdown-divider"></div>
-                    <a class="dropdown-item" href="#" th:href="@{'/files/' + ${register.getId()} + '/load'}">Добавить файл</a>
-                    <a class="dropdown-item" href="#" th:href="@{'/images/' + ${register.getId()} + '/load'}">Добавить изображение</a>
+                    <a class="dropdown-item" href="#" th:href="@{'/files/' + ${register.getId()} + '/load'}">Добавить файл с единицами хранения</a>
+                    <a class="dropdown-item" href="#" th:href="@{'/images/' + ${register.getId()} + '/load'}">Добавить изображение страницы описи</a>
                     <div class="dropdown-divider"></div>
                     <a class="dropdown-item" role="button" th:href="'/registers/' + ${register.getId()} + '/registerShowGrid'">Просмотр данных описи</a>
                     <a class="dropdown-item" role="button" th:href="'/registers/' + ${register.getId()} + '/registerUpdate'">Редактирование данных описи</a>
@@ -65,6 +65,9 @@
             <input type="text" name="wordToSearch" class="form-control mr-2" placeholder="Искать везде" aria-describedby="button-addon">
             <button class="btn btn-outline-success" type="submit" id="button-addon" >Найти</button>
         </form>
+        <form class="form-inline ml-2 my-2 my-lg-0" th:action="@{'/selections/showSelection'}" method="post">
+            <button class="btn btn-outline-info" type="submit" id="button-info" >Просмотреть выборку</button>
+        </form>
     </div>
 </nav>
 
@@ -75,20 +78,21 @@
         <table class="table table-bordered table-sm">
             <thead>
             <tr>
-                <th scope="col"><a th:href="@{'/registers/' + ${register.getId()} + '/noteList/page/' + ${currentPage} + '?sort-field=number&sort-dir=' + ${reverseSortDir}}">Номер</a></th>
-                <th scope="col"><a th:href="@{'/registers/' + ${register.getId()} + '/noteList/page/' + ${currentPage} + '?sort-field=annotation&sort-dir=' + ${reverseSortDir}}">Заголовок дела</a></th>
+                <th scope="col"><a th:href="@{'/registers/' + ${register.getId()} + '/noteList/page/' + ${currentPage} + '?sort-field=number&sort-dir=' + ${reverseSortDir}}">Номер единицы хранения</a></th>
+                <th scope="col"><a th:href="@{'/registers/' + ${register.getId()} + '/noteList/page/' + ${currentPage} + '?sort-field=annotation&sort-dir=' + ${reverseSortDir}}">Заголовок единицы хранения</a></th>
                 <th scope="col">Примечание</th>
                 <th scope="col">Предметный указатель</th>
                 <th scope="col">Именной указатель</th>
                 <th scope="col">Просмотр</th>
                 <th scope="col" sec:authorize="hasAnyAuthority('ROLE_ADMIN','ADMIN')">Редактирование</th>
                 <th scope="col" sec:authorize="hasAnyAuthority('ROLE_ADMIN','ADMIN')">Удаление</th>
+                <th scope="col">Добавить к выборке</th>
             </tr>
             </thead>
             <tbody>
             <tr th:each="note : ${noteList}">
                 <td th:text="${note.getNumber()}">Номер</td>
-                <td th:text="${note.getAnnotation()}">Заголовок дела</td>
+                <td th:text="${note.getAnnotation()}">Заголовок единицы хранения</td>
                 <td th:text="${note.getMemo()}">Примечание</td>
                 <td>
                     <div th:each="subject : ${note.getSubjects()}">
@@ -99,11 +103,19 @@
                     </div>
                 </td>
                 <td>
-
+                    <div th:each="actor : ${note.getActors()}">
+                        <p th:text="${actor.getSurname()} + ' ' + ${actor.getName()} + ' ' + ${actor.getPatronymic()}"></p>
+                        <div th:if="${not #lists.isEmpty(actor.getDupActor())}" th:each="dup : ${actor.getDupActor()}">
+                            <p th:text="${dup.getSurname()} + ' ' + ${dup.getName()} + ' ' + ${dup.getPatronymic()}"></p>
+                        </div>
+                    </div>
                 </td>
                 <td><a href="#" th:href="@{'/notes/' + ${register.id} + '/note/' + ${note.id} + '/noteShowGrid'}">Просмотр</a></td>
-                <td><a href="#" sec:authorize="hasAnyAuthority('ROLE_ADMIN','ADMIN')" th:href="@{'/notes/' + ${register.id} + '/note/' + ${note.id} + '/noteUpdate'}">Редактирование</a></td>
-                <td><a href="#" sec:authorize="hasAnyAuthority('ROLE_ADMIN','ADMIN')" th:href="@{'/registers/' + ${register.id} + '/note/' + ${note.id} + '/noteDelete'}">Удаление</a></td>
+                <td sec:authorize="hasAnyAuthority('ROLE_ADMIN','ADMIN')"><a href="#" sec:authorize="hasAnyAuthority('ROLE_ADMIN','ADMIN')" th:href="@{'/notes/' + ${register.id} + '/note/' + ${note.id} + '/noteUpdate'}">Редактирование</a></td>
+                <td sec:authorize="hasAnyAuthority('ROLE_ADMIN','ADMIN')"><a href="#" sec:authorize="hasAnyAuthority('ROLE_ADMIN','ADMIN')" th:href="@{'/registers/' + ${register.id} + '/note/' + ${note.id} + '/noteDelete'}">Удаление</a></td>
+                <td>
+                    <a href="#" th:href="@{'/selections/' + ${note.id} + '/addSelection'}">Добавить</a>
+                </td>
             </tr>
             </tbody>
         </table>
