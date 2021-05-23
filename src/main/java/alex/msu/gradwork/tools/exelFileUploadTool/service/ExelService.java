@@ -10,6 +10,8 @@ public interface ExelService {
 
     void saveXLSFile(Long registerId, MultipartFile file);
 
+    void saveXLSFileHSSF(Long registerId, MultipartFile file);
+
     //Сохраняем файл полученный из выборки
     void saveSelectionFile(Set<Note> notes);
 }

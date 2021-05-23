@@ -42,7 +42,23 @@ public class ExelServiceImpl implements ExelService {
         } catch (IOException e) {
             throw new RuntimeException("fail to store excel data: " + e.getMessage());
         }
+    }
 
+    @Override
+    public void saveXLSFileHSSF(Long registerId, MultipartFile file) {
+
+        Register register = registerRepository.findById(registerId).get();
+
+        try {
+            Set<Note> notes = ExelHelper.excelToNotesHSSF(file.getInputStream());
+            for (Note note : notes) {
+                register.addNote(note);
+            }
+            registerRepository.save(register);
+
+        } catch (IOException e) {
+            throw new RuntimeException("fail to store excel data: " + e.getMessage());
+        }
     }
 
     //Сохраняем файл полученный из выборки

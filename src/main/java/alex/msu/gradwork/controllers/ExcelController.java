@@ -1,21 +1,19 @@
 package alex.msu.gradwork.controllers;
 
 
-import alex.msu.gradwork.domain.Note;
 import alex.msu.gradwork.services.RegisterService;
 import alex.msu.gradwork.tools.exelFileUploadTool.service.ExelService;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.poi.xssf.usermodel.XSSFRow;
-import org.apache.poi.xssf.usermodel.XSSFSheet;
-import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+import org.apache.commons.io.FilenameUtils;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
 
 @Controller
 @Slf4j
@@ -47,8 +45,22 @@ public class ExcelController {
     public String mapReapExcelDataToDB(@RequestParam("file") MultipartFile file,
                                        @PathVariable String registerId) throws IOException {
 
-        exelService.saveXLSFile(Long.valueOf(registerId), file);
-        return "redirect:/page/registers/" + registerId + "/notes";
+        String extension = FilenameUtils.getExtension(file.getOriginalFilename());
+
+        switch (extension) {
+            case "xls":
+                exelService.saveXLSFileHSSF(Long.valueOf(registerId), file);
+                log.debug("Файл с расширением {} добавлен", extension);
+                return "redirect:/page/registers/" + registerId + "/notes";
+
+            case "xlsx":
+                exelService.saveXLSFile(Long.valueOf(registerId), file);
+                log.debug("Файл с расширением {} добавлен", extension);
+                return "redirect:/page/registers/" + registerId + "/notes";
+            default:
+                log.debug("Данный файл имеет неверное расширение");
+                return "error";
+        }
 
     }
 
